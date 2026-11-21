@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es" data-moment="dia" data-static>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Albar · Casa de Mar — Hotel boutique solo adultos en Altea</title>
+<meta name="description" content="Casa señorial de 1887 en el casco antiguo de Altea: 14 habitaciones, azotea con piscina frente al mar, restaurante Salmorra y spa. Solo adultos. Mejor precio reservando directo.">
+<meta property="og:title" content="Albar · Casa de Mar, Altea">
+<meta property="og:description" content="Donde la cal se encuentra con el mar. Hotel boutique solo adultos en Altea.">
+<meta property="og:image" content="assets/img/1686953377261-8a47e200fe52.jpg">
+<meta name="theme-color" content="#FBF8F3">
+<script>try{var m=sessionStorage.getItem('albar.moment');if(!m){var h=new Date().getHours();m=h>=7&&h<17?'dia':h>=17&&h<21?'atardecer':'noche'}document.documentElement.dataset.moment=m}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://images.unsplash.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..500,0..100;1,9..144,300..500,0..100&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231F4E5F'/%3E%3Ctext x='32' y='45' font-family='Georgia' font-size='38' fill='%23FBF8F3' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Hotel","name":"Albar · Casa de Mar","description":"Hotel boutique solo adultos en el casco antiguo de Altea, con azotea, piscina, restaurante y spa.","image":"assets/img/1686953377261-8a47e200fe52.jpg","address":{"@type":"PostalAddress","streetAddress":"Carrer Major, 12","addressLocality":"Altea","postalCode":"03590","addressRegion":"Alicante","addressCountry":"ES"},"telephone":"+34 965 00 00 00","priceRange":"140 € – 650 €","checkinTime":"15:00","checkoutTime":"12:00","numberOfRooms":14,"petsAllowed":false,"amenityFeature":[{"@type":"LocationFeatureSpecification","name":"Piscina en la azotea","value":true},{"@type":"LocationFeatureSpecification","name":"Spa","value":true},{"@type":"LocationFeatureSpecification","name":"Restaurante","value":true}]}
+</script>
+</head>
+<body data-page="home" data-title="title_home">
+<a class="skip" href="#main">Saltar al contenido</a>
+<header id="nav"></header>
+
+<main id="main">
+  <!-- HERO: la foto cambia con el momento del día -->
+  <section class="hero" aria-label="Portada">
+    <div class="hero__media">
+      <!-- SUSTITUIR: fotos o vídeo del hotel -->
+      <img data-m="dia" data-id="1686953377261-8a47e200fe52" alt="Calle empedrada del casco antiguo de Altea que baja hacia el mar" sizes="100vw" decoding="async">
+      <img data-m="atardecer" data-id="1674338340494-a13b6400e7dc" alt="La bahía de Altea al atardecer" sizes="100vw" decoding="async">
+      <img data-m="noche" data-id="1782067170882-6f720f230f82" alt="Pueblo costero iluminado de noche junto al mar" sizes="100vw" decoding="async">
+      <script>
+        /* Solo se descarga la foto del momento actual (las otras, al cambiar de momento) */
+        (function () {
+          var m = document.documentElement.dataset.moment || 'dia';
+          window.albarHeroLoad = function (img, high) {
+            if (img.getAttribute('src')) return;
+            var u = 'assets/img/' + img.dataset.id + '.jpg';
+            if (high) img.setAttribute('fetchpriority', 'high');
+            img.src = u;
+          };
+          document.querySelectorAll('.hero__media img').forEach(function (img) { if (img.dataset.m === m) window.albarHeroLoad(img, true); });
+        })();
+      </script>
+    </div>
+    <div class="wrap hero__content">
+      <p class="hero__greet" data-greet>Buenos días desde Altea</p>
+      <h1 class="display">
+        <span class="hero__line"><span data-i18n="hero_1">Donde la cal</span></span>
+        <span class="hero__line"><span data-i18n="hero_2"><em>se encuentra</em> con el mar.</span></span>
+      </h1>
+    </div>
+    <p class="hero__meta" aria-hidden="true">38°35′ N · 0°03′ W · Altea</p>
+    <div data-booker="hero"></div>
+  </section>
+
+  <!-- 01 LA CASA -->
+  <section class="section intro" aria-labelledby="casa-t">
+    <div class="wrap grid12">
+      <div class="intro__text">
+        <p class="eyebrow reveal" id="casa-t" data-i18n="intro_eyebrow">01 — La casa</p>
+        <p class="display-quote reveal" data-i18n="intro_quote">Una casa señorial de 1887 en lo alto de Altea, con catorce habitaciones, una azotea frente al mar y <em>ninguna prisa</em>.</p>
+        <p class="lead reveal" data-i18n="intro_lead">La restauramos piedra a piedra durante cuatro años. Conservamos los muros, el aljibe y los suelos de barro. Añadimos silencio, buenas camas y una cocina que sabe a lonja.</p>
+        <div class="facts reveal">
+          <div><b class="num">14</b><span data-i18n="fact_rooms">habitaciones, ni una más</span></div>
+          <div><b class="num">1887</b><span data-i18n="fact_year">año de la casa</span></div>
+          <div><b class="num">+16</b><span data-i18n="fact_adults">solo adultos</span></div>
+          <div><b class="num">9,7</b><span data-i18n="fact_score">nota media de huéspedes</span></div>
+        </div>
+        <p style="margin-top:32px" class="reveal"><a class="link" href="nosotros.html"><span data-i18n="intro_link">La historia de la casa</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
+      </div>
+      <figure class="intro__img reveal-img" style="margin:0">
+        <img src="assets/img/1534345297779-87af8f3a4455.jpg" alt="Puerta de madera pintada de azul en una fachada encalada" loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 02 HABITACIONES -->
+  <section class="section" aria-labelledby="hab-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow reveal" data-i18n="rooms_eyebrow">02 — Habitaciones</p>
+          <h2 class="h1 reveal" id="hab-t" data-i18n="rooms_title">Catorce maneras de <em>despertar</em> en Altea.</h2>
+        </div>
+        <a class="link reveal" href="habitaciones.html"><span data-i18n="rooms_all">Comparar todas</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="rooms" id="home-rooms"></div>
+    </div>
+  </section>
+
+  <!-- ELIGE TU MOMENTO -->
+  <section class="section section--surface" aria-labelledby="mom-t">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow reveal" data-i18n="mom_eyebrow">Elige tu momento</p>
+          <h2 class="h1 reveal" id="mom-t" data-i18n="mom_title">Albar cambia con la luz. <em>Esta web también.</em></h2>
+        </div>
+        <p class="reveal" style="max-width:30em;color:var(--text-muted)" data-i18n="mom_p">Según la hora a la que nos visites, la web se viste de mañana, de atardecer o de noche. Pruébalo: toca un momento.</p>
+      </div>
+    </div>
+    <div class="moments">
+      <button type="button" class="moment-card reveal" data-set-moment="dia" aria-pressed="false" data-cursor="Día">
+        <img src="assets/img/1638826108040-8205e0323486.jpg" alt="" loading="lazy">
+        <span class="moment-card__txt"><span class="moment-card__time">08:00 — 17:00</span><h3 data-i18n="m1_t">Día de cal</h3><p data-i18n="m1_p">Desayuno a la carta en el patio, baño en la azotea y siesta con las cortinas de lino corridas.</p></span>
+      </button>
+      <button type="button" class="moment-card reveal d1" data-set-moment="atardecer" aria-pressed="false" data-cursor="Atardecer">
+        <img src="assets/img/1643633052713-3978931c81a6.jpg" alt="" loading="lazy">
+        <span class="moment-card__txt"><span class="moment-card__time">17:00 — 21:00</span><h3 data-i18n="m2_t">Hora dorada</h3><p data-i18n="m2_p">Vermut en la azotea mientras el sol baja por detrás de la Serra Gelada.</p></span>
+      </button>
+      <button type="button" class="moment-card reveal d2" data-set-moment="noche" aria-pressed="false" data-cursor="Noche">
+        <img src="assets/img/1621275471769-e6aa344546d5.jpg" alt="" loading="lazy">
+        <span class="moment-card__txt"><span class="moment-card__time">21:00 — 01:00</span><h3 data-i18n="m3_t">Noche de azotea</h3><p data-i18n="m3_p">Cena en Salmorra, la piscina iluminada y el pueblo encendido a tus pies.</p></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 03 SALMORRA -->
+  <section class="section" aria-labelledby="sal-t">
+    <div class="wrap split">
+      <div class="split__img">
+        <div class="reveal-img" data-cursor><img src="assets/img/1763647738062-d83e44328a6f.jpg" alt="Arroz de marisco con gambas, mejillones y almejas" loading="lazy"></div>
+        <div class="split__small reveal-img"><img src="assets/img/1775513153018-0c7ac7899751.jpg" alt="El chef emplatando en la cocina de Salmorra" loading="lazy"></div>
+      </div>
+      <div class="split__txt">
+        <p class="eyebrow reveal" data-i18n="sal_eyebrow">03 — Salmorra & azotea</p>
+        <h2 class="h2 reveal" id="sal-t" data-i18n="sal_title">Cocina de lonja, a tres calles del puerto.</h2>
+        <p class="reveal" style="margin-top:24px;color:var(--text-muted)" data-i18n="sal_p">Cada mañana, la chef Marta Llorca baja a la subasta de la lonja de Altea. Lo que compra decide el menú: arroces de leña, pescado de roca, verduras de la huerta de Callosa y aceite de olivos milenarios.</p>
+        <ul class="list-dash reveal">
+          <li><span data-i18n="h_bf">Desayuno</span><span class="num">08:00 – 11:30</span></li>
+          <li><span data-i18n="h_lunch">Comida</span><span class="num">13:30 – 16:00</span></li>
+          <li><span data-i18n="h_dinner">Cena</span><span class="num">20:00 – 23:00</span></li>
+          <li><span data-i18n="h_roof">Bar de la azotea</span><span class="num">18:00 – 00:30</span></li>
+        </ul>
+        <a class="btn btn--secondary reveal" href="salmorra.html"><span data-i18n="sal_cta">Ver la carta y reservar mesa</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANDA AZOTEA -->
+  <section class="band" aria-labelledby="band-t">
+    <img data-parallax="0.08" src="assets/img/1562407132-e23789f81bb7.jpg" alt="Piscina infinita frente al mar" loading="lazy">
+    <div class="wrap">
+      <p class="eyebrow reveal" data-i18n="band_eyebrow">La azotea</p>
+      <h2 class="h1 reveal" id="band-t" data-i18n="band_title">Una piscina que termina <em>donde empieza el mar</em>.</h2>
+      <p class="lead reveal" style="margin-top:20px" data-i18n="band_p">Agua salada a 28 °C de mayo a octubre, doce tumbonas (nunca más) y la cúpula azul de Altea como vecina.</p>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section class="section reviews" aria-labelledby="rev-t">
+    <div class="wrap grid12">
+      <div style="grid-column:1 / span 3">
+        <p class="eyebrow reveal" id="rev-t" data-i18n="rev_eyebrow">Lo que cuentan</p>
+        <div class="reviews__score reveal"><b class="num">9,7</b><span class="small"><span data-i18n="rev_count">412 opiniones verificadas</span><br><span data-i18n="rev_demo">(opiniones de muestra para la demo)</span></span></div>
+      </div>
+      <div style="grid-column:5 / span 8" class="reveal">
+        <div class="reviews__stage" id="reviews"></div>
+        <div class="reviews__dots" id="reviews-dots" role="group" aria-label="Opiniones"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVA DIRECTA -->
+  <section class="section section--surface" aria-labelledby="dir-t">
+    <div class="wrap">
+      <div class="direct reveal" style="background:var(--bg)">
+        <span class="direct__seal" data-i18n="dir_seal">Reserva directa</span>
+        <div>
+          <h2 class="h2" id="dir-t" data-i18n="dir_title">Reservar aquí <em>siempre</em> sale mejor.</h2>
+          <p style="margin-top:20px;color:var(--text-muted)" data-i18n="dir_p">Sin intermediarios: tu dinero se queda en la casa y nosotros lo agradecemos con detalles que no encontrarás en ninguna otra web.</p>
+          <div class="compare">
+            <div><span class="small" data-i18n="cmp_a">En albar.com</span><b data-i18n="cmp_a_v">Mejor precio + regalos</b></div>
+            <div><span class="small" data-i18n="cmp_b">En agencias online</span><b data-i18n="cmp_b_v">Igual o más caro</b></div>
+          </div>
+        </div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5"/></svg><div><b data-i18n="p1_t">Mejor precio garantizado</b><span data-i18n="p1_d">Si lo encuentras más barato en otra web, te igualamos el precio y te invitamos al desayuno.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/></svg><div><b data-i18n="p2_t">Cava de bienvenida</b><span data-i18n="p2_d">Una botella de cava de la Marina Alta esperándote en la habitación.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><div><b data-i18n="p3_t">Late check-out gratis</b><span data-i18n="p3_d">Hasta las 14:00 según disponibilidad, para alargar la última mañana.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg><div><b data-i18n="p4_t">−5 % en Spa Sal</b><span data-i18n="p4_d">En cualquier tratamiento durante tu estancia.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 ALTEA EN 48 H -->
+  <section class="section" aria-labelledby="alt-t">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow reveal" data-i18n="alt_eyebrow">04 — Altea en 48 horas</p>
+          <h2 class="h1 reveal" id="alt-t" data-i18n="alt_title">El pueblo, contado por quien vive en él.</h2>
+        </div>
+        <a class="link reveal" href="altea.html"><span data-i18n="alt_cta">Ver la guía y el mapa</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="strip">
+        <a class="tile reveal" href="altea.html" style="text-decoration:none" data-cursor>
+          <div class="reveal-img"><img src="assets/img/1715597809718-f0c6ba5c1da0.jpg" alt="Cúpula de azulejos azules de la iglesia de Altea" loading="lazy"></div>
+          <p class="small" style="margin-top:16px">5 min</p><h3 class="h3" style="margin-top:2px" data-i18n="t1_t">Las cúpulas azules</h3><p data-i18n="t1_p">Sube al mirador de la plaza de la iglesia antes de que llegue nadie.</p>
+        </a>
+        <a class="tile reveal d1" href="altea.html" style="text-decoration:none" data-cursor>
+          <div class="reveal-img"><img src="assets/img/1712096712531-46f32f10107c.jpg" alt="Callejón blanco con el mar al fondo" loading="lazy"></div>
+          <p class="small" style="margin-top:16px">2 min</p><h3 class="h3" style="margin-top:2px" data-i18n="t2_t">Perderse en el casco</h3><p data-i18n="t2_p">Talleres de cerámica, escalones encalados y buganvillas.</p>
+        </a>
+        <a class="tile reveal d2" href="altea.html" style="text-decoration:none" data-cursor>
+          <div class="reveal-img"><img src="assets/img/1712045927218-521b149861b2.jpg" alt="Tejados de Altea con la sierra y el mar" loading="lazy"></div>
+          <p class="small" style="margin-top:16px">20 min</p><h3 class="h3" style="margin-top:2px" data-i18n="t3_t">Serra Gelada</h3><p data-i18n="t3_p">El sendero al faro del Albir: acantilados y el mejor atardecer.</p>
+        </a>
+        <a class="tile reveal d3" href="altea.html" style="text-decoration:none" data-cursor>
+          <div class="reveal-img"><img src="assets/img/1645640939550-a4a4c60b65f3.jpg" alt="Palmera frente a la iglesia" loading="lazy"></div>
+          <p class="small" style="margin-top:16px">10 min</p><h3 class="h3" style="margin-top:2px" data-i18n="t4_t">El mercado del martes</h3><p data-i18n="t4_p">Nísperos de Callosa, aceitunas y conversación.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODAS -->
+  <section class="section section--surface" aria-labelledby="bod-t">
+    <div class="wrap split split--rev">
+      <div class="split__img reveal-img" data-cursor><img src="assets/img/1781090876896-2dd07110eb55.jpg" alt="Mesa larga decorada con flores y velas al aire libre" loading="lazy"></div>
+      <div class="split__txt">
+        <p class="eyebrow reveal" data-i18n="bod_eyebrow">Bodas íntimas</p>
+        <h2 class="h2 reveal" id="bod-t" data-i18n="bod_title">Cuarenta invitados, una azotea y el Mediterráneo de testigo.</h2>
+        <p class="reveal" style="margin-top:24px;color:var(--text-muted)" data-i18n="bod_p">Reservamos la casa entera para vosotros: las catorce habitaciones, la azotea y la cocina de Salmorra. Cuéntanos la idea y te enviamos un presupuesto orientativo en 24 horas.</p>
+        <a class="btn btn--primary reveal" href="bodas.html" style="margin-top:12px"><span data-i18n="bod_cta">Planear la celebración</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="footer"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/pages.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/concierge.js" defer></script>
+</body>
+</html>

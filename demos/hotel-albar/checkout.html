@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es" data-moment="dia" data-static>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Completar reserva — Albar · Casa de Mar, Altea</title>
+<meta name="robots" content="noindex">
+<!-- Proceso de reserva de la demo estática (pasos 2-4: datos y extras, pago simulado y confirmación).
+     Todo se calcula en el navegador; no se guarda ni se envía nada. Con el motor de reservas real esto lo hacen /reservar/[id], la pasarela y /reserva/[ref]. -->
+<script>try{var m=sessionStorage.getItem('albar.moment');if(!m){var h=new Date().getHours();m=h>=7&&h<17?'dia':h>=17&&h<21?'atardecer':'noche'}document.documentElement.dataset.moment=m}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..500,0..100;1,9..144,300..500,0..100&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/booking.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231F4E5F'/%3E%3Ctext x='32' y='45' font-family='Georgia' font-size='38' fill='%23FBF8F3' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+  .ck-steps { margin: 0 0 8px; }
+  .ck-hint { font-size: 13px; color: var(--text-muted); margin: 12px 0 0; }
+  .demo-gw .alert { text-align: left; }
+  @media (max-width: 1100px) { .steps.ck-steps { display: flex; flex-wrap: wrap; row-gap: 8px; } }
+  @media print { #nav, #footer, .actions, .demo-bar, .albar-chat, [class*="concierge"] { display: none !important; } }
+</style>
+</head>
+<body data-page="checkout" data-title="title_book">
+<a class="skip" href="#main">Saltar al contenido</a>
+<header id="nav"></header>
+<main id="main"><div id="ck"></div></main>
+<footer id="footer"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/pages.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/concierge.js" defer></script>
+<script>
+(function () {
+  const A = window.ALBAR;
+  const HOLD_MIN = 15, FREE_CANCEL_DAYS = 7, VAT = 0.10;
+  const RATE = {
+    flex:   { k: 'rate_flex', boardPP: 0,  refundable: true,  pay: 'guarantee' },
+    bf:     { k: 'rate_bf',   boardPP: 18, refundable: true,  pay: 'guarantee' },
+    nonref: { k: 'rate_nr',   boardPP: 0,  refundable: false, pay: 'full' },
+    hb:     { k: 'rate_hb',   boardPP: 55, refundable: true,  pay: 'guarantee' },
+  };
+  /* Mismos códigos que el motor real (lib/db.ts) y un bono regalo de prueba */
+  const CODES = { ALBAR10: { kind: 'pct', value: 10, min: 1 }, ESCAPADA: { kind: 'pct', value: 15, min: 3 }, BIENVENIDA: { kind: 'fixed', value: 30, min: 2 }, QUEDATE5: { kind: 'pct', value: 5, min: 1 }, VUELVE10: { kind: 'pct', value: 10, min: 1 } };
+  const VOUCHERS = { REGALO50: 50, REGALO150: 150 };
+  const XS = [
+    { id: 'early', price: 30, unit: 'stay', name: { es: 'Early check-in a las 12:00', en: 'Early check-in at 12:00', fr: 'Arrivée anticipée à 12 h', de: 'Früher Check-in um 12:00' }, desc: { es: 'Llega antes y empieza en la azotea.', en: 'Arrive early and start on the rooftop.', fr: 'Arrivez plus tôt et commencez sur le toit.', de: 'Früher ankommen und auf der Dachterrasse beginnen.' } },
+    { id: 'late', price: 40, unit: 'stay', name: { es: 'Late check-out a las 16:00', en: 'Late check-out at 16:00', fr: 'Départ tardif à 16 h', de: 'Später Check-out um 16:00' }, desc: { es: 'Una última mañana sin prisas.', en: 'One last unhurried morning.', fr: 'Une dernière matinée sans hâte.', de: 'Ein letzter Morgen ohne Eile.' } },
+    { id: 'cena', price: 140, unit: 'stay', name: { es: 'Cena romántica en la azotea', en: 'Romantic rooftop dinner', fr: 'Dîner romantique sur le toit', de: 'Romantisches Dinner auf der Dachterrasse' }, desc: { es: 'Menú de la lonja para dos, mesa privada al atardecer.', en: 'Fish-market menu for two, private table at sunset.', fr: 'Menu de la criée pour deux, table privée au coucher du soleil.', de: 'Fischmarkt-Menü für zwei, privater Tisch bei Sonnenuntergang.' } },
+    { id: 'masaje', price: 85, unit: 'person', name: { es: 'Masaje de 60 minutos', en: '60-minute massage', fr: 'Massage de 60 minutes', de: '60-Minuten-Massage' }, desc: { es: 'En Spa Sal, con aceite de oliva y romero.', en: 'At Spa Sal, with olive oil and rosemary.', fr: 'Au Spa Sal, à l’huile d’olive et au romarin.', de: 'Im Spa Sal, mit Olivenöl und Rosmarin.' } },
+    { id: 'cava', price: 45, unit: 'stay', name: { es: 'Flores y cava en la habitación', en: 'Flowers & cava in the room', fr: 'Fleurs et cava dans la chambre', de: 'Blumen & Cava im Zimmer' }, desc: { es: 'Para una ocasión especial.', en: 'For a special occasion.', fr: 'Pour une occasion spéciale.', de: 'Für einen besonderen Anlass.' } },
+    { id: 'traslado', price: 75, unit: 'stay', name: { es: 'Traslado desde el aeropuerto', en: 'Airport transfer', fr: 'Transfert depuis l’aéroport', de: 'Flughafentransfer' }, desc: { es: 'Aeropuerto de Alicante → Albar, 45 minutos.', en: 'Alicante airport → Albar, 45 minutes.', fr: 'Aéroport d’Alicante → Albar, 45 minutes.', de: 'Flughafen Alicante → Albar, 45 Minuten.' } },
+  ];
+  const CK = {
+    es: {
+      steps: ['Habitación', 'Tus datos', 'Pago', 'Confirmada'], demo_bar: 'Modo demo: el pago es simulado y no se guarda ni se envía nada.',
+      missing_t: 'Falta elegir habitación y fechas', missing_p: 'Vuelve a la búsqueda, elige fechas y pulsa «Elegir» en la tarifa que quieras.', back_search: 'Volver a la búsqueda',
+      hold_note: 'Te guardamos la habitación {m} minutos mientras completas la reserva.', time_left: 'Te la guardamos',
+      expired_t: 'Se acabó el tiempo', expired_p: 'Liberamos la habitación para que otros puedan reservarla. Puedes volver a buscar; si sigue libre, es tuya.', search_again: 'Volver a buscar',
+      extras_t: 'Haz la estancia aún mejor', extras_p: 'Añádelo ahora o más tarde desde tu reserva.', per_person: 'por persona', add: 'Añadir', added: 'Añadido',
+      details_t: 'Tus datos', name: 'Nombre y apellidos', email: 'Email', phone: 'Teléfono', country: 'País', arrival_time: 'Hora aproximada de llegada', requests: 'Peticiones especiales (aniversario, alergias…)',
+      marketing: 'Quiero recibir ofertas y, si no termino la reserva, un recordatorio. Puedo darme de baja cuando quiera.', consent: 'Acepto las condiciones de la reserva y la política de privacidad.',
+      promo_t: 'Código o bono regalo', promo_code: 'Código promocional', voucher: 'Bono regalo', apply: 'Aplicar', remove: 'Quitar',
+      promo_hint: 'Para probar: códigos ALBAR10, ESCAPADA (desde 3 noches) o BIENVENIDA (desde 2 noches), y el bono REGALO50.',
+      summary: 'Tu reserva', accommodation: 'Alojamiento', board: 'Régimen', discount: 'Descuento', voucher_l: 'Bono regalo', total: 'Total', vat_note: 'Incluye {x} de IVA',
+      free_cancel: 'Cancelación gratuita hasta el {d}.', cancel_one: 'Llegada en menos de 7 días: cancelar cuesta una noche.', nonref_note: 'Tarifa no reembolsable.',
+      direct_perks: 'Por reservar aquí: cava de bienvenida, late check-out gratis según disponibilidad y −5 % en Spa Sal.',
+      pay_full: 'Pagar {x} ahora', pay_guarantee: 'Confirmar reserva', pay_full_note: 'Se cobra ahora. Tarifa no reembolsable.', pay_guarantee_note: 'Hoy no se cobra nada: solo garantizamos la reserva con tu tarjeta. Pagas en el hotel.',
+      demo_gateway_p: 'Modo demo: no hay tarjeta ni cargo real. En la web real aquí se abre el pago seguro de Stripe.',
+      err_code_invalid: 'Ese código no existe o ha caducado.', err_code_min_nights: 'Ese código necesita más noches.', err_voucher_invalid: 'Ese bono no es válido o ya se ha usado.',
+      err_guest: 'Revisa tu nombre, email y teléfono.', err_consent: 'Tienes que aceptar las condiciones.', err_required: 'Este campo es obligatorio.',
+      gw_t: 'Pasarela de pago simulada', to_pay: 'A pagar ahora', to_guarantee: 'Total de la estancia · hoy no se cobra nada, solo se guarda la tarjeta como garantía',
+      demo_ok: 'Simular pago correcto', demo_fail: 'Simular pago rechazado', demo_failed: 'Pago rechazado (simulado). Puedes intentarlo de nuevo.', back_details: '← Volver a tus datos',
+      confirmed_eyebrow: 'Reserva confirmada', confirmed_t: '{name}, te esperamos en Altea.', confirmed_p: 'Te hemos enviado la confirmación a {email}. Guarda tu referencia:',
+      ref: 'Referencia', add_calendar: 'Añadir al calendario', print: 'Imprimir resumen', back_home: 'Volver a la web',
+      stay: 'Estancia', arrival: 'Llegada', departure: 'Salida', rate: 'Tarifa', extras: 'Extras', payment: 'Pago', paid: 'Pagado', guaranteed: 'Garantizada con tarjeta · pago en el hotel', guest: 'Huésped',
+      after_p: 'Siete días antes te escribiremos para hacer el pre-check-in online, y la víspera, con cómo llegar. Si necesitas algo antes, escríbenos por WhatsApp.',
+    },
+    en: {
+      steps: ['Room', 'Your details', 'Payment', 'Confirmed'], demo_bar: 'Demo mode: payment is simulated and nothing is saved or sent.',
+      missing_t: 'Room and dates missing', missing_p: 'Go back to the search, choose dates and press “Select” on the rate you want.', back_search: 'Back to search',
+      hold_note: 'We’re holding the room for {m} minutes while you complete your booking.', time_left: 'Held for you',
+      expired_t: 'Time’s up', expired_p: 'We’ve released the room so others can book it. Search again; if it’s still free, it’s yours.', search_again: 'Search again',
+      extras_t: 'Make the stay even better', extras_p: 'Add it now or later from your booking.', per_person: 'per person', add: 'Add', added: 'Added',
+      details_t: 'Your details', name: 'Full name', email: 'Email', phone: 'Phone', country: 'Country', arrival_time: 'Approximate arrival time', requests: 'Special requests (anniversary, allergies…)',
+      marketing: 'I’d like to receive offers and, if I don’t finish booking, a reminder. I can unsubscribe at any time.', consent: 'I accept the booking conditions and the privacy policy.',
+      promo_t: 'Code or gift voucher', promo_code: 'Promo code', voucher: 'Gift voucher', apply: 'Apply', remove: 'Remove',
+      promo_hint: 'To try it: codes ALBAR10, ESCAPADA (3+ nights) or BIENVENIDA (2+ nights), and voucher REGALO50.',
+      summary: 'Your booking', accommodation: 'Accommodation', board: 'Board', discount: 'Discount', voucher_l: 'Gift voucher', total: 'Total', vat_note: 'Includes {x} VAT',
+      free_cancel: 'Free cancellation until {d}.', cancel_one: 'Arrival within 7 days: cancelling costs one night.', nonref_note: 'Non-refundable rate.',
+      direct_perks: 'Booking here: welcome cava, free late check-out subject to availability and −5% at Spa Sal.',
+      pay_full: 'Pay {x} now', pay_guarantee: 'Confirm booking', pay_full_note: 'Charged now. Non-refundable rate.', pay_guarantee_note: 'Nothing is charged today: your card only guarantees the booking. You pay at the hotel.',
+      demo_gateway_p: 'Demo mode: no real card or charge. On the live site, secure Stripe checkout opens here.',
+      err_code_invalid: 'That code doesn’t exist or has expired.', err_code_min_nights: 'That code needs more nights.', err_voucher_invalid: 'That voucher isn’t valid or has been used.',
+      err_guest: 'Please check your name, email and phone.', err_consent: 'You need to accept the conditions.', err_required: 'This field is required.',
+      gw_t: 'Simulated payment gateway', to_pay: 'To pay now', to_guarantee: 'Stay total · nothing is charged today, the card is only kept as a guarantee',
+      demo_ok: 'Simulate successful payment', demo_fail: 'Simulate declined payment', demo_failed: 'Payment declined (simulated). You can try again.', back_details: '← Back to your details',
+      confirmed_eyebrow: 'Booking confirmed', confirmed_t: '{name}, see you in Altea.', confirmed_p: 'We’ve sent the confirmation to {email}. Keep your reference:',
+      ref: 'Reference', add_calendar: 'Add to calendar', print: 'Print summary', back_home: 'Back to the website',
+      stay: 'Stay', arrival: 'Arrival', departure: 'Departure', rate: 'Rate', extras: 'Extras', payment: 'Payment', paid: 'Paid', guaranteed: 'Guaranteed by card · pay at the hotel', guest: 'Guest',
+      after_p: 'Seven days before, we’ll write so you can do the online pre-check-in, and the day before with directions. Need anything sooner? Message us on WhatsApp.',
+    },
+    fr: {
+      steps: ['Chambre', 'Vos données', 'Paiement', 'Confirmée'], demo_bar: 'Mode démo : le paiement est simulé, rien n’est enregistré ni envoyé.',
+      missing_t: 'Chambre et dates manquantes', missing_p: 'Revenez à la recherche, choisissez des dates et cliquez sur « Choisir ».', back_search: 'Retour à la recherche',
+      hold_note: 'Nous vous gardons la chambre {m} minutes pendant que vous finalisez.', time_left: 'Chambre réservée',
+      expired_t: 'Temps écoulé', expired_p: 'La chambre a été libérée. Relancez la recherche ; si elle est encore libre, elle est à vous.', search_again: 'Relancer la recherche',
+      extras_t: 'Rendez le séjour encore meilleur', extras_p: 'Ajoutez-le maintenant ou plus tard.', per_person: 'par personne', add: 'Ajouter', added: 'Ajouté',
+      details_t: 'Vos données', name: 'Nom et prénom', email: 'Email', phone: 'Téléphone', country: 'Pays', arrival_time: 'Heure d’arrivée approximative', requests: 'Demandes particulières (anniversaire, allergies…)',
+      marketing: 'Je souhaite recevoir des offres et, si je ne finalise pas, un rappel. Désinscription à tout moment.', consent: 'J’accepte les conditions de réservation et la politique de confidentialité.',
+      promo_t: 'Code ou bon cadeau', promo_code: 'Code promo', voucher: 'Bon cadeau', apply: 'Appliquer', remove: 'Retirer',
+      promo_hint: 'Pour essayer : codes ALBAR10, ESCAPADA (3 nuits min.) ou BIENVENIDA (2 nuits min.), et le bon REGALO50.',
+      summary: 'Votre réservation', accommodation: 'Hébergement', board: 'Formule repas', discount: 'Réduction', voucher_l: 'Bon cadeau', total: 'Total', vat_note: 'Dont {x} de TVA',
+      free_cancel: 'Annulation gratuite jusqu’au {d}.', cancel_one: 'Arrivée dans moins de 7 jours : l’annulation coûte une nuit.', nonref_note: 'Tarif non remboursable.',
+      direct_perks: 'En réservant ici : cava de bienvenue, départ tardif offert selon disponibilité et −5 % au Spa Sal.',
+      pay_full: 'Payer {x} maintenant', pay_guarantee: 'Confirmer la réservation', pay_full_note: 'Débité maintenant. Tarif non remboursable.', pay_guarantee_note: 'Rien n’est débité aujourd’hui : la carte garantit seulement la réservation. Paiement à l’hôtel.',
+      demo_gateway_p: 'Mode démo : aucune carte ni débit réel. Sur le site réel, le paiement sécurisé Stripe s’ouvre ici.',
+      err_code_invalid: 'Ce code n’existe pas ou a expiré.', err_code_min_nights: 'Ce code nécessite plus de nuits.', err_voucher_invalid: 'Ce bon n’est pas valable ou a déjà été utilisé.',
+      err_guest: 'Vérifiez votre nom, email et téléphone.', err_consent: 'Vous devez accepter les conditions.', err_required: 'Champ obligatoire.',
+      gw_t: 'Passerelle de paiement simulée', to_pay: 'À payer maintenant', to_guarantee: 'Total du séjour · rien n’est débité aujourd’hui, la carte sert de garantie',
+      demo_ok: 'Simuler un paiement réussi', demo_fail: 'Simuler un paiement refusé', demo_failed: 'Paiement refusé (simulé). Vous pouvez réessayer.', back_details: '← Retour à vos données',
+      confirmed_eyebrow: 'Réservation confirmée', confirmed_t: '{name}, à bientôt à Altea.', confirmed_p: 'Nous avons envoyé la confirmation à {email}. Gardez votre référence :',
+      ref: 'Référence', add_calendar: 'Ajouter au calendrier', print: 'Imprimer le récapitulatif', back_home: 'Retour au site',
+      stay: 'Séjour', arrival: 'Arrivée', departure: 'Départ', rate: 'Tarif', extras: 'Extras', payment: 'Paiement', paid: 'Payé', guaranteed: 'Garantie par carte · paiement à l’hôtel', guest: 'Client',
+      after_p: 'Sept jours avant, nous vous écrirons pour le pré-check-in en ligne, puis la veille avec l’itinéraire. Besoin de quelque chose ? Écrivez-nous sur WhatsApp.',
+    },
+    de: {
+      steps: ['Zimmer', 'Ihre Daten', 'Zahlung', 'Bestätigt'], demo_bar: 'Demo-Modus: Die Zahlung ist simuliert, nichts wird gespeichert oder versendet.',
+      missing_t: 'Zimmer und Daten fehlen', missing_p: 'Zurück zur Suche, Daten wählen und bei der gewünschten Rate auf „Wählen“ klicken.', back_search: 'Zurück zur Suche',
+      hold_note: 'Wir halten das Zimmer {m} Minuten für Sie, während Sie buchen.', time_left: 'Für Sie reserviert',
+      expired_t: 'Die Zeit ist abgelaufen', expired_p: 'Wir haben das Zimmer freigegeben. Suchen Sie erneut; wenn es noch frei ist, gehört es Ihnen.', search_again: 'Erneut suchen',
+      extras_t: 'Machen Sie den Aufenthalt noch besser', extras_p: 'Jetzt oder später in Ihrer Buchung hinzufügen.', per_person: 'pro Person', add: 'Hinzufügen', added: 'Hinzugefügt',
+      details_t: 'Ihre Daten', name: 'Vor- und Nachname', email: 'E-Mail', phone: 'Telefon', country: 'Land', arrival_time: 'Ungefähre Ankunftszeit', requests: 'Besondere Wünsche (Jahrestag, Allergien…)',
+      marketing: 'Ich möchte Angebote und, falls ich nicht fertig buche, eine Erinnerung erhalten. Abmeldung jederzeit.', consent: 'Ich akzeptiere die Buchungsbedingungen und die Datenschutzerklärung.',
+      promo_t: 'Code oder Gutschein', promo_code: 'Aktionscode', voucher: 'Gutschein', apply: 'Anwenden', remove: 'Entfernen',
+      promo_hint: 'Zum Ausprobieren: Codes ALBAR10, ESCAPADA (ab 3 Nächten) oder BIENVENIDA (ab 2 Nächten) und Gutschein REGALO50.',
+      summary: 'Ihre Buchung', accommodation: 'Übernachtung', board: 'Verpflegung', discount: 'Rabatt', voucher_l: 'Gutschein', total: 'Gesamt', vat_note: 'Inkl. {x} MwSt.',
+      free_cancel: 'Kostenlose Stornierung bis {d}.', cancel_one: 'Anreise in weniger als 7 Tagen: Stornierung kostet eine Nacht.', nonref_note: 'Nicht erstattbare Rate.',
+      direct_perks: 'Direkt gebucht: Willkommens-Cava, später Check-out nach Verfügbarkeit und −5 % im Spa Sal.',
+      pay_full: 'Jetzt {x} zahlen', pay_guarantee: 'Buchung bestätigen', pay_full_note: 'Wird jetzt belastet. Nicht erstattbare Rate.', pay_guarantee_note: 'Heute wird nichts belastet: Die Karte dient nur als Garantie. Zahlung im Hotel.',
+      demo_gateway_p: 'Demo-Modus: keine echte Karte, keine Belastung. Auf der echten Website öffnet sich hier die sichere Stripe-Zahlung.',
+      err_code_invalid: 'Dieser Code existiert nicht oder ist abgelaufen.', err_code_min_nights: 'Dieser Code braucht mehr Nächte.', err_voucher_invalid: 'Dieser Gutschein ist ungültig oder bereits verwendet.',
+      err_guest: 'Bitte Name, E-Mail und Telefon prüfen.', err_consent: 'Bitte akzeptieren Sie die Bedingungen.', err_required: 'Pflichtfeld.',
+      gw_t: 'Simulierte Zahlungsseite', to_pay: 'Jetzt zu zahlen', to_guarantee: 'Gesamtpreis · heute wird nichts belastet, die Karte dient als Garantie',
+      demo_ok: 'Erfolgreiche Zahlung simulieren', demo_fail: 'Abgelehnte Zahlung simulieren', demo_failed: 'Zahlung abgelehnt (simuliert). Sie können es erneut versuchen.', back_details: '← Zurück zu Ihren Daten',
+      confirmed_eyebrow: 'Buchung bestätigt', confirmed_t: '{name}, wir freuen uns auf Sie in Altea.', confirmed_p: 'Wir haben die Bestätigung an {email} gesendet. Ihre Buchungsnummer:',
+      ref: 'Buchungsnummer', add_calendar: 'Zum Kalender hinzufügen', print: 'Zusammenfassung drucken', back_home: 'Zurück zur Website',
+      stay: 'Aufenthalt', arrival: 'Anreise', departure: 'Abreise', rate: 'Rate', extras: 'Extras', payment: 'Zahlung', paid: 'Bezahlt', guaranteed: 'Per Karte garantiert · Zahlung im Hotel', guest: 'Gast',
+      after_p: 'Sieben Tage vorher schreiben wir Ihnen für den Online-Pre-Check-in und am Vortag mit der Anfahrt. Fragen? Schreiben Sie uns per WhatsApp.',
+    },
+  };
+
+  const q = new URLSearchParams(location.search);
+  const room = ROOMS.find(r => r.id === q.get('room'));
+  const rateId = RATE[q.get('rate')] ? q.get('rate') : 'flex';
+  const B = A.B;
+  const S = {
+    step: 'details', extras: [], code: '', codeInput: (B.code || '').toUpperCase(), codeMsg: null,
+    voucher: '', voucherInput: '', voucherMsg: null,
+    g: { name: '', email: '', phone: '', country: '', arrival: '', requests: '', marketing: false, consent: false },
+    bad: {}, err: null, gwErr: null, busy: false, deadline: Date.now() + HOLD_MIN * 60000, ref: '',
+  };
+
+  const k = () => CK[A.lang()] || CK.en;
+  const fmt = (s, v) => Object.entries(v).reduce((a, [x, y]) => a.replace('{' + x + '}', y), s);
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const r2 = (n) => Math.round(n * 100) / 100;
+  const money = (n) => new Intl.NumberFormat({ es: 'es-ES', en: 'en-GB', fr: 'fr-FR', de: 'de-DE' }[A.lang()] || 'es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }).format(n);
+  const XL = (o) => o[A.lang()] || o.en;
+  const valid = () => room && B.in && B.out && B.out > B.in;
+
+  function codeCheck(code, n) {
+    const c = CODES[code];
+    if (!c) return { error: 'err_code_invalid' };
+    if (n < c.min) return { error: 'err_code_min_nights' };
+    return { ok: c };
+  }
+
+  /* Mismo cálculo que el motor real (lib/pricing.ts) */
+  function calc() {
+    const Q = quote(room, B.in, B.out, B.adults, B.rooms);
+    const n = Q.n, base = Q.base;
+    const auto = Q.promo ? { key: Q.promo.key, amount: r2(base * Q.promo.off) } : null;
+    const afterAuto = base - (auto ? auto.amount : 0);
+    const rateDiscount = rateId === 'nonref' ? r2(afterAuto * PRICING.nonRefundable) : 0;
+    const accommodation = r2(afterAuto - rateDiscount);
+    const board = RATE[rateId].boardPP * B.adults * n;
+    const extras = S.extras.map(id => XS.find(x => x.id === id)).map(x => ({ x, amount: x.unit === 'person' ? x.price * B.adults : x.price }));
+    const extrasTotal = extras.reduce((a, e) => a + e.amount, 0);
+    let promo = null;
+    if (S.code) { const c = CODES[S.code]; promo = { code: S.code, amount: r2(c.kind === 'pct' ? accommodation * c.value / 100 : Math.min(c.value, accommodation)) }; }
+    let total = r2(accommodation + board + extrasTotal - (promo ? promo.amount : 0));
+    let voucher = null;
+    if (S.voucher) { voucher = { code: S.voucher, amount: r2(Math.min(VOUCHERS[S.voucher], total)) }; total = r2(total - voucher.amount); }
+    return { n, base, auto, rateDiscount, accommodation, board, extras, promo, voucher, total, vat: r2(total - total / (1 + VAT)), left: Q.left, fits: Q.fits };
+  }
+
+  const freeUntil = () => addDays(B.in, -FREE_CANCEL_DAYS);
+  const canCancelFree = () => freeUntil() > new Date();
+  const longDate = (d) => A.fmtD(d, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  function stepsHtml(n) {
+    return `<ol class="steps ck-steps" aria-label="${k().steps.join(' · ')}">${k().steps.map((s, i) => `<li class="${i + 1 === n ? 'is-on' : i + 1 < n ? 'is-done' : ''}"${i + 1 === n ? ' aria-current="step"' : ''}>${s}</li>`).join('')}</ol>`;
+  }
+
+  function summaryHtml(c) {
+    const T = k(), nightsTxt = `${c.n} ${c.n === 1 ? A.t('night') : A.t('nights')}`;
+    const adultsTxt = `${B.adults} ${B.adults === 1 ? A.t('adult') : A.t('adults_l')}`;
+    const mm = Math.max(0, Math.floor((S.deadline - Date.now()) / 60000)), ss = Math.max(0, Math.floor(((S.deadline - Date.now()) % 60000) / 1000));
+    return `
+      ${S.step === 'details' ? `<div class="timer" id="ck-timer" role="timer" aria-live="off">${A.icon('clock')}<span>${T.time_left}</span><b>${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}</b></div>` : ''}
+      <div class="fcard">
+        <img class="fcard__img" src="${IMG(room.img, 900)}" alt="">
+        <p class="eyebrow eyebrow--plain" style="margin-bottom:8px">${T.summary}</p>
+        <h2 class="h3">${room.name}${B.rooms > 1 ? ' × ' + B.rooms : ''}</h2>
+        <p class="small" style="margin:6px 0 0">${A.fmtD(B.in, { weekday: 'short', day: 'numeric', month: 'long' })} → ${A.fmtD(B.out, { weekday: 'short', day: 'numeric', month: 'long' })}<br>${nightsTxt} · ${adultsTxt} · ${A.t(RATE[rateId].k)}</p>
+        <ul class="lines">
+          <li><span>${T.accommodation}</span><span>${money(c.base)}</span></li>
+          ${c.auto ? `<li class="minus"><span>${A.t('promo_' + c.auto.key)}</span><span>−${money(c.auto.amount)}</span></li>` : ''}
+          ${c.rateDiscount ? `<li class="minus"><span>${A.t('rate_nr')}</span><span>−${money(c.rateDiscount)}</span></li>` : ''}
+          ${c.board ? `<li><span>${T.board}</span><span>${money(c.board)}</span></li>` : ''}
+          ${c.extras.map(e => `<li><span>${XL(e.x.name)}</span><span>${money(e.amount)}</span></li>`).join('')}
+          ${c.promo ? `<li class="minus"><span>${T.discount} ${c.promo.code}</span><span>−${money(c.promo.amount)}</span></li>` : ''}
+          ${c.voucher ? `<li class="minus"><span>${T.voucher_l}</span><span>−${money(c.voucher.amount)}</span></li>` : ''}
+          <li class="total"><span>${T.total}</span><span>${money(c.total)}</span></li>
+          <li class="muted"><span>${fmt(T.vat_note, { x: money(c.vat) })}</span><span></span></li>
+        </ul>
+        <p class="paynote" style="margin-top:16px">${A.icon('check')}<span>${RATE[rateId].refundable ? (canCancelFree() ? fmt(T.free_cancel, { d: A.fmtD(freeUntil(), { day: 'numeric', month: 'long' }) }) : T.cancel_one) : T.nonref_note}</span></p>
+      </div>
+      <p class="small" style="margin-top:16px">${T.direct_perks}</p>`;
+  }
+
+  function payLabel(c) { return RATE[rateId].pay === 'full' && c.total > 0 ? fmt(k().pay_full, { x: money(c.total) }) : k().pay_guarantee; }
+
+  function field(key, label, o = {}) {
+    const v = esc(S.g[key]);
+    const input = key === 'requests'
+      ? `<textarea id="g-${key}" data-g="${key}" placeholder=" " maxlength="1000">${v}</textarea>`
+      : `<input id="g-${key}" data-g="${key}" type="${o.type || 'text'}" placeholder=" "${o.ac ? ` autocomplete="${o.ac}"` : ''}${o.req ? ' required' : ''} value="${v}">`;
+    return `<div class="field${o.full ? ' field--full' : ''}${S.bad[key] ? ' is-bad' : ''}">${input}<label for="g-${key}">${label}${o.req ? ' *' : ''}</label><span class="err">${k().err_required}</span></div>`;
+  }
+
+  function detailsHtml(c) {
+    const T = k();
+    return `<section class="fpage"><div class="wrap">${stepsHtml(2)}</div><div class="wrap flayout" style="margin-top:32px">
+      <form id="ck-form" novalidate>
+        <div class="fsec">
+          <p class="eyebrow">${T.details_t}</p>
+          <h1 class="h1" style="font-size:clamp(32px,4vw,52px)">${room.n} · ${room.name}</h1>
+          <p class="small">${fmt(T.hold_note, { m: HOLD_MIN })}</p>
+        </div>
+        <div class="fsec">
+          <h2 class="h2">${T.extras_t}</h2>
+          <p class="small">${T.extras_p}</p>
+          <div class="xgrid">${XS.map(x => { const on = S.extras.includes(x.id); return `<button type="button" class="xopt" data-x="${x.id}" aria-pressed="${on}">
+            <b>${XL(x.name)}</b><span class="price">+${money(x.unit === 'person' ? x.price * B.adults : x.price)}</span>
+            <small>${XL(x.desc)}${x.unit === 'person' ? ` (${money(x.price)} ${T.per_person})` : ''}</small>
+            <span class="xopt__tick">${on ? '✓ ' + T.added : '+ ' + T.add}</span></button>`; }).join('')}</div>
+        </div>
+        <div class="fsec">
+          <h2 class="h2">${T.details_t}</h2>
+          <div class="form" style="margin-top:24px">
+            ${field('name', T.name, { req: true, full: true, ac: 'name' })}
+            ${field('email', T.email, { type: 'email', req: true, ac: 'email' })}
+            ${field('phone', T.phone, { type: 'tel', req: true, ac: 'tel' })}
+            ${field('country', T.country, { ac: 'country-name' })}
+            <div class="field"><select id="g-arrival" data-g="arrival"><option value="">—</option>${['12:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00+'].map(h => `<option${S.g.arrival === h ? ' selected' : ''}>${h}</option>`).join('')}</select><label for="g-arrival">${T.arrival_time}</label></div>
+            ${field('requests', T.requests, { full: true })}
+            <label class="check"><input type="checkbox" data-g="marketing"${S.g.marketing ? ' checked' : ''}><span>${T.marketing}</span></label>
+            <label class="check"${S.bad.consent ? ' style="color:var(--error)"' : ''}><input type="checkbox" data-g="consent"${S.g.consent ? ' checked' : ''}><span>${T.consent} <a href="legal.html" target="_blank">↗</a></span></label>
+          </div>
+        </div>
+        <div class="fsec">
+          <h2 class="h2">${T.promo_t}</h2>
+          <div class="codes" style="margin-top:20px">
+            <div><div class="codefield"><div class="field"><input id="c-code" data-in="codeInput" placeholder=" " value="${esc(S.codeInput)}"><label for="c-code">${T.promo_code}</label></div>
+              ${S.code ? `<button type="button" class="btn btn--secondary" data-act="code-rm">${T.remove}</button>` : `<button type="button" class="btn btn--secondary" data-act="code">${T.apply}</button>`}</div>
+              ${S.codeMsg ? `<p class="msg ${S.codeMsg.ok ? 'msg--ok' : 'msg--err'}">${S.codeMsg.t}</p>` : ''}</div>
+            <div><div class="codefield"><div class="field"><input id="c-voucher" data-in="voucherInput" placeholder=" " value="${esc(S.voucherInput)}"><label for="c-voucher">${T.voucher}</label></div>
+              ${S.voucher ? `<button type="button" class="btn btn--secondary" data-act="voucher-rm">${T.remove}</button>` : `<button type="button" class="btn btn--secondary" data-act="voucher">${T.apply}</button>`}</div>
+              ${S.voucherMsg ? `<p class="msg ${S.voucherMsg.ok ? 'msg--ok' : 'msg--err'}">${S.voucherMsg.t}</p>` : ''}</div>
+          </div>
+          <p class="ck-hint">${T.promo_hint}</p>
+        </div>
+        <div class="fsec">
+          ${S.err ? `<p class="alert" role="alert">${S.err}</p>` : ''}
+          <button type="submit" class="btn btn--primary btn--block" id="ck-pay" style="height:60px;font-size:16px">${A.icon('shield')} ${payLabel(c)}</button>
+          <p class="paynote">${A.icon('shield')}<span>${RATE[rateId].pay === 'full' ? T.pay_full_note : T.pay_guarantee_note}</span></p>
+          <p class="small" style="margin-top:8px">${T.demo_gateway_p}</p>
+        </div>
+      </form>
+      <aside class="fside" id="ck-side">${summaryHtml(c)}</aside>
+    </div></section>`;
+  }
+
+  function payHtml(c) {
+    const T = k(), full = RATE[rateId].pay === 'full';
+    return `<section class="fpage"><div class="wrap">${stepsHtml(3)}
+      <div class="demo-gw">
+        <p class="eyebrow eyebrow--plain" style="color:var(--warning)">${T.gw_t}</p>
+        <h1 class="h2">Albar · Casa de Mar</h1>
+        <p class="small">${room.name} · ${ymd(B.in)} → ${ymd(B.out)} · ${S.g.name ? esc(S.g.name) : ''}</p>
+        <p class="demo-gw__amt">${money(c.total)}</p>
+        <p class="small">${full ? T.to_pay : T.to_guarantee}</p>
+        ${S.gwErr ? `<p class="alert" role="alert">${S.gwErr}</p>` : ''}
+        <div class="actions">
+          <button type="button" class="btn btn--primary${S.busy ? ' is-loading' : ''}" data-act="pay-ok">${T.demo_ok}</button>
+          <button type="button" class="btn btn--secondary" data-act="pay-fail"${S.busy ? ' disabled' : ''}>${T.demo_fail}</button>
+        </div>
+        <p class="small" style="margin-top:28px">${T.demo_gateway_p}</p>
+        <p class="small" style="margin-top:12px"><a href="#" data-act="back">${T.back_details}</a></p>
+      </div></div></section>`;
+  }
+
+  function doneHtml(c) {
+    const T = k(), full = RATE[rateId].pay === 'full';
+    const extras = c.extras.map(e => XL(e.x.name));
+    const kv = (a, b) => `<dt>${a}</dt><dd>${b}</dd>`;
+    return `<section class="fpage"><div class="wrap">${stepsHtml(4)}</div><div class="wrap flayout" style="margin-top:32px">
+      <div>
+        <p class="eyebrow" style="color:var(--success)">${T.confirmed_eyebrow}</p>
+        <h1 class="display" style="font-size:clamp(40px,6vw,80px)">${fmt(T.confirmed_t, { name: esc(S.g.name.trim().split(' ')[0]) })}</h1>
+        <p class="lead" style="margin-top:20px;color:var(--text-muted)">${fmt(T.confirmed_p, { email: esc(S.g.email) })}</p>
+        <div class="refbox"><span>${T.ref}</span><b>${S.ref}</b></div>
+        <div class="actions" style="margin-bottom:48px">
+          <a class="btn btn--primary" href="index.html">${T.back_home}</a>
+          <a class="btn btn--secondary" id="ck-ics" download="albar-${S.ref}.ics">${A.icon('clock')} ${T.add_calendar}</a>
+          <button type="button" class="btn btn--secondary" data-act="print">${T.print}</button>
+        </div>
+        <dl class="kv">
+          ${kv(T.stay, `${room.name}${B.rooms > 1 ? ' × ' + B.rooms : ''} · ${c.n} ${c.n === 1 ? A.t('night') : A.t('nights')} · ${B.adults} ${B.adults === 1 ? A.t('adult') : A.t('adults_l')}`)}
+          ${kv(T.arrival, `${longDate(B.in)} · ${HOTEL.checkIn}`)}
+          ${kv(T.departure, `${longDate(B.out)} · ${HOTEL.checkOut}`)}
+          ${kv(T.rate, A.t(RATE[rateId].k))}
+          ${extras.length ? kv(T.extras, extras.join(', ')) : ''}
+          ${c.promo ? kv(T.discount, `${c.promo.code} · −${money(c.promo.amount)}`) : ''}
+          ${c.voucher ? kv(T.voucher_l, `${c.voucher.code} · −${money(c.voucher.amount)}`) : ''}
+          ${kv(T.total, `<b>${money(c.total)}</b>`)}
+          ${kv(T.payment, full ? `${T.paid}: ${money(c.total)}` : T.guaranteed)}
+          ${kv(T.guest, `${esc(S.g.name)} · ${esc(S.g.email)}`)}
+        </dl>
+      </div>
+      <aside class="fside fside--after"><div class="fcard"><img class="fcard__img" src="${IMG(room.img, 900)}" alt="${room.name}"><p style="margin:0">${T.after_p}</p></div></aside>
+    </div></section>`;
+  }
+
+  function msgHtml(title, p, href, btn) {
+    return `<section class="fpage"><div class="wrap" style="max-width:640px"><p class="eyebrow">${room ? room.name : 'Albar'}</p><h1 class="h1">${title}</h1>
+      <p class="lead" style="margin:16px 0 32px;color:var(--text-muted)">${p}</p><a class="btn btn--primary" href="${href}">${btn}</a></div></section>`;
+  }
+
+  const searchUrl = () => { const u = new URLSearchParams(); if (B.in) u.set('in', ymd(B.in)); if (B.out) u.set('out', ymd(B.out)); u.set('ad', B.adults); u.set('rm', B.rooms); if (room) u.set('room', room.id); return 'reservar.html?' + u; };
+
+  function icsHref() {
+    const d = (x) => ymd(x).replace(/-/g, '');
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Albar//Demo//ES', 'BEGIN:VEVENT', `UID:${S.ref}@albar-demo`, `DTSTART;VALUE=DATE:${d(B.in)}`, `DTEND;VALUE=DATE:${d(B.out)}`,
+      `SUMMARY:Albar · Casa de Mar — ${room.name} (${S.ref})`, `LOCATION:${HOTEL.address}`, `DESCRIPTION:Check-in ${HOTEL.checkIn} · Check-out ${HOTEL.checkOut}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+  }
+
+  const root = document.getElementById('ck');
+  function render() {
+    if (!valid()) { root.innerHTML = msgHtml(k().missing_t, k().missing_p, searchUrl(), k().back_search); return; }
+    if (S.step === 'expired') { root.innerHTML = msgHtml(k().expired_t, k().expired_p, searchUrl(), k().search_again); return; }
+    const c = calc();
+    root.innerHTML = S.step === 'details' ? detailsHtml(c) : S.step === 'pay' ? payHtml(c) : doneHtml(c);
+    if (S.step === 'done') document.getElementById('ck-ics').href = icsHref();
+  }
+  function refreshSide() {
+    const c = calc(), side = document.getElementById('ck-side'), btn = document.getElementById('ck-pay');
+    if (side) side.innerHTML = summaryHtml(c);
+    if (btn) btn.innerHTML = `${A.icon('shield')} ${payLabel(c)}`;
+  }
+  function go(step) { S.step = step; render(); window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' }); }
+
+  /* Código que venía de la búsqueda: se aplica si vale */
+  if (valid() && S.codeInput) { const r = codeCheck(S.codeInput, calc().n); if (r.ok) { S.code = S.codeInput; S.codeMsg = { ok: true, t: S.code + ' ✓' }; } }
+
+  root.addEventListener('input', e => {
+    const el = e.target;
+    if (el.dataset.g) { S.g[el.dataset.g] = el.type === 'checkbox' ? el.checked : el.value; if (S.bad[el.dataset.g]) { S.bad[el.dataset.g] = false; el.closest('.field')?.classList.remove('is-bad'); } }
+    if (el.dataset.in) S[el.dataset.in] = el.value.toUpperCase().trim();
+  });
+  root.addEventListener('change', e => { const el = e.target; if (el.dataset.g) S.g[el.dataset.g] = el.type === 'checkbox' ? el.checked : el.value; });
+  root.addEventListener('click', e => {
+    const x = e.target.closest('[data-x]');
+    if (x) {
+      const id = x.dataset.x, on = !S.extras.includes(id);
+      S.extras = on ? [...S.extras, id] : S.extras.filter(v => v !== id);
+      x.setAttribute('aria-pressed', on);
+      x.querySelector('.xopt__tick').textContent = on ? '✓ ' + k().added : '+ ' + k().add;
+      refreshSide();
+      return;
+    }
+    const a = e.target.closest('[data-act]');
+    if (!a) return;
+    const act = a.dataset.act;
+    if (act === 'code') {
+      if (!S.codeInput) return;
+      const r = codeCheck(S.codeInput, calc().n);
+      if (r.ok) { S.code = S.codeInput; S.codeMsg = { ok: true, t: S.code + ' ✓' }; } else S.codeMsg = { ok: false, t: k()[r.error] };
+      render();
+    } else if (act === 'code-rm') { S.code = ''; S.codeInput = ''; S.codeMsg = null; render(); }
+    else if (act === 'voucher') {
+      if (!S.voucherInput) return;
+      if (VOUCHERS[S.voucherInput]) { S.voucher = S.voucherInput; S.voucherMsg = { ok: true, t: S.voucher + ' ✓' }; } else S.voucherMsg = { ok: false, t: k().err_voucher_invalid };
+      render();
+    } else if (act === 'voucher-rm') { S.voucher = ''; S.voucherInput = ''; S.voucherMsg = null; render(); }
+    else if (act === 'back') { e.preventDefault(); S.gwErr = null; go('details'); }
+    else if (act === 'pay-fail') { S.gwErr = k().demo_failed; render(); }
+    else if (act === 'pay-ok') {
+      S.busy = true; S.gwErr = null; render();
+      setTimeout(() => {
+        S.busy = false;
+        const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        S.ref = 'ALB-' + Array.from({ length: 5 }, () => abc[Math.floor(Math.random() * abc.length)]).join('');
+        go('done');
+      }, 1200);
+    } else if (act === 'print') window.print();
+  });
+  root.addEventListener('submit', e => {
+    e.preventDefault();
+    const g = S.g;
+    S.bad = { name: !g.name.trim(), email: !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(g.email), phone: !g.phone.trim(), consent: !g.consent };
+    if (Object.values(S.bad).some(Boolean)) {
+      S.err = S.bad.consent && !S.bad.name && !S.bad.email && !S.bad.phone ? k().err_consent : k().err_guest;
+      render();
+      document.querySelector('.is-bad input, .is-bad textarea, .alert')?.scrollIntoView({ block: 'center' });
+      return;
+    }
+    S.err = null;
+    go('pay');
+  });
+
+  setInterval(() => {
+    if (S.step !== 'details' || !valid()) return;
+    const left = S.deadline - Date.now();
+    if (left <= 0) { go('expired'); return; }
+    const el = document.getElementById('ck-timer');
+    if (!el) return;
+    const mm = Math.floor(left / 60000), ss = Math.floor((left % 60000) / 1000);
+    el.querySelector('b').textContent = String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+    el.classList.toggle('is-low', left < 3 * 60000);
+  }, 1000);
+
+  A.renderers.push(render);
+})();
+</script>
+</body>
+</html>

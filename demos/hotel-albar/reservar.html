@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es" data-moment="dia" data-static>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reservar — Albar · Casa de Mar, Altea</title>
+<meta name="description" content="Reserva directa en Albar · Casa de Mar: mejor precio garantizado, cava de bienvenida y late check-out.">
+<meta name="robots" content="noindex">
+<!-- Versión estática de resultados (modo demo sin servidor). Con el motor de reservas, la web usa /reservar. -->
+<script>try{var m=sessionStorage.getItem('albar.moment');if(!m){var h=new Date().getHours();m=h>=7&&h<17?'dia':h>=17&&h<21?'atardecer':'noche'}document.documentElement.dataset.moment=m}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://images.unsplash.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..500,0..100;1,9..144,300..500,0..100&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231F4E5F'/%3E%3Ctext x='32' y='45' font-family='Georgia' font-size='38' fill='%23FBF8F3' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+</head>
+<body data-page="book" data-title="title_book">
+<a class="skip" href="#main">Saltar al contenido</a>
+<header id="nav"></header>
+<main id="main">
+  <section class="page-head" style="padding-bottom:32px">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="bk_eyebrow">Reserva directa · mejor precio garantizado</p>
+      <h1 class="h1" data-i18n="bk_title">Elige tus noches en Albar.</h1>
+    </div>
+  </section>
+  <section style="padding-bottom:var(--section)">
+    <div class="wrap">
+      <div data-booker="inline" style="margin-bottom:32px"></div>
+      <div class="res-summary" id="res-summary"></div>
+      <div class="grid12">
+        <div style="grid-column:1 / span 8" id="results"></div>
+        <aside style="grid-column:10 / span 3" class="bk-aside">
+          <div class="direct" style="grid-template-columns:1fr;padding:28px;gap:20px">
+            <span class="direct__seal" style="left:20px" data-i18n="dir_seal">Reserva directa</span>
+            <ul style="grid-template-columns:1fr;gap:16px">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b data-i18n="p1_t">Mejor precio garantizado</b></div></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b data-i18n="p2_t">Cava de bienvenida</b></div></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b data-i18n="p3_t">Late check-out gratis</b></div></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b data-i18n="p4_t">−5 % en Spa Sal</b></div></li>
+            </ul>
+          </div>
+          <div style="margin-top:40px">
+            <p class="eyebrow" data-i18n="bk_extras">Podrás añadir</p>
+            <ul class="list-dash" style="margin-top:0" id="extras"></ul>
+          </div>
+          <p class="small" style="margin-top:40px" data-i18n="bk_help">¿Dudas? Escríbenos por WhatsApp o llámanos al +34 965 00 00 00. Respondemos de 8:00 a 23:00.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+<footer id="footer"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/pages.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/concierge.js" defer></script>
+<script>
+  ALBAR.renderers.push(() => {
+    const l = ALBAR.lang();
+    document.getElementById('extras').innerHTML = EXTRAS.map(e => `<li><span>${e[l] || e.en}</span><span class="num">${ALBAR.eur(e.price)}</span></li>`).join('');
+  });
+</script>
+</body>
+</html>

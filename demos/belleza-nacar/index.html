@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nácar · Atelier de Belleza</title>
+  <meta name="description" content="Peluquería, color, manicura y tratamientos faciales y corporales. Reserva online 24 horas. Demostración creada por ORYON.">
+  <meta name="theme-color" content="#F6EEE7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='35%25' cy='30%25'%3E%3Cstop offset='0' stop-color='%23fffaf5'/%3E%3Cstop offset='.6' stop-color='%23efcfc9'/%3E%3Cstop offset='1' stop-color='%23c9a26a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='28' fill='url(%23g)'/%3E%3C/svg%3E">
+</head>
+<body class="is-loading">
+  <a class="skip" href="#main">Saltar al contenido</a>
+
+  <!-- ===== Intro: la perla se dibuja y el telón de seda se abre ===== -->
+  <div class="intro" aria-hidden="true">
+    <div class="intro-curtain intro-curtain--a"></div>
+    <div class="intro-curtain intro-curtain--b"></div>
+    <div class="intro-core">
+      <svg class="intro-pearl" viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#E9D3A6"/><stop offset=".5" stop-color="#C39A55"/><stop offset="1" stop-color="#EBD9B4"/>
+          </linearGradient>
+        </defs>
+        <circle cx="60" cy="60" r="54" fill="none" stroke="url(#gold)" stroke-width="1"/>
+        <circle cx="60" cy="60" r="40" fill="none" stroke="url(#gold)" stroke-width=".6" opacity=".6"/>
+      </svg>
+      <div class="intro-word"><span>N</span><span>á</span><span>c</span><span>a</span><span>r</span></div>
+      <div class="intro-sub">Atelier de belleza</div>
+    </div>
+  </div>
+
+  <div class="cursor" aria-hidden="true"><span class="cursor-ring"></span><span class="cursor-dot"></span><span class="cursor-label"></span></div>
+
+  <!-- ===== Navegación ===== -->
+  <header class="nav" data-nav>
+    <a href="#inicio" class="brand" aria-label="Nácar, inicio">
+      <span class="brand-pearl"></span><span class="brand-name">Nácar</span>
+    </a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#tratamientos">Tratamientos</a>
+      <a href="#reservar">Reservas</a>
+      <a href="#atelier">El atelier</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="link-btn" data-open-manage>Mi reserva</button>
+      <button class="btn btn--rose btn--sm magnetic" data-book>Reservar cita</button>
+      <button class="burger" aria-label="Abrir menú" aria-expanded="false" data-burger><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="menu" data-menu aria-hidden="true">
+    <div class="menu-bg"></div>
+    <nav class="menu-inner" aria-label="Menú móvil">
+      <a href="#tratamientos"><i>01</i>Tratamientos</a>
+      <a href="#reservar"><i>02</i>Reservas</a>
+      <a href="#atelier"><i>03</i>El atelier</a>
+      <a href="#opiniones"><i>04</i>Opiniones</a>
+      <a href="#contacto"><i>05</i>Contacto</a>
+      <button class="menu-manage" data-open-manage>Gestionar mi reserva</button>
+    </nav>
+  </div>
+
+  <main id="main">
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="inicio">
+      <div class="hero-frame" data-hero>
+        <div class="hero-media">
+          <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src="img/hero.jpg" alt="Interior luminoso de un salón de belleza" fetchpriority="high" onerror="this.remove()">
+        </div>
+        <canvas class="dust" data-dust aria-hidden="true"></canvas>
+        <div class="hero-veil"></div>
+        <div class="hero-content">
+          <p class="eyebrow hero-eyebrow"><span class="dash"></span>Atelier de belleza · Madrid</p>
+          <h1 class="hero-title" aria-label="Nácar">
+            <span class="ht-row"><span class="ht-word">Nác<em>a</em>r</span></span>
+          </h1>
+          <p class="hero-claim">La belleza, en su versión <em>más serena.</em></p>
+          <div class="hero-ctas">
+            <button class="btn btn--rose btn--lg magnetic" data-book><span>Reservar cita</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <a class="btn btn--ghost btn--lg magnetic" href="#tratamientos"><span>Descubrir tratamientos</span></a>
+          </div>
+        </div>
+        <div class="hero-live" aria-live="polite">
+          <span class="pulse"></span>
+          <span>Reservas online 24 h</span>
+          <span class="hero-live-sep"></span>
+          <span>Próximo hueco: <b data-next-slot>calculando…</b></span>
+        </div>
+        <a class="hero-scroll" href="#manifiesto" aria-label="Seguir bajando"><span></span></a>
+      </div>
+    </section>
+
+    <!-- ===== MANIFIESTO: las palabras se encienden con el scroll; hebras doradas ===== -->
+    <section class="manifesto" id="manifiesto">
+      <svg class="strands" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true" data-strands>
+        <path d="M-40 120 C 300 40, 520 360, 820 260 S 1300 80, 1500 220"/>
+        <path d="M-40 180 C 280 120, 560 420, 860 320 S 1280 140, 1500 300"/>
+        <path d="M-40 260 C 320 200, 600 520, 900 400 S 1260 220, 1500 380"/>
+        <path d="M-40 640 C 240 760, 620 520, 940 640 S 1300 820, 1500 700"/>
+        <path d="M-40 700 C 300 820, 640 600, 960 700 S 1320 860, 1500 780"/>
+      </svg>
+      <div class="manifesto-inner">
+        <p class="eyebrow"><span class="dash"></span>Nuestra forma de cuidar</p>
+        <p class="manifesto-text" data-words>Creemos en la belleza que no grita. En el color pintado a mano, en una piel que respira y en esa hora que es solo tuya. Cada ritual empieza escuchándote.</p>
+        <div class="manifesto-stats">
+          <div><b>8</b><span>rituales de autor</span></div>
+          <div><b>4</b><span>especialistas</span></div>
+          <div><b>24 h</b><span>reserva online</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICIOS: galería horizontal anclada ===== -->
+    <section class="services" id="tratamientos" data-hscroll>
+      <div class="services-sticky">
+        <div class="services-head">
+          <div>
+            <p class="eyebrow"><span class="dash"></span>Carta de tratamientos</p>
+            <h2 class="h2">Rituales <span class="brush">a tu medida<svg viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true"><path d="M4 26 C 60 8, 120 34, 180 18 S 270 10, 296 22"/></svg></span></h2>
+          </div>
+          <div class="chips" role="tablist" aria-label="Filtrar por categoría" data-chips></div>
+        </div>
+        <div class="services-track" data-track></div>
+        <div class="services-progress" aria-hidden="true"><span data-hprogress></span></div>
+      </div>
+    </section>
+
+    <!-- ===== RESERVAS: así de fácil ===== -->
+    <section class="ritual" id="reservar">
+      <div class="stroke-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 160" preserveAspectRatio="none"><path data-stroke d="M-20 110 C 200 20, 380 150, 620 80 S 1040 10, 1460 90"/></svg>
+      </div>
+      <div class="ritual-inner">
+        <div class="ritual-copy reveal">
+          <p class="eyebrow"><span class="dash"></span>Reserva online</p>
+          <h2 class="h2">Tu cita en <em>menos de un minuto.</em></h2>
+          <p class="lead">Sin llamadas ni esperas. Elige tratamiento, profesional y hora entre los huecos realmente libres. Recibes la confirmación al instante y un recordatorio antes de venir.</p>
+          <div class="ritual-ctas">
+            <button class="btn btn--rose btn--lg magnetic" data-book>Reservar ahora</button>
+            <button class="btn btn--ghost btn--lg" data-open-manage>Cambiar o cancelar una cita</button>
+          </div>
+        </div>
+        <ol class="ritual-steps reveal" aria-label="Pasos de la reserva">
+          <li><span>01</span>Tratamiento</li>
+          <li><span>02</span>Profesional</li>
+          <li><span>03</span>Día</li>
+          <li><span>04</span>Hora libre</li>
+          <li><span>05</span>Tus datos</li>
+          <li><span>06</span>Confirmada</li>
+        </ol>
+        <div class="ritual-live reveal">
+          <div class="ritual-live-head"><span class="pulse"></span>Disponibilidad en tiempo real</div>
+          <div class="ritual-team" data-team-next></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EL ATELIER: la imagen se expande a pantalla completa ===== -->
+    <section class="atelier" id="atelier">
+      <div class="expand" data-expand>
+        <div class="expand-sticky">
+          <div class="expand-media">
+            <img loading="lazy" src="img/atelier.jpg" alt="Zona de tocadores del atelier" onerror="this.remove()">
+          </div>
+          <div class="expand-caption">
+            <p class="eyebrow eyebrow--light"><span class="dash"></span>El atelier</p>
+            <h2 class="h1">Un lugar pensado para <em>detener el tiempo.</em></h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="story">
+        <div class="story-grid">
+          <div class="story-block reveal">
+            <span class="num">I</span>
+            <h3>Historia</h3>
+            <p>Nació como un pequeño estudio de color con dos sillones y una obsesión: que cada clienta saliera sintiéndose ella misma, solo que más luminosa. Hoy somos un atelier completo, pero seguimos trabajando sin prisas.</p>
+          </div>
+          <div class="story-block reveal">
+            <span class="num">II</span>
+            <h3>Filosofía</h3>
+            <p>Diagnóstico antes que técnica. Productos de origen responsable, protocolos de higiene clínica y tiempo real para cada persona: no solapamos citas ni acortamos rituales.</p>
+          </div>
+          <div class="story-block reveal">
+            <span class="num">III</span>
+            <h3>Experiencia</h3>
+            <p>Té de rosas a tu llegada, luz cálida, música suave y cabinas privadas para los tratamientos faciales y corporales. Un paréntesis en mitad de la ciudad.</p>
+          </div>
+        </div>
+
+        <div class="team">
+          <div class="team-head reveal">
+            <p class="eyebrow"><span class="dash"></span>El equipo</p>
+            <h2 class="h2">Manos que <em>escuchan.</em></h2>
+          </div>
+          <div class="team-grid" data-team></div>
+        </div>
+
+        <div class="gallery">
+          <div class="gallery-head reveal">
+            <p class="eyebrow"><span class="dash"></span>Instalaciones</p>
+            <h2 class="h2">Luz, calma <em>y detalle.</em></h2>
+          </div>
+          <div class="gallery-grid" data-gallery>
+            <figure class="g1"><img loading="lazy" src="img/galeria-1.jpg" alt="Zona de lavado" onerror="this.parentNode.classList.add('noimg');this.remove()"><figcaption>Zona de lavado con masaje</figcaption></figure>
+            <figure class="g2"><img loading="lazy" src="img/galeria-2.jpg" alt="Cabina de tratamientos" onerror="this.parentNode.classList.add('noimg');this.remove()"><figcaption>Cabina de tratamientos</figcaption></figure>
+            <figure class="g3"><img loading="lazy" src="img/galeria-3.jpg" alt="Tocadores" onerror="this.parentNode.classList.add('noimg');this.remove()"><figcaption>Tocadores con luz natural</figcaption></figure>
+            <figure class="g4"><img loading="lazy" src="img/galeria-4.jpg" alt="Productos de maquillaje" onerror="this.parentNode.classList.add('noimg');this.remove()"><figcaption>Cosmética seleccionada</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== OPINIONES (Google) ===== -->
+    <section class="reviews" id="opiniones">
+      <div class="reviews-inner">
+        <div class="reviews-head reveal">
+          <p class="eyebrow"><span class="dash"></span>Opiniones</p>
+          <h2 class="h2">Lo que cuentan <em>nuestras clientas.</em></h2>
+        </div>
+        <div class="reviews-layout">
+          <aside class="rating-card reveal" data-rating></aside>
+          <div class="reviews-list" data-reviews></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ORYON: lo que pasa detrás ===== -->
+    <section class="oryon" id="oryon">
+      <div class="oryon-glow" aria-hidden="true"></div>
+      <div class="oryon-inner">
+        <div class="oryon-copy reveal">
+          <p class="eyebrow eyebrow--gold"><span class="dash"></span>Detrás de esta web · ORYON</p>
+          <h2 class="h2 h2--light">Mientras tú cuidas a tus clientas, <em>la web trabaja.</em></h2>
+          <p class="lead lead--light">Esta demostración no es solo diseño. Cada reserva que hagas aquí recorre el mismo circuito automático que usaría tu salón: disponibilidad real, confirmación, recordatorios, aviso al equipo y solicitud de reseña.</p>
+          <div class="oryon-ctas">
+            <a class="btn btn--gold btn--lg magnetic" href="admin.html" target="_blank" rel="noopener">Abrir el panel de la propietaria</a>
+            <button class="btn btn--ghost-light btn--lg" data-book>Probar una reserva</button>
+          </div>
+        </div>
+        <ol class="flow reveal" data-flow>
+          <li><b>Reserva 24 h</b><span>Solo huecos libres, sin solapes</span></li>
+          <li><b>Confirmación al instante</b><span>Código, calendario y enlace de gestión</span></li>
+          <li><b>Aviso al salón</b><span>Notificación en el panel</span></li>
+          <li><b>Recordatorios</b><span>24 h y 2 h antes, con confirmación</span></li>
+          <li><b>Día de la cita</b><span>Agenda por profesional</span></li>
+          <li><b>Reseña en Google</b><span>A todas las clientas, sin filtros</span></li>
+        </ol>
+        <div class="oryon-live reveal" data-oryon-live></div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACTO ===== -->
+    <section class="contact" id="contacto">
+      <div class="contact-inner">
+        <div class="contact-info reveal">
+          <p class="eyebrow"><span class="dash"></span>Visítanos</p>
+          <h2 class="h2">Te esperamos <em>con té de rosas.</em></h2>
+          <ul class="contact-list" data-contact></ul>
+          <div class="contact-ctas">
+            <button class="btn btn--rose magnetic" data-book>Reservar cita</button>
+            <a class="btn btn--ghost" data-wa target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <div class="socials" data-socials></div>
+        </div>
+        <div class="contact-side reveal">
+          <div class="hours" data-hours></div>
+          <div class="map" data-map>
+            <div class="map-consent">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+              <p>El mapa lo sirve Google Maps, que puede usar cookies propias.</p>
+              <div class="map-actions">
+                <button class="btn btn--rose btn--sm" data-load-map>Mostrar mapa</button>
+                <a class="link-btn" data-map-link target="_blank" rel="noopener">Abrir en Google Maps</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-word" aria-hidden="true">Nácar</div>
+    <div class="footer-row">
+      <p>© <span data-year></span> Nácar Atelier de Belleza · Salón ficticio de demostración</p>
+      <nav aria-label="Legal">
+        <button class="link-btn" data-legal="privacidad">Privacidad</button>
+        <button class="link-btn" data-legal="cookies">Cookies</button>
+        <button class="link-btn" data-legal="aviso">Aviso legal</button>
+        <button class="link-btn" data-cookie-settings>Preferencias de cookies</button>
+      </nav>
+      <p class="made">Web y automatización por <b>ORYON</b></p>
+    </div>
+  </footer>
+
+  <!-- Barra fija en móvil -->
+  <div class="mobile-bar">
+    <a class="mb-icon" data-call aria-label="Llamar"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></a>
+    <a class="mb-icon" data-wa target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8.5 19z"/><path d="M9 9.5c.5 2 2.5 4 4.5 4.5l1-1.2 1.8.8c-.3 1.2-1.3 1.9-2.4 1.6A7 7 0 0 1 8 10.2c-.3-1.1.4-2.1 1.6-2.4l.8 1.8z"/></svg></a>
+    <button class="btn btn--rose mb-book" data-book>Reservar cita</button>
+  </div>
+
+  <!-- Píldora ORYON (modo demo) -->
+  <button class="oryon-pill" data-oryon-pill aria-label="Qué automatiza esta demo">
+    <span class="op-dot"></span><span>Demo ORYON</span>
+  </button>
+  <div class="oryon-sheet" data-oryon-sheet role="dialog" aria-modal="false" aria-label="Guía de la demo" hidden>
+    <button class="x" data-close-sheet aria-label="Cerrar">×</button>
+    <p class="eyebrow eyebrow--gold">Guía rápida para propietarias</p>
+    <h3>Pruébalo como lo haría tu clienta</h3>
+    <ol>
+      <li>Haz una reserva desde <b>Reservar cita</b>.</li>
+      <li>Abre el <a href="admin.html" target="_blank" rel="noopener">panel</a> en otra pestaña: la cita aparece al instante, con su aviso.</li>
+      <li>Intenta reservar la misma hora otra vez: el hueco ya no existe.</li>
+      <li>Usa <b>Mi reserva</b> con tu código para cambiarla o cancelarla.</li>
+    </ol>
+    <p class="small">Modo demostración: los datos se guardan solo en este navegador. No se envían correos ni mensajes reales hasta conectar los proveedores (ver panel › Integraciones).</p>
+  </div>
+
+  <!-- ===== Asistente de reserva ===== -->
+  <div class="drawer" data-drawer aria-hidden="true">
+    <div class="drawer-backdrop" data-close-drawer></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+      <div class="drawer-top">
+        <button class="drawer-back" data-bk-back aria-label="Paso anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <div class="drawer-title"><p class="eyebrow" data-bk-kicker>Nueva cita</p><h2 id="bk-title" data-bk-title>Elige tu tratamiento</h2></div>
+        <button class="drawer-close" data-close-drawer aria-label="Cerrar">×</button>
+      </div>
+      <div class="bk-progress" aria-hidden="true"><span data-bk-bar></span></div>
+      <div class="drawer-body" data-bk-body tabindex="-1"></div>
+      <div class="drawer-foot" data-bk-foot></div>
+    </div>
+  </div>
+
+  <!-- Gestionar reserva -->
+  <dialog class="dlg" data-manage>
+    <form method="dialog" class="dlg-x"><button aria-label="Cerrar">×</button></form>
+    <div data-manage-body></div>
+  </dialog>
+
+  <!-- Textos legales / info -->
+  <dialog class="dlg dlg--wide" data-legal-dlg>
+    <form method="dialog" class="dlg-x"><button aria-label="Cerrar">×</button></form>
+    <div class="legal" data-legal-body></div>
+  </dialog>
+
+  <!-- Consentimiento de cookies -->
+  <div class="cookie" data-cookie role="region" aria-label="Preferencias de privacidad" hidden>
+    <p><b>Tu privacidad, primero.</b> Usamos almacenamiento técnico imprescindible para que la reserva funcione. Los servicios de terceros (Google Maps) solo se cargan si lo aceptas.</p>
+    <div class="cookie-actions">
+      <button class="btn btn--ghost btn--sm" data-cookie-choice="essential">Solo necesarias</button>
+      <button class="btn btn--rose btn--sm" data-cookie-choice="all">Aceptar terceros</button>
+      <button class="link-btn" data-legal="cookies">Más información</button>
+    </div>
+  </div>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/availability.js"></script>
+  <script src="js/core/notifications.js"></script>
+  <script src="js/core/store.js"></script>
+  <script src="js/core/seed.js"></script>
+  <script src="js/site/legal.js"></script>
+  <script src="js/site/effects.js"></script>
+  <script src="js/site/booking.js"></script>
+  <script src="js/site/main.js"></script>
+</body>
+</html>
