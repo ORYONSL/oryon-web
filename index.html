@@ -1,5 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
-</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 
 <html lang="es">
@@ -264,6 +263,80 @@ html:not(.fx) .hud{display:none}
   .ch-body{height:300px}
   .mk-toast{right:0}
 }
+/* Todas las tarjetas a la vista, ordenadas: 2 arriba y 3 abajo */
+.cs-stage{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px;margin-top:0;padding:0;border:0;border-radius:0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:visible}
+.cs-panel{grid-column:span 3;display:flex;flex-direction:column;align-items:stretch;text-align:left;padding:26px 26px 24px;border-radius:22px;border:1px solid rgba(120,165,255,.18);background:radial-gradient(120% 70% at 100% 0%,rgba(61,134,255,.13),transparent 55%),linear-gradient(180deg,rgba(10,16,32,.78),rgba(4,6,12,.68));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .4s,box-shadow .4s,transform .4s}
+.cs-panel:nth-child(n+3){grid-column:span 2}
+.cs-panel:hover{border-color:rgba(110,165,255,.5);box-shadow:0 30px 80px -40px rgba(61,134,255,.75);transform:translateY(-3px)}
+.cs-txt{display:contents}
+.cs-eb{order:1;display:flex;align-items:center;gap:14px;font-size:10.5px;letter-spacing:.26em}
+.cs-eb .cs-ic{flex:none;width:40px;height:40px;color:#9CC3FF}
+.cs-eb .cs-ebk{color:var(--ink3)}
+.cs-ebk span{color:var(--accent)}
+.cs-live{margin-left:auto;flex:none;width:8px;height:8px;border-radius:50%;background:#4ADE80;animation:pulse 2s infinite}
+.cs-txt h3{order:2;margin:18px 0 22px;font-size:clamp(19px,1.55vw,24px);line-height:1.25;letter-spacing:-.01em}
+.cs-txt>p:not(.cs-eb):not(.cs-sub),.cs-sub{display:none}
+.cs-vis{order:3;flex:1;display:flex;flex-direction:column;justify-content:center}
+.cs-vis .mk-card{max-width:none;width:100%;margin:0}
+.cs-list{order:4;grid-template-columns:1fr;gap:10px;margin:24px 0 0;padding-top:20px;border-top:1px solid rgba(200,212,228,.1)}
+/* Versión compacta: tarjetas y ejemplos más pequeños, sin huecos grandes */
+#casos .wrap{padding-top:clamp(60px,7vw,100px);padding-bottom:clamp(50px,6vw,90px)}
+.cs{margin-top:30px}
+.cs-stage{gap:16px}
+.cs-panel{padding:18px 18px 16px;border-radius:18px;gap:0}
+.cs-vis{justify-content:flex-start;flex:0 0 auto;margin-bottom:14px}
+.cs-panel .cs-list{margin-top:auto}
+.cs-eb{gap:10px;font-size:9.5px}
+.cs-eb .cs-ic{width:32px;height:32px;border-radius:9px}
+.cs-eb .cs-ic svg{width:16px;height:16px}
+.cs-txt h3{margin:12px 0 14px;font-size:clamp(16px,1.25vw,19px)}
+.cs-list{grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:14px;padding-top:12px}
+.cs-list li{font-size:12.5px;padding-left:20px}
+.cs-list li::before{width:9px;height:5px;top:5px}
+.cs-note{margin-top:10px}
+.mk-card,.mk-win{border-radius:14px}
+.cs-web{height:260px}
+.mk-bar{padding:8px 11px;gap:6px}.mk-bar i{width:7px;height:7px}.mk-bar span{font-size:10px;padding:2px 10px}
+.mk-site{inset:30px 0 0 0}
+.mk-nav{padding:11px 16px}.mk-logo{font-size:10px}.mk-nav i{width:26px;height:4px}
+.mk-hero{padding:6px 16px 4px}
+.mk-h{font-size:clamp(16px,1.4vw,20px);max-width:260px}
+.mk-cta{margin-top:10px;padding:7px 14px;font-size:11px}
+.mk-cards{gap:8px;padding:10px 16px}.mk-cards i{height:40px;border-radius:8px}
+.mk-phone{width:24%;min-width:92px;border-radius:18px;padding:5px}
+.mk-pscreen{border-radius:14px;padding:11px 9px;gap:7px}
+.mk-pscreen .mk-cta{font-size:9px;padding:6px}
+.cs-book .mk-card{padding:14px 16px}
+.bk-head b{font-size:15px}
+.bk-days{gap:5px;margin-top:10px}.bk-days span{height:25px;border-radius:7px;font-size:11px}
+.bk-lab{margin:10px 0 6px}
+.bk-times{gap:5px}.bk-times span{padding:4px 9px;font-size:11px}
+.bk-ppl{margin-top:10px;padding:7px 12px;font-size:12px}.bk-n i{width:20px;height:20px}
+.mk-toast{padding:9px 14px 9px 9px;bottom:-10px}.mk-toast .tk{width:24px;height:24px;font-size:12px}.mk-toast b{font-size:12px}.mk-toast small{font-size:11px}
+.ch-head{padding:10px 14px}.ch-av{width:30px;height:30px;font-size:11px}.ch-head b{font-size:13px}
+.ch-body{height:205px;padding:12px;gap:7px}
+.ch-m{padding:7px 11px;font-size:12px;border-radius:12px}
+.ch-chips{margin-top:6px}.ch-chips i{padding:3px 8px;font-size:11px}
+.ch-typing{padding:10px 12px}
+.cs-flow .mk-card{padding:14px 16px 12px}
+.fl-t{margin:0 0 10px;font-size:9px}
+.fl-steps{gap:7px}
+.fl-steps::before,.fl-steps::after{left:14px;top:15px}
+.fl-steps::before{bottom:15px}
+.fl-steps::after{height:calc((100% - 30px) * var(--p))}
+.fl-steps li{gap:10px}
+.fl-steps b{width:30px;height:30px;border-radius:8px;font-size:12px}
+.fl-steps span{padding:8px 11px;font-size:12px;border-radius:10px}
+.fl-ok{margin-top:10px;font-size:12px}
+.cs-rev .mk-card{padding:14px 16px}
+.rv-head b{font-size:13px;margin-top:4px}
+.rv-score{margin:6px 0 4px;gap:10px}
+.rv-num{font-size:38px}
+.rv-stars{font-size:15px}
+.rv-bar{margin-top:8px}.rv-bar span{font-size:12px}.rv-bar>i{margin-top:6px;height:4px}
+.rv-idea{margin-top:10px;padding:8px 11px;font-size:12px}
+@media (max-width:1100px){.cs-stage{grid-template-columns:repeat(2,minmax(0,1fr))}.cs-panel,.cs-panel:nth-child(n+3){grid-column:auto}.cs-panel:last-child{grid-column:1/-1}}
+@media (max-width:700px){.cs-stage{grid-template-columns:minmax(0,1fr)}.cs-panel{padding:16px 14px}.cs-list{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.cs *,.cs *::before,.cs *::after{animation:none!important;transition:none!important}}
 
 /* HERO */
@@ -324,6 +397,12 @@ html:not(.fx) .scroll-hint{display:none}
 .card-vis{position:relative;height:240px;overflow:hidden;border-bottom:1px solid rgba(200,212,228,.1);background:radial-gradient(circle at 70% 30%,rgba(61,134,255,.22),transparent 60%),#070A10}
 .card-vis svg{position:absolute;inset:0;width:100%;height:100%;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
 .card:hover .card-vis svg{transform:scale(1.1) rotate(-6deg)}
+/* Foto real de cada demo, con el nombre del negocio encima */
+.card-vis .cv-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.05);transition:transform 1.2s cubic-bezier(.2,.8,.2,1),filter .6s}
+.card:hover .card-vis .cv-ph{transform:scale(1.07)}
+.card-vis:has(.cv-ph)::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,4,7,.35) 0%,rgba(3,4,7,0) 35%,rgba(3,4,7,.15) 55%,rgba(3,4,7,.82) 100%);pointer-events:none}
+.cv-name{position:absolute;left:24px;bottom:16px;z-index:1;font-family:Georgia,'Times New Roman',serif;font-size:40px;font-weight:300;letter-spacing:-.5px;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.card-vis .tag{z-index:1}
 .tag{position:absolute;left:22px;top:22px;font-family:'Michroma',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#B8C2D0;padding:8px 12px;border:1px solid rgba(200,212,228,.25);border-radius:999px;background:rgba(3,4,7,.5)}
 .card-foot{padding:26px 28px 30px;display:flex;justify-content:space-between;align-items:center;gap:16px}
 .card-foot h3{margin:10px 0 0;font-size:22px;font-weight:500;color:var(--ink)}
@@ -369,6 +448,7 @@ details p{margin:0 0 28px;max-width:760px;font-size:17px;line-height:1.65;color:
 
 footer{padding:44px var(--pad);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;background:rgba(3,4,7,.85)}
 footer p{margin:0;font-size:13px;color:var(--ink3)}
+.legal-links a{color:var(--ink2);text-decoration:none}.legal-links a:hover{color:#fff;text-decoration:underline}
 
 /* ---------- Modo animado (solo con GSAP y sin "reducir movimiento") ---------- */
 .fx .pin-sec .stage{height:100vh;height:100svh;display:grid;align-content:center;padding-top:96px;padding-bottom:56px}
@@ -391,6 +471,35 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 .fx #servicios .panel::before{content:"";position:absolute;left:0;right:0;top:0;height:30%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(90,150,255,.06) 80%,rgba(170,205,255,.4) 99.5%,transparent);transform:translateY(-110%);animation:hudscan 3.6s cubic-bezier(.45,0,.55,1) infinite}
 .fx #servicios .panel::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(#9CC3FF,#9CC3FF) top left/20px 2px,linear-gradient(#9CC3FF,#9CC3FF) top left/2px 20px,linear-gradient(#9CC3FF,#9CC3FF) top right/20px 2px,linear-gradient(#9CC3FF,#9CC3FF) top right/2px 20px,linear-gradient(#9CC3FF,#9CC3FF) bottom left/20px 2px,linear-gradient(#9CC3FF,#9CC3FF) bottom left/2px 20px,linear-gradient(#9CC3FF,#9CC3FF) bottom right/20px 2px,linear-gradient(#9CC3FF,#9CC3FF) bottom right/2px 20px;background-repeat:no-repeat;filter:drop-shadow(0 0 6px rgba(61,134,255,.9))}
 .fx #servicios .panel > *{position:relative;z-index:1}
+/* La fuga y Alineación sin fijar: las 4 tarjetas a la vista en 2×2; la página no se queda pillada al bajar */
+.fx #problema .stage,.fx #servicios .stage{height:auto;min-height:100vh;min-height:100svh}
+.fx #problema .panels,.fx #servicios .panels{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.fx #problema .panels > *,.fx #servicios .panels > *{grid-area:auto}
+.fx #problema .panel{padding:30px 28px 32px;border-radius:24px;border:1px solid rgba(230,130,165,.16);background:linear-gradient(180deg,rgba(34,14,26,.55),rgba(10,6,12,.5));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color .6s,box-shadow .6s,transform .6s}
+.fx #problema .bignum{font-size:clamp(48px,4.6vw,68px);-webkit-text-stroke:1px rgba(230,140,170,.5);transition:-webkit-text-stroke-color .6s,text-shadow .6s}
+.fx #problema .panel h3{font-size:clamp(20px,1.7vw,26px);margin-top:18px}
+.fx #problema .panel p{font-size:16px}
+.fx #problema .panel.on{border-color:rgba(240,140,175,.5);box-shadow:0 0 0 1px rgba(240,140,175,.12),0 30px 80px -40px rgba(224,89,107,.8);transform:translateY(-4px)}
+.fx #problema .panel.on .bignum{-webkit-text-stroke-color:rgba(255,185,205,.95);text-shadow:0 0 30px rgba(224,89,107,.45)}
+.fx #servicios .stage{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+.fx #servicios .panels{max-width:720px}
+.fx #servicios .panel{padding:26px 24px 28px;transition:border-color .6s,box-shadow .6s,transform .6s}
+.fx #servicios .panel h3{font-size:clamp(19px,1.6vw,23px);margin-top:22px}
+.fx #servicios .panel p{font-size:15.5px}
+.fx #servicios .panel.on{border-color:rgba(156,195,255,.75);box-shadow:0 0 0 1px rgba(110,165,255,.25),0 30px 80px -30px rgba(61,134,255,.85);transform:translateY(-4px)}
+.fx #servicios .panel.on .ico{color:#fff;background:rgba(61,134,255,.4);box-shadow:0 0 26px -4px rgba(61,134,255,1)}
+/* Misma regla compacta en La fuga y Alineación: menos hueco arriba y abajo y tarjetas más ajustadas */
+.fx #problema .stage,.fx #servicios .stage{min-height:0;padding-top:clamp(84px,8vw,112px);padding-bottom:clamp(36px,4vw,60px)}
+.fx #problema .panels,.fx #servicios .panels{gap:14px}
+.fx #problema .panel{padding:22px 22px 24px;border-radius:20px}
+.fx #problema .bignum{font-size:clamp(40px,3.6vw,54px)}
+.fx #problema .panel h3{margin-top:12px}
+.fx #problema .panel p{font-size:15px;margin-top:8px}
+.fx #servicios .stage-col{gap:26px}
+.fx #servicios .panel{padding:20px 20px 22px}
+.fx #servicios .panel h3{margin-top:14px}
+.fx #servicios .panel p{font-size:14.5px;margin-top:8px}
+@media (max-width:860px){.fx #problema .panels,.fx #servicios .panels{grid-template-columns:1fr}.fx #problema .stage,.fx #servicios .stage{padding-bottom:48px}}
 .fx #servicios .ico{border-radius:4px;background:rgba(61,134,255,.12);border-color:rgba(110,165,255,.5);box-shadow:0 0 22px -4px rgba(61,134,255,.8),inset 0 0 12px rgba(61,134,255,.25)}
 .fx #servicios .num{display:inline-flex;align-items:center;gap:10px;color:#9CC3FF}
 .fx #servicios .num::before{content:"";width:6px;height:6px;border-radius:50%;background:#6EA5FF;box-shadow:0 0 10px #3D86FF;animation:hudblink 1.6s ease-in-out infinite}
@@ -486,131 +595,6 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
-
-/* =====================================================================
-   SIN FRENOS (nov 2026): ninguna sección se queda fija ni obliga a esperar.
-   Todo se lee de un vistazo y las animaciones arrancan solas al llegar.
-   ===================================================================== */
-.fx .full-sec .stage{min-height:100vh;min-height:100svh;display:grid;align-content:center;padding-top:110px;padding-bottom:80px}
-.fx #problema .panels,.fx #servicios .panels{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.fx #problema .panels>*,.fx #servicios .panels>*{grid-area:auto}
-
-/* La fuga: 4 tarjetas a la vista, con brillo rojizo al pasar */
-.fx #problema .stage{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:5vw}
-.fx #problema .panel{padding:28px 26px 30px;border-radius:22px;border:1px solid rgba(224,89,107,.18);background:radial-gradient(120% 90% at 100% 0%,rgba(224,89,107,.13),transparent 55%),linear-gradient(180deg,rgba(18,12,22,.74),rgba(6,6,12,.62));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .5s cubic-bezier(.2,.7,.2,1),border-color .5s,box-shadow .5s}
-.fx #problema .panel:hover{transform:translateY(-6px);border-color:rgba(240,120,138,.55);box-shadow:0 34px 80px -34px rgba(224,89,107,.7)}
-.fx #problema .bignum{font-size:clamp(52px,4.6vw,72px);-webkit-text-stroke:1px rgba(240,170,180,.5);transition:color .5s,text-shadow .5s,-webkit-text-stroke-color .5s}
-.fx #problema .panel:hover .bignum{color:rgba(224,89,107,.16);-webkit-text-stroke-color:#F59AA6;text-shadow:0 0 34px rgba(224,89,107,.6)}
-.fx #problema .panel h3{font-size:clamp(20px,1.55vw,24px);margin-top:16px}
-.fx #problema .panel p{font-size:15.5px;max-width:none}
-
-/* Tres estrellas: las 4 tarjetas a la vista; al pasar por una se enciende su estrella */
-.fx #servicios .stage-col{gap:26px}
-.fx #servicios .h2{font-size:clamp(32px,3.3vw,52px)}
-.fx #servicios .panels{max-width:720px;gap:14px}
-.fx #servicios .panel{padding:20px 20px 22px;cursor:default;transition:opacity .5s,transform .5s cubic-bezier(.2,.7,.2,1),border-color .5s,box-shadow .5s}
-.fx #servicios .panel h3{margin-top:14px;font-size:clamp(18px,1.4vw,21px)}
-.fx #servicios .panel p{margin-top:8px;font-size:14px;line-height:1.55}
-.fx #servicios .ico{width:44px;height:44px}
-.fx #servicios .panel.dim{opacity:.38}
-.fx #servicios .panel.focus{transform:translateY(-5px);border-color:rgba(156,195,255,.75);box-shadow:0 34px 90px -26px rgba(61,134,255,.9),inset 0 1px 0 rgba(156,195,255,.45)}
-.fx #servicios .panel.lit .ico{animation:litpop 1s ease-out}
-@keyframes litpop{0%{box-shadow:0 0 0 0 rgba(110,165,255,.9),0 0 22px -4px rgba(61,134,255,.8)}60%{box-shadow:0 0 0 16px rgba(110,165,255,0),0 0 40px 4px rgba(61,134,255,.9)}100%{box-shadow:0 0 0 0 rgba(110,165,255,0),0 0 22px -4px rgba(61,134,255,.8)}}
-
-/* Míralo funcionando: mosaico con los 5 servicios a la vez, cada uno animándose solo */
-.bento{margin-top:48px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}
-.bx{position:relative;display:flex;flex-direction:column;gap:14px;padding:22px 22px 20px;border-radius:24px;border:1px solid rgba(120,165,255,.16);background:radial-gradient(120% 80% at 100% 0%,rgba(61,134,255,.12),transparent 55%),linear-gradient(180deg,rgba(10,16,32,.76),rgba(4,6,12,.68));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden;isolation:isolate;outline:none;transition:transform .5s cubic-bezier(.2,.7,.2,1),border-color .5s,box-shadow .5s}
-.bx:hover,.bx:focus-visible{transform:translateY(-6px);border-color:rgba(110,165,255,.55);box-shadow:0 40px 90px -40px rgba(61,134,255,.8)}
-.bx:focus-visible{outline:2px solid #9CC3FF;outline-offset:3px}
-.bx-glow{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(61,134,255,.24),transparent 60%)}
-.bx:hover .bx-glow{opacity:1}
-.bx-web{grid-column:span 4}.bx-book,.bx-chat,.bx-flow,.bx-rev{grid-column:span 2}
-.bx-head{display:flex;align-items:center;gap:12px}
-.bx-head .cs-ic{width:38px;height:38px;flex:none}
-.bx-head .cs-eb{font-size:10px;letter-spacing:.24em}
-.bx-head::after{content:"";margin-left:auto;width:7px;height:7px;flex:none;border-radius:50%;background:#4ADE80;box-shadow:0 0 10px #4ADE80;animation:hudblink 1.8s ease-in-out infinite}
-.bx-t{margin:0;font-size:clamp(19px,1.45vw,23px);line-height:1.2;font-weight:400;letter-spacing:-.01em;color:var(--ink)}
-.bx-vis{position:relative;flex:1;display:flex;align-items:center;margin-top:2px;min-height:0}
-.bx-vis .cs-vis{width:100%}
-.bx .cs-vis .mk-card{max-width:none;margin:0}
-.bx-web .cs-web{height:330px}
-.bx .ch-body{height:250px}
-.bx .mk-toast{right:8px;bottom:8px}
-.bx-tags{list-style:none;margin:2px 0 0;padding:14px 0 0;border-top:1px solid rgba(120,165,255,.12);display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
-.bx-tags li{position:relative;padding-left:20px;font-size:13px;line-height:1.35;color:var(--ink2);transition:color .4s}
-.bx-tags li::before{content:"";position:absolute;left:1px;top:4px;width:9px;height:5px;border-left:2px solid #6EA5FF;border-bottom:2px solid #6EA5FF;transform:rotate(-45deg)}
-.bx:hover .bx-tags li{color:var(--ink)}
-.bx-book .bx-tags,.bx-chat .bx-tags,.bx-flow .bx-tags,.bx-rev .bx-tags{grid-template-columns:1fr}
-.bx-web .mk-phone{width:21%;min-width:108px}
-.bx .bk-days{gap:6px;margin-top:12px}
-.bx .bk-days span{height:28px}
-.bx .bk-lab{margin:14px 0 8px}
-.bx .bk-ppl{margin-top:12px;padding:10px 14px}
-.bx .rv-idea{display:none}
-.bx .rv-head small{letter-spacing:.16em}
-.bx-web .bx-vis{align-items:stretch}
-.bx-web .cs-web{height:auto;min-height:330px}
-.bx .rv-num{font-size:44px}
-.bx .rv-bar{margin-top:11px}
-.bx .ch-body{height:230px}
-.bx .fl-steps{gap:10px}
-.bx .fl-steps span{padding:11px 14px}
-.bx-dots{display:none}
-@media (max-width:1100px) and (min-width:861px){
-  .bx-web{grid-column:span 6}
-  .bx-book,.bx-chat,.bx-flow,.bx-rev{grid-column:span 3}
-}
-@media (max-width:860px){
-  .fx .full-sec .stage{padding-top:96px;padding-bottom:56px}
-  .fx #problema .panels,.fx #servicios .panels{grid-template-columns:1fr;gap:14px}
-  .fx #problema .stage{grid-template-columns:1fr;gap:28px}
-  .fx #problema .lead{display:block}
-  .fx #problema .panel{padding:22px 20px 24px}
-  .fx #problema .bignum{font-size:48px}
-  .fx #servicios .stage{align-content:center}
-  .bento{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:32px calc(var(--pad) * -1) 0;padding:6px var(--pad) 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .bento::-webkit-scrollbar{display:none}
-  .bx{grid-column:auto!important;scroll-snap-align:center;padding:20px 18px 18px}
-  .bx:hover{transform:none}
-  .bx-web .cs-web{height:250px}
-  .bx .ch-body{height:220px}
-  .bx-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
-  .bx-dots i{width:7px;height:7px;border-radius:4px;background:rgba(200,212,228,.25);transition:width .3s,background .3s}
-  .bx-dots i.on{width:22px;background:#6EA5FF}
-}
-
-/* Formulario del diagnóstico */
-.diag{position:relative;margin:44px auto 0;max-width:760px;text-align:left;padding:clamp(22px,3vw,34px);border-radius:24px;border:1px solid rgba(120,165,255,.2);background:radial-gradient(120% 90% at 100% 0%,rgba(61,134,255,.14),transparent 55%),linear-gradient(180deg,rgba(10,16,32,.8),rgba(4,6,12,.72));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 40px 100px -50px rgba(61,134,255,.7)}
-.df-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.df-f{display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--ink2)}
-.df-wide{grid-column:1/-1}
-.df-f input,.df-f textarea{width:100%;min-height:48px;padding:12px 14px;border-radius:12px;border:1px solid rgba(200,212,228,.18);background:rgba(3,4,7,.55);color:var(--ink);font:inherit;font-size:15px;transition:border-color .3s,box-shadow .3s}
-.df-f textarea{resize:vertical;min-height:84px}
-.df-f input:focus,.df-f textarea:focus{outline:none;border-color:#6EA5FF;box-shadow:0 0 0 3px rgba(61,134,255,.25)}
-.df-f textarea::placeholder{color:#5E6878}
-.df-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.df-ok{display:flex;gap:12px;align-items:flex-start;margin-top:18px;font-size:13.5px;line-height:1.5;color:var(--ink2);cursor:pointer}
-.df-ok input{flex:none;width:18px;height:18px;margin-top:1px;accent-color:#3D86FF}
-.df-foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:22px}
-.df-note{margin:0;font-size:13px;color:var(--ink3)}
-.df-status{margin:14px 0 0;min-height:1.4em;font-size:14px;color:var(--ink2)}
-.df-status.is-ok{color:#7CE0A0}.df-status.is-err{color:#FF9AA6}
-.diag button[disabled]{opacity:.7;cursor:wait}
-.df-alt{margin:40px 0 0;font-size:14px;letter-spacing:.04em;color:var(--ink3)}
-.df-alt + .contact-btns{margin-top:16px}
-.no-wa [data-contact="wa"]{display:none!important}
-/* Demo que aún no está lista */
-.demo.is-soon{cursor:default}
-.demo.is-soon .card-vis{filter:grayscale(.5) brightness(.75)}
-.demo.is-soon [data-i18n="t85"]{display:none}
-.demo.is-soon:hover{transform:none}
-.demo.is-soon .card-foot>svg{display:none}
-.soon-badge{position:absolute;top:16px;left:16px;z-index:3;padding:6px 12px;border-radius:999px;background:rgba(3,4,7,.75);border:1px solid rgba(200,212,228,.3);font-family:'Michroma',sans-serif;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--silver)}
-/* Pie legal */
-.legal-links{display:flex;gap:18px;flex-wrap:wrap}
-.legal-links a{font-size:13px;color:var(--ink3);text-decoration:none}
-.legal-links a:hover{color:#fff}
-@media (max-width:860px){.df-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -647,7 +631,7 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <div class="hero-inner">
 <div class="hero-top"><p class="eyebrow hero-fade" data-i18n="t16" style="color:#9AA4B4">Estudio digital para negocios que quieren crecer</p></div>
 <div class="hero-stage">
-<img alt="ORYON" class="hero-fallback" src="oryon-logo.png"/>
+<img alt="" class="hero-fallback" src="oryon-logo.png"/>
 <h1 aria-label="ORYON" class="hero-word silver-wrap"><span class="silver">O</span><span class="silver">R</span><span class="silver">Y</span><span class="silver">O</span><span class="silver">N</span></h1>
 </div>
 <div class="hero-copy">
@@ -664,7 +648,7 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <div aria-hidden="true" class="scroll-hint"><span data-i18n="t23">Desliza</span><span class="cue"></span></div>
 </section>
 <!-- II · LA FUGA -->
-<section class="sec full-sec" data-ch="02" data-title="La fuga" id="problema">
+<section class="sec pin-sec" data-ch="02" data-title="La fuga" id="problema">
 <div class="stage">
 <div>
 <p class="eyebrow" data-i18n="t24">El problema invisible</p>
@@ -681,7 +665,7 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 </div>
 </section>
 <!-- III · ALINEACIÓN -->
-<section class="sec full-sec" data-ch="03" data-title="Alineación" id="servicios">
+<section class="sec pin-sec" data-ch="03" data-title="Alineación" id="servicios">
 <div class="stage">
 <div class="stage-col">
 <div>
@@ -718,13 +702,19 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <div class="wrap">
 <p class="eyebrow rv" data-i18n="t136">Míralo funcionando</p>
 <h2 class="h2 rv"><span data-i18n="t137">Así se ve ORYON</span> <em data-i18n="t138">en tu negocio.</em></h2>
-<p class="lead rv" data-i18n="t139">Ejemplos de lo que montamos, en movimiento. Pulsa cada uno o deja que pasen solos.</p>
-<div class="bento" data-cs>
-<article class="bx bx-web" data-scene="0" tabindex="0">
-<div class="bx-glow" aria-hidden="true"></div>
-<header class="bx-head"><span class="cs-ic"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><rect height="13" rx="2" width="18" x="3" y="4"></rect><path d="M8 21h8M12 17v4"></path></svg></span><p class="cs-eb">01 · <span data-i18n="t140">Web</span></p></header>
-<h3 class="bx-t" data-i18n="t151">Una web que explica lo que haces y te trae clientes.</h3>
-<div class="bx-vis"><div aria-hidden="true" class="cs-vis cs-web">
+<p class="lead rv" data-i18n="t139">Ejemplos de lo que montamos, funcionando en directo.</p>
+<div class="cs" data-cs>
+<div class="cs-stage">
+<!-- 01 · Web -->
+<article class="cs-panel" id="cs-p0">
+<div class="cs-txt">
+<p class="cs-eb"><span class="cs-ic" aria-hidden="true"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><rect height="13" rx="2" width="18" x="3" y="4"></rect><path d="M8 21h8M12 17v4"></path></svg></span><span class="cs-ebk">01 · <span data-i18n="t140">Web</span></span><i class="cs-live" aria-hidden="true"></i></p>
+<h3 data-i18n="t151">Una web que explica lo que haces y te trae clientes.</h3>
+<p data-i18n="t152">Diseño a medida, rapidísima en el móvil y preparada para que el cliente reserve o te escriba sin dar vueltas.</p>
+<p class="cs-sub" data-i18n="t150">Lo que incluye</p>
+<ul class="cs-list"><li data-i18n="t153">Diseño a medida, sin plantillas</li><li data-i18n="t154">Perfecta en móvil, tablet y ordenador</li><li data-i18n="t155">Botones de reservar y WhatsApp a mano</li><li data-i18n="t156">En español, catalán e inglés</li></ul>
+</div>
+<div aria-hidden="true" class="cs-vis cs-web">
 <div class="mk-win">
 <div class="mk-bar"><i></i><i></i><i></i><span>tunegocio.es</span></div>
 <div class="mk-site">
@@ -735,14 +725,18 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 </div>
 <div class="mk-phone"><div class="mk-pscreen"><b class="mk-logo"><span class="s0">ÁMBAR</span><span class="s1">BLAU</span><span class="s2">ALBAR</span><span class="s3">MAREA</span></b><i class="mk-pl"></i><i class="mk-pl s"></i><span class="mk-cta" data-i18n="t185">Reservar</span></div></div>
 <span class="mk-cur"></span>
-</div></div>
-<ul class="bx-tags"><li data-i18n="t153">Diseño a medida, sin plantillas</li><li data-i18n="t154">Perfecta en móvil, tablet y ordenador</li><li data-i18n="t155">Botones de reservar y WhatsApp a mano</li><li data-i18n="t156">En español, catalán e inglés</li></ul>
+</div>
 </article>
-<article class="bx bx-book" data-scene="1" tabindex="0">
-<div class="bx-glow" aria-hidden="true"></div>
-<header class="bx-head"><span class="cs-ic"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"></path></svg></span><p class="cs-eb">02 · <span data-i18n="t142">Reservas</span></p></header>
-<h3 class="bx-t" data-i18n="t157">Reservas y citas sin libreta ni llamadas perdidas.</h3>
-<div class="bx-vis"><div aria-hidden="true" class="cs-vis cs-book">
+<!-- 02 · Reservas -->
+<article class="cs-panel" id="cs-p1">
+<div class="cs-txt">
+<p class="cs-eb"><span class="cs-ic" aria-hidden="true"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"></path></svg></span><span class="cs-ebk">02 · <span data-i18n="t142">Reservas</span></span><i class="cs-live" aria-hidden="true"></i></p>
+<h3 data-i18n="t157">Reservas y citas sin libreta ni llamadas perdidas.</h3>
+<p data-i18n="t158">Tus clientes eligen día y hora cuando les va bien, también de noche. Tú lo ves todo en un calendario y el sistema confirma y recuerda la cita.</p>
+<p class="cs-sub" data-i18n="t150">Lo que incluye</p>
+<ul class="cs-list"><li data-i18n="t159">Mesas, habitaciones, pistas o citas</li><li data-i18n="t160">Confirmación al momento</li><li data-i18n="t161">Recordatorio antes de la cita</li><li data-i18n="t162">Calendario con tus horarios</li></ul>
+</div>
+<div aria-hidden="true" class="cs-vis cs-book">
 <div class="mk-card">
 <div class="bk-head"><b data-i18n="t185">Reservar</b><span data-i18n="t187">Elige día</span></div>
 <div class="bk-days"></div>
@@ -752,14 +746,18 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 </div>
 <div class="mk-toast"><span class="tk">✓</span><span><b data-i18n="t190">Reserva confirmada</b><small data-i18n="t191">Vie 21 · 21:00 · 4 personas</small></span></div>
 <span class="mk-cur"></span>
-</div></div>
-<ul class="bx-tags"><li data-i18n="t159">Mesas, habitaciones, pistas o citas</li><li data-i18n="t160">Confirmación al momento</li><li data-i18n="t161">Recordatorio antes de la cita</li><li data-i18n="t162">Calendario con tus horarios</li></ul>
+</div>
 </article>
-<article class="bx bx-chat" data-scene="2" tabindex="0">
-<div class="bx-glow" aria-hidden="true"></div>
-<header class="bx-head"><span class="cs-ic"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><path d="M4 5h16v11H9l-5 4z"></path><path d="M9 10h6M12 7v6"></path></svg></span><p class="cs-eb">03 · <span data-i18n="t144">Asistente</span></p></header>
-<h3 class="bx-t" data-i18n="t163">Un asistente que responde lo de siempre, a cualquier hora.</h3>
-<div class="bx-vis"><div aria-hidden="true" class="cs-vis cs-chat">
+<!-- 03 · Asistente -->
+<article class="cs-panel" id="cs-p2">
+<div class="cs-txt">
+<p class="cs-eb"><span class="cs-ic" aria-hidden="true"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><path d="M4 5h16v11H9l-5 4z"></path><path d="M9 10h6M12 7v6"></path></svg></span><span class="cs-ebk">03 · <span data-i18n="t144">Asistente</span></span><i class="cs-live" aria-hidden="true"></i></p>
+<h3 data-i18n="t163">Un asistente que responde lo de siempre, a cualquier hora.</h3>
+<p data-i18n="t164">Horarios, precios, cómo llegar, si hay sitio… Responde con tu información y te pasa lo que necesita a una persona.</p>
+<p class="cs-sub" data-i18n="t150">Lo que incluye</p>
+<ul class="cs-list"><li data-i18n="t165">Asistente en tu web</li><li data-i18n="t166">Respuestas a preguntas frecuentes</li><li data-i18n="t167">Ninguna consulta se pierde</li><li data-i18n="t168">Te avisa cuando hace falta que respondas tú</li></ul>
+</div>
+<div aria-hidden="true" class="cs-vis cs-chat">
 <div class="mk-card">
 <div class="ch-head"><span class="ch-av">AI</span><span><b data-i18n="t144">Asistente</b><small data-i18n="t193">Responde al momento</small></span></div>
 <div class="ch-body">
@@ -770,26 +768,36 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <p class="ch-m bot" data-i18n="t198">¡Hecho! Te esperamos el domingo a las 14:00.</p>
 <p class="ch-typing"><i></i><i></i><i></i></p>
 </div>
-</div></div></div>
-<ul class="bx-tags"><li data-i18n="t165">Asistente en tu web</li><li data-i18n="t166">Respuestas a preguntas frecuentes</li><li data-i18n="t167">Ninguna consulta se pierde</li><li data-i18n="t168">Te avisa cuando hace falta que respondas tú</li></ul>
+</div>
+</div>
 </article>
-<article class="bx bx-flow" data-scene="3" tabindex="0">
-<div class="bx-glow" aria-hidden="true"></div>
-<header class="bx-head"><span class="cs-ic"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><circle cx="6" cy="6" r="2.5"></circle><circle cx="18" cy="12" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><path d="M8.5 6h3a3 3 0 0 1 3 3v.5M8.5 18h3a3 3 0 0 0 3-3v-.5"></path></svg></span><p class="cs-eb">04 · <span data-i18n="t146">Automatización</span></p></header>
-<h3 class="bx-t" data-i18n="t169">Las tareas repetidas se hacen solas.</h3>
-<div class="bx-vis"><div aria-hidden="true" class="cs-vis cs-flow">
+<!-- 04 · Automatización -->
+<article class="cs-panel" id="cs-p3">
+<div class="cs-txt">
+<p class="cs-eb"><span class="cs-ic" aria-hidden="true"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><circle cx="6" cy="6" r="2.5"></circle><circle cx="18" cy="12" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><path d="M8.5 6h3a3 3 0 0 1 3 3v.5M8.5 18h3a3 3 0 0 0 3-3v-.5"></path></svg></span><span class="cs-ebk">04 · <span data-i18n="t146">Automatización</span></span><i class="cs-live" aria-hidden="true"></i></p>
+<h3 data-i18n="t169">Las tareas repetidas se hacen solas.</h3>
+<p data-i18n="t170">Conectamos las herramientas que ya usas para que la información pase de una a otra sin copiar y pegar.</p>
+<p class="cs-sub" data-i18n="t150">Lo que incluye</p>
+<ul class="cs-list"><li data-i18n="t171">Solicitudes que llegan ordenadas</li><li data-i18n="t172">Avisos al móvil al momento</li><li data-i18n="t173">Seguimientos automáticos</li><li data-i18n="t174">Informes que llegan solos</li></ul>
+</div>
+<div aria-hidden="true" class="cs-vis cs-flow">
 <div class="mk-card">
 <p class="fl-t" data-i18n="t199">Flujo automático</p>
 <ol class="fl-steps"><li><b>1</b><span data-i18n="t200">Llega una solicitud desde tu web</span></li><li><b>2</b><span data-i18n="t201">Se guarda en tu lista de clientes</span></li><li><b>3</b><span data-i18n="t202">Te avisa al móvil</span></li><li><b>4</b><span data-i18n="t203">3 días sin respuesta: recordatorio</span></li></ol>
 <p class="fl-ok"><i></i><span data-i18n="t204">Funcionando sin que hagas nada</span></p>
-</div></div></div>
-<ul class="bx-tags"><li data-i18n="t171">Solicitudes que llegan ordenadas</li><li data-i18n="t172">Avisos al móvil al momento</li><li data-i18n="t173">Seguimientos automáticos</li><li data-i18n="t174">Informes que llegan solos</li></ul>
+</div>
+</div>
 </article>
-<article class="bx bx-rev" data-scene="4" tabindex="0">
-<div class="bx-glow" aria-hidden="true"></div>
-<header class="bx-head"><span class="cs-ic"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></span><p class="cs-eb">05 · <span data-i18n="t148">Reseñas</span></p></header>
-<h3 class="bx-t" data-i18n="t175">Más reseñas y sabes qué mejorar.</h3>
-<div class="bx-vis"><div aria-hidden="true" class="cs-vis cs-rev">
+<!-- 05 · Reseñas -->
+<article class="cs-panel" id="cs-p4">
+<div class="cs-txt">
+<p class="cs-eb"><span class="cs-ic" aria-hidden="true"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24" width="20"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></span><span class="cs-ebk">05 · <span data-i18n="t148">Reseñas</span></span><i class="cs-live" aria-hidden="true"></i></p>
+<h3 data-i18n="t175">Más reseñas y sabes qué mejorar.</h3>
+<p data-i18n="t176">Pedimos opinión después de cada visita, en el momento justo, y resumimos lo que se repite: lo que más gusta y lo que falla.</p>
+<p class="cs-sub" data-i18n="t150">Lo que incluye</p>
+<ul class="cs-list"><li data-i18n="t177">Petición de reseña automática</li><li data-i18n="t178">Resumen de lo que se repite</li><li data-i18n="t179">Aviso si llega una mala opinión</li><li data-i18n="t180">Informe mensual fácil de leer</li></ul>
+</div>
+<div aria-hidden="true" class="cs-vis cs-rev">
 <div class="mk-card">
 <div class="rv-head"><span><small data-i18n="t205">Resumen de opiniones</small><b data-i18n="t206">Este mes</b></span><em data-i18n="t207">Datos de ejemplo</em></div>
 <div class="rv-score"><b class="rv-num">4,6</b><span class="rv-stars"><i>★★★★★</i><i class="rv-fill">★★★★★</i></span><small class="rv-new" data-i18n="t214">+38 reseñas nuevas</small></div>
@@ -798,16 +806,15 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <div class="rv-bar low"><span><b data-i18n="t210">Espera en hora punta</b><em data-i18n="t212">A mejorar</em></span><i><i style="--w:38%"></i></i></div>
 <p class="rv-idea" data-i18n="t213">Idea: reforzar el equipo los sábados de 14:00 a 15:00.</p>
 </div>
-</div></div>
-<ul class="bx-tags"><li data-i18n="t177">Petición de reseña automática</li><li data-i18n="t178">Resumen de lo que se repite</li><li data-i18n="t179">Aviso si llega una mala opinión</li><li data-i18n="t180">Informe mensual fácil de leer</li></ul>
+</div>
 </article>
 </div>
-<div class="bx-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <p class="cs-note" data-i18n="t215">Ejemplos ilustrativos: los datos son inventados.</p>
+</div>
 </div>
 </section>
 <!-- IV · CONTRASTE -->
-<section class="sec full-sec" data-ch="04" data-title="Contraste" id="contraste">
+<section class="sec pin-sec" data-ch="04" data-title="Contraste" id="contraste">
 <div class="stage">
 <h2 class="h2 center"><span data-i18n="t52">La diferencia,</span> <em data-i18n="t53">en una mirada.</em></h2>
 <div aria-label="Comparativa sin ORYON y con ORYON" class="cmp" role="table">
@@ -822,7 +829,7 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 </div>
 </section>
 <!-- V · PROPÓSITO -->
-<section class="sec full-sec" data-ch="05" data-title="Propósito" id="proposito">
+<section class="sec pin-sec" data-ch="05" data-title="Propósito" id="proposito">
 <div class="stage">
 <div class="mani">
 <p class="eyebrow" data-i18n="t72">Lo que de verdad vendemos</p>
@@ -843,19 +850,19 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 </div>
 <div class="demos-grid">
 <div class="dw"><a class="card demo" href="demos/restaurante-gota.html" target="_blank" rel="noopener">
-<div class="card-vis" style="background:radial-gradient(circle at 72% 28%,rgba(205,182,78,.28),transparent 60%),#1B2316"><svg aria-hidden="true" viewbox="0 0 400 240"><path d="M0 0H400V34C370 34 362 46 352 46S334 34 300 34 262 52 250 52 228 34 196 34 150 44 140 44 118 34 80 34 40 48 28 48 10 34 0 34Z" fill="#CDB64E"></path><path d="M250 50V150" stroke="#CDB64E" stroke-width="3" stroke-linecap="round"></path><path d="M250 152C240 166 238 172 238 178A12 12 0 0 0 262 178C262 172 260 166 250 152Z" fill="#CDB64E"></path><text x="40" y="200" fill="#F4EEE1" font-family="Georgia,'Times New Roman',serif" font-size="52" font-weight="300" letter-spacing="-2">gota</text><circle cx="160" cy="196" r="6" fill="#CDB64E"></circle></svg><span class="tag" data-i18n="t85">Ver demo</span></div>
+<div class="card-vis" style="background:radial-gradient(circle at 72% 28%,rgba(205,182,78,.28),transparent 60%),#1B2316"><img class="cv-ph" src="demos/fotos-tarjetas/restaurante.jpg" alt="Plato servido en la mesa de un restaurante" loading="lazy" decoding="async" style="object-position:50% 55%"/><span class="cv-name" aria-hidden="true">gota.</span><span class="tag" data-i18n="t85">Ver demo</span></div>
 <div class="card-foot"><div><p class="num" data-i18n="t86" style="margin:0">Demo 01</p><h3 data-i18n="t87">Restaurante</h3></div><svg aria-hidden="true" fill="none" height="22" stroke="#9CC3FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="22"><path d="M7 17L17 7M8 7h9v9"></path></svg></div>
 </a></div>
-<div class="dw"><a class="card demo is-soon" aria-disabled="true"><span class="soon-badge" data-i18n="t333">Próximamente</span>
-<div class="card-vis" style="background:radial-gradient(circle at 70% 30%,rgba(147,198,236,.30),transparent 60%),#0B1A2B"><svg aria-hidden="true" viewbox="0 0 400 240"><g fill="none" stroke="#C4E0F5" stroke-opacity=".55" stroke-width="1.4"><path d="M200 30L330 105L200 180L70 105Z"></path><path d="M135 67.5L265 142.5M167.5 48.75L297.5 123.75M232.5 48.75L102.5 123.75"></path></g><path d="M232.5 48.75L265 67.5L200 105L167.5 86.25Z" fill="#5FA8E0" fill-opacity=".75"></path><path d="M297.5 123.75L265 142.5L232.5 123.75L265 105Z" fill="#93C6EC" fill-opacity=".35"></path><circle cx="200" cy="140" r="5" fill="#FFFFFF"></circle><circle cx="200" cy="140" r="11" fill="none" stroke="#FFFFFF" stroke-opacity=".5"></circle><text x="40" y="212" fill="#F4F9FD" font-family="Georgia,'Times New Roman',serif" font-size="50" font-weight="300" letter-spacing="-1">blau</text></svg><span class="tag" data-i18n="t85">Ver demo</span></div>
+<div class="dw"><a class="card demo" href="https://claude.ai/artifact/QMjhsCANxWDwBhnaJyxhkC" target="_blank" rel="noopener">
+<div class="card-vis" style="background:radial-gradient(circle at 70% 30%,rgba(147,198,236,.30),transparent 60%),#0B1A2B"><img class="cv-ph" src="demos/fotos-tarjetas/clinica-dental.jpg" alt="Gabinete de una clínica dental luminosa" loading="lazy" decoding="async" style="object-position:50% 60%"/><span class="cv-name" aria-hidden="true">blau</span><span class="tag" data-i18n="t85">Ver demo</span></div>
 <div class="card-foot"><div><p class="num" data-i18n="t89" style="margin:0">Demo 02</p><h3 data-i18n="t90">Clínica dental</h3></div><svg aria-hidden="true" fill="none" height="22" stroke="#9CC3FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="22"><path d="M7 17L17 7M8 7h9v9"></path></svg></div>
 </a></div>
 <div class="dw"><a class="card demo" href="demos/belleza-nacar/index.html" target="_blank" rel="noopener">
-<div class="card-vis" style="background:radial-gradient(circle at 70% 30%,rgba(235,197,190,.32),transparent 60%),#2A1E1C"><svg aria-hidden="true" viewbox="0 0 400 240"><defs><radialGradient id="nacarPearl" cx="35%" cy="30%"><stop offset="0" stop-color="#FFFAF5"></stop><stop offset=".55" stop-color="#EFCFC9"></stop><stop offset="1" stop-color="#C39A55"></stop></radialGradient></defs><circle cx="290" cy="92" r="46" fill="none" stroke="#D8BC8B" stroke-opacity=".55" stroke-width="1.2"></circle><circle cx="290" cy="92" r="22" fill="url(#nacarPearl)"></circle><path d="M-10 150C80 110 150 190 250 150S360 110 410 140" fill="none" stroke="#D8BC8B" stroke-opacity=".5" stroke-width="1"></path><path d="M-10 165C90 125 160 205 260 165S370 125 410 155" fill="none" stroke="#D9A69D" stroke-opacity=".45" stroke-width="1"></path><text x="40" y="208" fill="#FBF7F2" font-family="Georgia,'Times New Roman',serif" font-size="50" font-weight="300" letter-spacing="-1">Nácar</text></svg><span class="tag" data-i18n="t85">Ver demo</span></div>
+<div class="card-vis" style="background:radial-gradient(circle at 70% 30%,rgba(235,197,190,.32),transparent 60%),#2A1E1C"><img class="cv-ph" src="demos/belleza-nacar/img/hero.jpg" alt="Interior de un salón de peluquería y estética" loading="lazy" decoding="async" style="object-position:50% 45%"/><span class="cv-name" aria-hidden="true">Nácar</span><span class="tag" data-i18n="t85">Ver demo</span></div>
 <div class="card-foot"><div><p class="num" data-i18n="t92" style="margin:0">Demo 03</p><h3 data-i18n="t93">Peluquería y estética</h3></div><svg aria-hidden="true" fill="none" height="22" stroke="#9CC3FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="22"><path d="M7 17L17 7M8 7h9v9"></path></svg></div>
 </a></div>
 <div class="dw"><a class="card demo" href="demos/hotel-albar/index.html" target="_blank" rel="noopener">
-<div class="card-vis" style="background:radial-gradient(circle at 70% 28%,rgba(224,138,94,.30),transparent 60%),#10242C"><svg aria-hidden="true" viewbox="0 0 400 240"><path d="M232 172V92A50 50 0 0 1 332 92V172" fill="none" stroke="#F3E4D3" stroke-opacity=".7" stroke-width="1.6"></path><path d="M240 172V96A42 42 0 0 1 324 96V172Z" fill="#1F4E5F" fill-opacity=".55"></path><circle cx="282" cy="112" r="13" fill="#E08A5E"></circle><path d="M240 140H324" stroke="#8CC3CF" stroke-width="1.4" stroke-opacity=".9"></path><path d="M240 150C258 145 270 155 282 150S306 145 324 150" fill="none" stroke="#8CC3CF" stroke-opacity=".6" stroke-width="1"></path><path d="M-10 176H410" stroke="#F3E4D3" stroke-opacity=".25" stroke-width="1"></path><text x="40" y="208" fill="#FBF8F3" font-family="Georgia,'Times New Roman',serif" font-size="50" font-weight="300" letter-spacing="4">ALBAR</text></svg><span class="tag" data-i18n="t85">Ver demo</span></div>
+<div class="card-vis" style="background:radial-gradient(circle at 70% 28%,rgba(224,138,94,.30),transparent 60%),#10242C"><img class="cv-ph" src="demos/hotel-albar/assets/img/1562407132-e23789f81bb7.jpg" alt="Piscina infinita de un hotel frente al mar" loading="lazy" decoding="async" style="object-position:50% 50%"/><span class="cv-name" aria-hidden="true">ALBAR</span><span class="tag" data-i18n="t85">Ver demo</span></div>
 <div class="card-foot"><div><p class="num" data-i18n="t94" style="margin:0">Demo 04</p><h3 data-i18n="t135">Hotel boutique</h3></div><svg aria-hidden="true" fill="none" height="22" stroke="#9CC3FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="22"><path d="M7 17L17 7M8 7h9v9"></path></svg></div>
 </a></div>
 <div class="dw"><a class="card demo card-yours" href="#contacto">
@@ -903,23 +910,6 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <div class="pill rv"><span class="pulse"></span><span data-i18n="t122">Plazas limitadas cada mes</span></div>
 <h2 class="cta-title rv"><span data-i18n="t123">Tu competencia ya está online.</span> <em data-i18n="t124">La pregunta es quién lo hace mejor.</em></h2>
 <p class="lead rv" data-i18n="t125">Trabajamos con pocos negocios a la vez, porque cada proyecto lleva nuestro nombre. Pide tu diagnóstico gratuito y descubre lo que estás dejando escapar.</p>
-<form class="diag rv" id="diag-form" novalidate>
-<div class="df-grid">
-<label class="df-f"><span data-i18n="t301">Nombre</span><input name="nombre" autocomplete="name" required/></label>
-<label class="df-f"><span data-i18n="t302">Tu negocio</span><input name="negocio" autocomplete="organization" required/></label>
-<label class="df-f"><span data-i18n="t303">Correo electrónico</span><input name="email" type="email" inputmode="email" autocomplete="email" required/></label>
-<label class="df-f"><span data-i18n="t304">Teléfono (opcional)</span><input name="tel" type="tel" inputmode="tel" autocomplete="tel"/></label>
-<label class="df-f df-wide"><span data-i18n="t308">¿Qué te gustaría mejorar? (opcional)</span><textarea name="msg" rows="3" data-i18n-ph="t309" placeholder="Por ejemplo: perdemos reservas por teléfono en hora punta…"></textarea></label>
-</div>
-<div class="df-hp" aria-hidden="true"><label>No rellenar<input name="web" tabindex="-1" autocomplete="off"/></label></div>
-<label class="df-ok"><input name="priv" type="checkbox"/><span><span data-i18n="t305">He leído la</span> <a href="privacidad.html" data-i18n="t306">política de privacidad</a> <span data-i18n="t307">y acepto que ORYON use mis datos para responder a mi solicitud.</span></span></label>
-<div class="df-foot">
-<button class="btn magnetic" type="submit"><span data-i18n="t20">Quiero mi diagnóstico gratis</span><svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
-<p class="df-note" data-i18n="t311">Te respondemos personalmente y sin compromiso.</p>
-</div>
-<p class="df-status" role="status" aria-live="polite"></p>
-</form>
-<p class="df-alt rv" data-i18n="t328">¿Prefieres escribirnos directamente?</p>
 <div class="contact-btns rv">
 <a class="btn btn-wa magnetic" data-contact="wa" href="#contacto"><svg aria-hidden="true" fill="currentColor" height="22" viewbox="0 0 24 24" width="22"><path d="M12 2.5C6.8 2.5 2.6 6.4 2.6 11.3c0 2.5 1.1 4.8 2.9 6.4l-.8 3.5 3.6-1.8c1.1.4 2.4.6 3.7.6 5.2 0 9.4-3.9 9.4-8.7S17.2 2.5 12 2.5z"></path><path d="M9.2 7.6c.3 0 .5.1.6.4l.8 1.9c.1.2 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.9 2.9l.7-.6c.2-.2.5-.2.7-.1l1.9.8c.3.1.4.4.4.7-.1 1.1-1 1.9-2.1 1.9-3.5-.3-6.3-3.1-6.6-6.6 0-1.2.8-2.1 1.9-2.2z" fill="#1EBE5A"></path></svg><span data-i18n="t126">Escríbenos por WhatsApp</span></a>
 <a class="btn magnetic" data-contact="mail" href="mailto:oryonslcompany@gmail.com"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="M3.5 6.5 12 13l8.5-6.5"></path></svg><span data-i18n="t127">Pedir diagnóstico por email</span></a>
@@ -930,11 +920,11 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <footer>
 <span class="brand" style="font-size:13px">ORYON <i aria-hidden="true"><b></b><b></b><b></b></i></span>
 <p data-i18n="t130">Web · Reservas · Reputación — tres estrellas alineadas, como el cinturón de Orión.</p>
-<nav class="legal-links" aria-label="Legal"><a href="aviso-legal.html" data-i18n="t330">Aviso legal</a><a href="privacidad.html" data-i18n="t331">Privacidad</a><a href="cookies.html" data-i18n="t332">Cookies</a></nav>
+<p class="legal-links"><a href="legal.html#aviso" data-i18n="t216">Aviso legal</a> · <a href="legal.html#privacidad" data-i18n="t217">Privacidad</a> · <a href="legal.html#cookies" data-i18n="t218">Cookies</a></p>
 <p>© 2026 ORYON</p>
 </footer>
 <div aria-label="Contacto rápido" class="float-contact" role="group">
-<button aria-label="Activar música" aria-pressed="false" class="fc fc-music" id="bgm-btn" type="button"><span aria-hidden="true" class="eq"><i></i><i></i><i></i><i></i></span><span aria-hidden="true" class="fc-tip" id="bgm-tip">Música</span></button>
+<!-- Botón de música quitado por ahora (para volver a ponerlo, restaurar aquí el botón #bgm-btn) -->
 <a aria-label="Escríbenos por WhatsApp" class="fc fc-wa" data-contact="wa" href="#contacto"><svg aria-hidden="true" fill="currentColor" height="28" viewbox="0 0 24 24" width="28"><path d="M12 2.5C6.8 2.5 2.6 6.4 2.6 11.3c0 2.5 1.1 4.8 2.9 6.4l-.8 3.5 3.6-1.8c1.1.4 2.4.6 3.7.6 5.2 0 9.4-3.9 9.4-8.7S17.2 2.5 12 2.5z"></path><path d="M9.2 7.6c.3 0 .5.1.6.4l.8 1.9c.1.2 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.9 2.9l.7-.6c.2-.2.5-.2.7-.1l1.9.8c.3.1.4.4.4.7-.1 1.1-1 1.9-2.1 1.9-3.5-.3-6.3-3.1-6.6-6.6 0-1.2.8-2.1 1.9-2.2z" fill="#25D366"></path></svg><span aria-hidden="true" class="fc-tip" data-i18n="t132">WhatsApp</span></a>
 <a aria-label="Escríbenos por email" class="fc fc-mail" data-contact="mail" href="mailto:oryonslcompany@gmail.com"><svg aria-hidden="true" fill="none" height="26" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="26"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="M3.5 6.5 12 13l8.5-6.5"></path></svg><span aria-hidden="true" class="fc-tip" data-i18n="t133">Email</span></a>
 </div>
@@ -942,9 +932,7 @@ footer p{margin:0;font-size:13px;color:var(--ink3)}
 <script>
 /* ===== IDIOMAS: español (es), catalán (ca) e inglés (en) =====
    Cada texto lleva data-i18n="tN"; las traducciones están en ORYON_DICT. */
-var ORYON_DICT={"t1": {"es": "Saltar al contenido", "ca": "Salta al contingut", "en": "Skip to content"}, "t2": {"es": "Web", "ca": "Web", "en": "Website"}, "t3": {"es": "Reservas", "ca": "Reserves", "en": "Bookings"}, "t4": {"es": "Reseñas", "ca": "Ressenyes", "en": "Reviews"}, "t5": {"es": "Servicios", "ca": "Serveis", "en": "Services"}, "t6": {"es": "Demos", "ca": "Demos", "en": "Demos"}, "t7": {"es": "Método", "ca": "Mètode", "en": "Method"}, "t8": {"es": "Preguntas", "ca": "Preguntes", "en": "FAQ"}, "t9": {"es": "Diagnóstico gratis", "ca": "Diagnòstic gratis", "en": "Free assessment"}, "t10": {"es": "Servicios", "ca": "Serveis", "en": "Services"}, "t11": {"es": "Demos", "ca": "Demos", "en": "Demos"}, "t12": {"es": "Método", "ca": "Mètode", "en": "Method"}, "t13": {"es": "Preguntas", "ca": "Preguntes", "en": "FAQ"}, "t14": {"es": "Quiero mi diagnóstico gratis", "ca": "Vull el meu diagnòstic gratis", "en": "Get my free assessment"}, "t15": {"es": "Umbral", "ca": "Llindar", "en": "Threshold"}, "t16": {"es": "Estudio digital para negocios que quieren crecer", "ca": "Estudi digital per a negocis que volen créixer", "en": "Digital studio for businesses ready to grow"}, "t17": {"es": "Tu negocio ya es excelente.", "ca": "El teu negoci ja és excel·lent.", "en": "Your business is already excellent."}, "t18": {"es": "Ahora haz que se note.", "ca": "Ara fes que es noti.", "en": "Now make it show."}, "t19": {"es": "Diseñamos webs que enamoran a primera vista y automatizamos tus reservas, mensajes y reseñas. Tú te dedicas a tus clientes. Del resto nos encargamos nosotros.", "ca": "Dissenyem webs que enamoren a primera vista i automatitzem les teves reserves, missatges i ressenyes. Tu et dediques als teus clients. De la resta ens n'encarreguem nosaltres.", "en": "We design websites people fall for at first sight and automate your bookings, messages and reviews. You take care of your customers. We handle the rest."}, "t20": {"es": "Quiero mi diagnóstico gratis", "ca": "Vull el meu diagnòstic gratis", "en": "Get my free assessment"}, "t21": {"es": "Ver demos", "ca": "Veure demos", "en": "See demos"}, "t22": {"es": "Sin compromiso · Sin tecnicismos · Hecho a tu medida", "ca": "Sense compromís · Sense tecnicismes · Fet a la teva mida", "en": "No commitment · No jargon · Made to measure"}, "t23": {"es": "Desliza", "ca": "Llisca", "en": "Scroll"}, "t24": {"es": "El problema invisible", "ca": "El problema invisible", "en": "The invisible problem"}, "t25": {"es": "Cada día, clientes que ya querían venir", "ca": "Cada dia, clients que ja volien venir", "en": "Every day, customers who already wanted to come"}, "t26": {"es": "acaban en otro sitio.", "ca": "acaben en un altre lloc.", "en": "end up somewhere else."}, "t27": {"es": "No es por tu producto ni por tu servicio. Es por todo lo que pasa antes de que crucen tu puerta.", "ca": "No és pel teu producte ni pel teu servei. És per tot el que passa abans que travessin la teva porta.", "en": "It's not your product or your service. It's everything that happens before they walk through your door."}, "t28": {"es": "Clientes que se escapan", "ca": "Clients que se t'escapen", "en": "Customers slipping away"}, "t29": {"es": "La llamada que nadie cogió", "ca": "La trucada que ningú va agafar", "en": "The call nobody picked up"}, "t30": {"es": "Hora punta, manos ocupadas, teléfono sonando. Esa reserva no espera: se va con tu competencia.", "ca": "Hora punta, mans ocupades, el telèfon sonant. Aquesta reserva no espera: se'n va amb la competència.", "en": "Rush hour, busy hands, phone ringing. That booking won't wait: it goes to your competitor."}, "t31": {"es": "Una web que no te representa", "ca": "Una web que no et representa", "en": "A website that doesn't represent you"}, "t32": {"es": "Lenta, anticuada o inexistente. La primera impresión se decide en segundos, y ahora mismo la estás perdiendo.", "ca": "Lenta, antiquada o inexistent. La primera impressió es decideix en segons, i ara mateix l'estàs perdent.", "en": "Slow, outdated or non-existent. First impressions are made in seconds, and right now you're losing them."}, "t33": {"es": "WhatsApps a medianoche", "ca": "WhatsApps a mitjanit", "en": "WhatsApps at midnight"}, "t34": {"es": "Respondes reservas fuera de horario, a mano y una a una. Horas de tu vida que no vuelven.", "ca": "Respons reserves fora d'horari, a mà i una a una. Hores de la teva vida que no tornen.", "en": "You answer bookings after hours, by hand, one by one. Hours of your life you won't get back."}, "t35": {"es": "Reseñas que nunca llegan", "ca": "Ressenyes que no arriben mai", "en": "Reviews that never come"}, "t36": {"es": "Tus clientes contentos se van satisfechos… y en silencio. Los que se quejan, no se callan.", "ca": "Els teus clients contents se'n van satisfets… i en silenci. Els que es queixen, no callen.", "en": "Your happy customers leave satisfied… and silent. The ones who complain don't keep quiet."}, "t37": {"es": "La solución ORYON", "ca": "La solució ORYON", "en": "The ORYON solution"}, "t38": {"es": "Tres estrellas alineadas.", "ca": "Tres estrelles alineades.", "en": "Three aligned stars."}, "t39": {"es": "Un sistema que trabaja 24 horas.", "ca": "Un sistema que treballa 24 hores.", "en": "A system that works 24 hours a day."}, "t40": {"es": "Estrella 01", "ca": "Estrella 01", "en": "Star 01"}, "t41": {"es": "Web de alto impacto", "ca": "Web d'alt impacte", "en": "High-impact website"}, "t42": {"es": "Diseño a medida, rapidísima en el móvil y pensada para convertir visitas en clientes. Nada de plantillas: tu marca, a otro nivel.", "ca": "Disseny a mida, rapidíssima al mòbil i pensada per convertir visites en clients. Res de plantilles: la teva marca, a un altre nivell.", "en": "Custom design, lightning-fast on mobile and built to turn visits into customers. No templates: your brand, on another level."}, "t43": {"es": "Estrella 02", "ca": "Estrella 02", "en": "Star 02"}, "t44": {"es": "Reservas automáticas", "ca": "Reserves automàtiques", "en": "Automatic bookings"}, "t45": {"es": "Tus clientes reservan en segundos, a cualquier hora, por web o WhatsApp. Confirmaciones y recordatorios sin que muevas un dedo.", "ca": "Els teus clients reserven en segons, a qualsevol hora, per web o WhatsApp. Confirmacions i recordatoris sense que moguis un dit.", "en": "Your customers book in seconds, at any time, on the web or WhatsApp. Confirmations and reminders without lifting a finger."}, "t46": {"es": "Estrella 03", "ca": "Estrella 03", "en": "Star 03"}, "t47": {"es": "Reputación en piloto automático", "ca": "Reputació en pilot automàtic", "en": "Reputation on autopilot"}, "t48": {"es": "Después de cada visita pedimos la reseña en el momento justo. Y cada mes recibes un informe claro de lo que dicen de ti.", "ca": "Després de cada visita demanem la ressenya en el moment just. I cada mes reps un informe clar del que diuen de tu.", "en": "After every visit we ask for the review at just the right moment. And every month you get a clear report of what people say about you."}, "t49": {"es": "El haz", "ca": "El feix", "en": "The beam"}, "t50": {"es": "Automatización a medida", "ca": "Automatització a mida", "en": "Tailor-made automation"}, "t51": {"es": "La luz que une las tres estrellas. Detectamos las tareas repetitivas que te roban horas y las eliminamos. Menos gestión, más negocio.", "ca": "La llum que uneix les tres estrelles. Detectem les tasques repetitives que et roben hores i les eliminem. Menys gestió, més negoci.", "en": "The light that connects the three stars. We find the repetitive tasks that steal your hours and remove them. Less admin, more business."}, "t52": {"es": "La diferencia,", "ca": "La diferència,", "en": "The difference,"}, "t53": {"es": "en una mirada.", "ca": "d'un cop d'ull.", "en": "at a glance."}, "t54": {"es": "Aspecto", "ca": "Aspecte", "en": "Area"}, "t55": {"es": "Sin ORYON", "ca": "Sense ORYON", "en": "Without ORYON"}, "t56": {"es": "Con ORYON", "ca": "Amb ORYON", "en": "With ORYON"}, "t57": {"es": "Reservas", "ca": "Reserves", "en": "Bookings"}, "t58": {"es": "Por teléfono y solo en horario", "ca": "Per telèfon i només en horari", "en": "By phone, only during opening hours"}, "t59": {"es": "Las 24 horas, sin intervenir", "ca": "Les 24 hores, sense intervenir", "en": "24 hours a day, hands-free"}, "t60": {"es": "Tu web", "ca": "La teva web", "en": "Your website"}, "t61": {"es": "Genérica, lenta o inexistente", "ca": "Genèrica, lenta o inexistent", "en": "Generic, slow or non-existent"}, "t62": {"es": "A medida y memorable", "ca": "A mida i memorable", "en": "Tailor-made and memorable"}, "t63": {"es": "Reseñas", "ca": "Ressenyes", "en": "Reviews"}, "t64": {"es": "Cuando el cliente se acuerda", "ca": "Quan el client se'n recorda", "en": "Whenever the customer remembers"}, "t65": {"es": "En el momento justo, cada vez", "ca": "En el moment just, cada vegada", "en": "At the right moment, every time"}, "t66": {"es": "Tu tiempo", "ca": "El teu temps", "en": "Your time"}, "t67": {"es": "Apagando fuegos", "ca": "Apagant focs", "en": "Putting out fires"}, "t68": {"es": "Dedicado a tu negocio", "ca": "Dedicat al teu negoci", "en": "Focused on your business"}, "t69": {"es": "Saber cómo vas", "ca": "Saber com vas", "en": "Knowing how you're doing"}, "t70": {"es": "Intuición", "ca": "Intuïció", "en": "Gut feeling"}, "t71": {"es": "Un informe claro cada mes", "ca": "Un informe clar cada mes", "en": "A clear report every month"}, "t72": {"es": "Lo que de verdad vendemos", "ca": "El que venem de debò", "en": "What we really sell"}, "t73": {"es": "No vendemos páginas web. Vendemos", "ca": "No venem pàgines web. Venem", "en": "We don't sell websites. We sell"}, "t74": {"es": "y", "ca": "i", "en": "and"}, "t75": {"es": "clientes que te encuentran,", "ca": "clients que et troben,", "en": "customers who find you,"}, "t76": {"es": "que te eligen", "ca": "que et trien", "en": "choose you"}, "t77": {"es": "que vuelven.", "ca": "que tornen.", "en": "come back."}, "t78": {"es": "Te encuentran", "ca": "Et troben", "en": "They find you"}, "t79": {"es": "Te eligen", "ca": "Et trien", "en": "They choose you"}, "t80": {"es": "Vuelven", "ca": "Tornen", "en": "They come back"}, "t81": {"es": "Nuestro trabajo", "ca": "La nostra feina", "en": "Our work"}, "t82": {"es": "Míralo con", "ca": "Mira-ho amb", "en": "See it with"}, "t83": {"es": "tus propios ojos.", "ca": "els teus propis ulls.", "en": "your own eyes."}, "t84": {"es": "Demos creadas para cada sector. Entra, navega y piensa en cómo se vería la tuya.", "ca": "Demos creades per a cada sector. Entra, navega i pensa com es veuria la teva.", "en": "Demos built for each sector. Go in, look around and imagine what yours could look like."}, "t85": {"es": "Ver demo", "ca": "Veure demo", "en": "View demo"}, "t86": {"es": "Demo 01", "ca": "Demo 01", "en": "Demo 01"}, "t87": {"es": "Restaurante", "ca": "Restaurant", "en": "Restaurant"}, "t88": {"es": "Muy pronto", "ca": "Molt aviat", "en": "Coming soon"}, "t89": {"es": "Demo 02", "ca": "Demo 02", "en": "Demo 02"}, "t90": {"es": "Clínica dental", "ca": "Clínica dental", "en": "Dental clinic"}, "t91": {"es": "Muy pronto", "ca": "Molt aviat", "en": "Coming soon"}, "t92": {"es": "Demo 03", "ca": "Demo 03", "en": "Demo 03"}, "t93": {"es": "Peluquería y estética", "ca": "Perruqueria i estètica", "en": "Hair & beauty salon"}, "t94": {"es": "Demo 04", "ca": "Demo 04", "en": "Demo 04"}, "t134": {"es": "Demo 05", "ca": "Demo 05", "en": "Demo 05"}, "t135": {"es": "Hotel boutique", "ca": "Hotel boutique", "en": "Boutique hotel"}, "t95": {"es": "La siguiente", "ca": "La següent", "en": "The next one"}, "t96": {"es": "puede ser la tuya.", "ca": "pot ser la teva.", "en": "could be yours."}, "t97": {"es": "Cuéntanos tu negocio y te enseñamos cómo podría verse.", "ca": "Explica'ns el teu negoci i et mostrem com es podria veure.", "en": "Tell us about your business and we'll show you how it could look."}, "t98": {"es": "Hablemos", "ca": "Parlem", "en": "Let's talk"}, "t99": {"es": "Cómo trabajamos", "ca": "Com treballem", "en": "How we work"}, "t100": {"es": "De la primera conversación a tu web", "ca": "De la primera conversa a la teva web", "en": "From the first conversation to your website"}, "t101": {"es": "en marcha.", "ca": "en marxa.", "en": "up and running."}, "t102": {"es": "Diagnóstico gratuito", "ca": "Diagnòstic gratuït", "en": "Free assessment"}, "t103": {"es": "Analizamos tu web, tus reservas y tu presencia online. Te decimos qué estás perdiendo y cómo recuperarlo.", "ca": "Analitzem la teva web, les teves reserves i la teva presència en línia. Et diem què estàs perdent i com recuperar-ho.", "en": "We review your website, your bookings and your online presence. We tell you what you're losing and how to get it back."}, "t104": {"es": "Diseño a tu medida", "ca": "Disseny a la teva mida", "en": "Designed for you"}, "t105": {"es": "Creamos tu web y tu sistema de reservas. Lo revisas y lo ajustamos hasta que te encante.", "ca": "Creem la teva web i el teu sistema de reserves. El revises i l'ajustem fins que t'encanti.", "en": "We build your website and booking system. You review it and we fine-tune it until you love it."}, "t106": {"es": "Lanzamiento", "ca": "Llançament", "en": "Launch"}, "t107": {"es": "Lo ponemos en marcha y te enseñamos todo en una sola sesión. Sin tecnicismos.", "ca": "El posem en marxa i t'ho ensenyem tot en una sola sessió. Sense tecnicismes.", "en": "We get it running and show you everything in a single session. No jargon."}, "t108": {"es": "Crecimiento continuo", "ca": "Creixement continu", "en": "Ongoing growth"}, "t109": {"es": "Mantenimiento, mejoras e informe mensual. Nunca te quedas solo.", "ca": "Manteniment, millores i informe mensual. Mai et quedes sol.", "en": "Maintenance, improvements and a monthly report. You're never on your own."}, "t110": {"es": "Lo que", "ca": "El que", "en": "What people"}, "t111": {"es": "nos suelen preguntar.", "ca": "ens solen preguntar.", "en": "usually ask us."}, "t112": {"es": "¿Y si ya tengo una web?", "ca": "I si ja tinc una web?", "en": "What if I already have a website?"}, "t113": {"es": "Perfecto. La analizamos y te decimos con total honestidad si merece la pena mejorarla o empezar de cero.", "ca": "Perfecte. L'analitzem i et diem amb total honestedat si val la pena millorar-la o començar de zero.", "en": "Great. We'll review it and tell you, with complete honesty, whether it's worth improving or starting from scratch."}, "t114": {"es": "¿Tengo que saber de tecnología?", "ca": "He de saber de tecnologia?", "en": "Do I need to know about technology?"}, "t115": {"es": "No. Nos encargamos de todo. Tú solo nos cuentas cómo funciona tu negocio.", "ca": "No. Ens n'encarreguem de tot. Tu només ens expliques com funciona el teu negoci.", "en": "No. We take care of everything. You just tell us how your business works."}, "t116": {"es": "¿Cuánto cuesta?", "ca": "Quant costa?", "en": "How much does it cost?"}, "t117": {"es": "Depende de lo que necesites. En el diagnóstico gratuito te damos un precio cerrado, sin letra pequeña ni sorpresas.", "ca": "Depèn del que necessitis. En el diagnòstic gratuït et donem un preu tancat, sense lletra petita ni sorpreses.", "en": "It depends on what you need. In the free assessment we give you a fixed price, with no small print and no surprises."}, "t118": {"es": "¿Cuánto se tarda?", "ca": "Quant es triga?", "en": "How long does it take?"}, "t119": {"es": "Cada proyecto es distinto, así que antes de empezar te damos una fecha de entrega cerrada.", "ca": "Cada projecte és diferent, així que abans de començar et donem una data d'entrega tancada.", "en": "Every project is different, so before we start we give you a fixed delivery date."}, "t120": {"es": "¿Qué pasa después del lanzamiento?", "ca": "Què passa després del llançament?", "en": "What happens after launch?"}, "t121": {"es": "Seguimos contigo: mantenimiento, cambios y un informe mensual de reservas y reseñas.", "ca": "Seguim amb tu: manteniment, canvis i un informe mensual de reserves i ressenyes.", "en": "We stay with you: maintenance, changes and a monthly report on bookings and reviews."}, "t122": {"es": "Plazas limitadas cada mes", "ca": "Places limitades cada mes", "en": "Limited spots each month"}, "t123": {"es": "Tu competencia ya está online.", "ca": "La teva competència ja és en línia.", "en": "Your competitors are already online."}, "t124": {"es": "La pregunta es quién lo hace mejor.", "ca": "La pregunta és qui ho fa millor.", "en": "The question is who does it better."}, "t125": {"es": "Trabajamos con pocos negocios a la vez, porque cada proyecto lleva nuestro nombre. Pide tu diagnóstico gratuito y descubre lo que estás dejando escapar.", "ca": "Treballem amb pocs negocis alhora, perquè cada projecte porta el nostre nom. Demana el teu diagnòstic gratuït i descobreix el que estàs deixant escapar.", "en": "We work with only a few businesses at a time, because every project carries our name. Ask for your free assessment and find out what you're letting slip away."}, "t126": {"es": "Escríbenos por WhatsApp", "ca": "Escriu-nos per WhatsApp", "en": "Message us on WhatsApp"}, "t127": {"es": "Pedir diagnóstico por email", "ca": "Demana el diagnòstic per email", "en": "Request an assessment by email"}, "t128": {"es": "Te llega el mensaje ya escrito: solo tienes que darle a enviar. Nuestro correo:", "ca": "Et arriba el missatge ja escrit: només has de donar-li a enviar. El nostre correu:", "en": "The message comes pre-written: you just hit send. Our email:"}, "t130": {"es": "Web · Reservas · Reputación — tres estrellas alineadas, como el cinturón de Orión.", "ca": "Web · Reserves · Reputació — tres estrelles alineades, com el cinturó d'Orió.", "en": "Website · Bookings · Reputation — three aligned stars, like Orion's Belt."}, "t132": {"es": "WhatsApp", "ca": "WhatsApp", "en": "WhatsApp"}, "t133": {"es": "Email", "ca": "Email", "en": "Email"}, "t136": {"es": "Míralo funcionando", "ca": "Mira-ho funcionant", "en": "See it in action"}, "t137": {"es": "Así se ve ORYON", "ca": "Així es veu ORYON", "en": "This is ORYON"}, "t138": {"es": "en tu negocio.", "ca": "al teu negoci.", "en": "in your business."}, "t139": {"es": "Ejemplos de lo que montamos, en movimiento. Todo a la vista: pasa el ratón por encima para verlo de cerca.", "ca": "Exemples del que muntem, en moviment. Tot a la vista: passa el ratolí per sobre per veure-ho de prop.", "en": "Examples of what we build, in motion. All in view: hover over each one for a closer look."}, "t140": {"es": "Web", "ca": "Web", "en": "Web"}, "t141": {"es": "Clara, rápida y pensada para que te contacten.", "ca": "Clara, ràpida i pensada perquè et contactin.", "en": "Clear, fast and built to get you contacted."}, "t142": {"es": "Reservas", "ca": "Reserves", "en": "Bookings"}, "t143": {"es": "Citas y reservas online, con confirmación y recordatorio.", "ca": "Cites i reserves en línia, amb confirmació i recordatori.", "en": "Online bookings with confirmation and reminders."}, "t144": {"es": "Asistente", "ca": "Assistent", "en": "Assistant"}, "t145": {"es": "Responde lo de siempre, a cualquier hora.", "ca": "Respon el de sempre, a qualsevol hora.", "en": "Answers the usual questions, any time."}, "t146": {"es": "Automatización", "ca": "Automatització", "en": "Automation"}, "t147": {"es": "Lo repetitivo se hace solo.", "ca": "El repetitiu es fa sol.", "en": "Repetitive work runs itself."}, "t148": {"es": "Reseñas", "ca": "Ressenyes", "en": "Reviews"}, "t149": {"es": "Más opiniones y saber qué mejorar.", "ca": "Més opinions i saber què millorar.", "en": "More reviews and knowing what to improve."}, "t150": {"es": "Lo que incluye", "ca": "Què inclou", "en": "What's included"}, "t151": {"es": "Una web que explica lo que haces y te trae clientes.", "ca": "Una web que explica el que fas i et porta clients.", "en": "A website that explains what you do and brings you customers."}, "t152": {"es": "Diseño a medida, rapidísima en el móvil y preparada para que el cliente reserve o te escriba sin dar vueltas.", "ca": "Disseny a mida, rapidíssima al mòbil i preparada perquè el client reservi o t'escrigui sense voltes.", "en": "Custom design, lightning-fast on mobile and ready for customers to book or message you without hassle."}, "t153": {"es": "Diseño a medida, sin plantillas", "ca": "Disseny a mida, sense plantilles", "en": "Custom design, no templates"}, "t154": {"es": "Perfecta en móvil, tablet y ordenador", "ca": "Perfecta al mòbil, tauleta i ordinador", "en": "Perfect on mobile, tablet and desktop"}, "t155": {"es": "Botones de reservar y WhatsApp a mano", "ca": "Botons de reservar i WhatsApp a mà", "en": "Booking and WhatsApp buttons always at hand"}, "t156": {"es": "En español, catalán e inglés", "ca": "En castellà, català i anglès", "en": "In Spanish, Catalan and English"}, "t157": {"es": "Reservas y citas sin libreta ni llamadas perdidas.", "ca": "Reserves i cites sense llibreta ni trucades perdudes.", "en": "Bookings without notebooks or missed calls."}, "t158": {"es": "Tus clientes eligen día y hora cuando les va bien, también de noche. Tú lo ves todo en un calendario y el sistema confirma y recuerda la cita.", "ca": "Els teus clients trien dia i hora quan els va bé, també de nit. Tu ho veus tot en un calendari i el sistema confirma i recorda la cita.", "en": "Customers pick a day and time that suits them, even at night. You see everything in one calendar and the system confirms and sends reminders."}, "t159": {"es": "Mesas, habitaciones, pistas o citas", "ca": "Taules, habitacions, pistes o cites", "en": "Tables, rooms, courts or appointments"}, "t160": {"es": "Confirmación al momento", "ca": "Confirmació a l'instant", "en": "Instant confirmation"}, "t161": {"es": "Recordatorio antes de la cita", "ca": "Recordatori abans de la cita", "en": "Reminder before the appointment"}, "t162": {"es": "Calendario con tus horarios", "ca": "Calendari amb els teus horaris", "en": "Calendar with your opening hours"}, "t163": {"es": "Un asistente que responde lo de siempre, a cualquier hora.", "ca": "Un assistent que respon el de sempre, a qualsevol hora.", "en": "An assistant that answers the usual questions, any time."}, "t164": {"es": "Horarios, precios, cómo llegar, si hay sitio… Responde con tu información y te pasa lo que necesita a una persona.", "ca": "Horaris, preus, com arribar, si hi ha lloc… Respon amb la teva informació i et passa el que necessita una persona.", "en": "Opening hours, prices, directions, availability… It answers with your information and hands you anything that needs a person."}, "t165": {"es": "Asistente en tu web", "ca": "Assistent a la teva web", "en": "Assistant on your website"}, "t166": {"es": "Respuestas a preguntas frecuentes", "ca": "Respostes a preguntes freqüents", "en": "Answers to frequent questions"}, "t167": {"es": "Ninguna consulta se pierde", "ca": "Cap consulta es perd", "en": "No enquiry gets lost"}, "t168": {"es": "Te avisa cuando hace falta que respondas tú", "ca": "T'avisa quan cal que responguis tu", "en": "Alerts you when you need to step in"}, "t169": {"es": "Las tareas repetidas se hacen solas.", "ca": "Les tasques repetides es fan soles.", "en": "Repetitive tasks run themselves."}, "t170": {"es": "Conectamos las herramientas que ya usas para que la información pase de una a otra sin copiar y pegar.", "ca": "Connectem les eines que ja fas servir perquè la informació passi d'una a l'altra sense copiar i enganxar.", "en": "We connect the tools you already use so information flows between them without copy and paste."}, "t171": {"es": "Solicitudes que llegan ordenadas", "ca": "Sol·licituds que arriben ordenades", "en": "Requests that arrive organised"}, "t172": {"es": "Avisos al móvil al momento", "ca": "Avisos al mòbil a l'instant", "en": "Instant alerts on your phone"}, "t173": {"es": "Seguimientos automáticos", "ca": "Seguiments automàtics", "en": "Automatic follow-ups"}, "t174": {"es": "Informes que llegan solos", "ca": "Informes que arriben sols", "en": "Reports that arrive on their own"}, "t175": {"es": "Más reseñas y sabes qué mejorar.", "ca": "Més ressenyes i saps què millorar.", "en": "More reviews, and you know what to improve."}, "t176": {"es": "Pedimos opinión después de cada visita, en el momento justo, y resumimos lo que se repite: lo que más gusta y lo que falla.", "ca": "Demanem opinió després de cada visita, en el moment just, i resumim el que es repeteix: el que més agrada i el que falla.", "en": "We ask for feedback after every visit, at the right moment, and sum up what keeps coming up: what people love and what fails."}, "t177": {"es": "Petición de reseña automática", "ca": "Petició de ressenya automàtica", "en": "Automatic review requests"}, "t178": {"es": "Resumen de lo que se repite", "ca": "Resum del que es repeteix", "en": "Summary of recurring themes"}, "t179": {"es": "Aviso si llega una mala opinión", "ca": "Avís si arriba una mala opinió", "en": "Alert when a bad review comes in"}, "t180": {"es": "Informe mensual fácil de leer", "ca": "Informe mensual fàcil de llegir", "en": "Easy-to-read monthly report"}, "t181": {"es": "Cocina de brasa, producto de aquí.", "ca": "Cuina de brasa, producte d'aquí.", "en": "Grilled cuisine, local produce."}, "t182": {"es": "Tu sonrisa, en buenas manos.", "ca": "El teu somriure, en bones mans.", "en": "Your smile, in good hands."}, "t183": {"es": "Despierta frente al mar.", "ca": "Desperta davant del mar.", "en": "Wake up by the sea."}, "t184": {"es": "Tu pista, a un clic.", "ca": "La teva pista, a un clic.", "en": "Your court, one click away."}, "t185": {"es": "Reservar", "ca": "Reservar", "en": "Book now"}, "t187": {"es": "Elige día", "ca": "Tria dia", "en": "Pick a day"}, "t188": {"es": "Hora", "ca": "Hora", "en": "Time"}, "t189": {"es": "Personas", "ca": "Persones", "en": "Guests"}, "t190": {"es": "Reserva confirmada", "ca": "Reserva confirmada", "en": "Booking confirmed"}, "t191": {"es": "Vie 21 · 21:00 · 4 personas", "ca": "Dv 21 · 21:00 · 4 persones", "en": "Fri 21 · 9:00 pm · 4 guests"}, "t193": {"es": "Responde al momento", "ca": "Respon a l'instant", "en": "Replies instantly"}, "t194": {"es": "¿Abrís el domingo a mediodía?", "ca": "Obriu diumenge al migdia?", "en": "Are you open on Sunday at lunchtime?"}, "t195": {"es": "Sí, el domingo abrimos de 13:00 a 16:00. ¿Quieres que te reserve?", "ca": "Sí, diumenge obrim de 13:00 a 16:00. Vols que et reservi?", "en": "Yes, on Sunday we're open from 1 to 4 pm. Shall I book you in?"}, "t196": {"es": "Sí, para dos.", "ca": "Sí, per a dos.", "en": "Yes, for two."}, "t197": {"es": "¿A qué hora te va mejor?", "ca": "A quina hora et va millor?", "en": "What time suits you best?"}, "t198": {"es": "¡Hecho! Te esperamos el domingo a las 14:00.", "ca": "Fet! T'esperem diumenge a les 14:00.", "en": "Done! See you on Sunday at 2 pm."}, "t199": {"es": "Flujo automático", "ca": "Flux automàtic", "en": "Automatic flow"}, "t200": {"es": "Llega una solicitud desde tu web", "ca": "Arriba una sol·licitud des de la teva web", "en": "A request arrives from your website"}, "t201": {"es": "Se guarda en tu lista de clientes", "ca": "Es desa a la teva llista de clients", "en": "It's saved to your customer list"}, "t202": {"es": "Te avisa al móvil", "ca": "T'avisa al mòbil", "en": "You get an alert on your phone"}, "t203": {"es": "3 días sin respuesta: recordatorio", "ca": "3 dies sense resposta: recordatori", "en": "3 days without a reply: reminder"}, "t204": {"es": "Funcionando sin que hagas nada", "ca": "Funcionant sense que facis res", "en": "Running without you lifting a finger"}, "t205": {"es": "Resumen de opiniones", "ca": "Resum d'opinions", "en": "Review summary"}, "t206": {"es": "Este mes", "ca": "Aquest mes", "en": "This month"}, "t207": {"es": "Datos de ejemplo", "ca": "Dades d'exemple", "en": "Sample data"}, "t208": {"es": "Trato del personal", "ca": "Tracte del personal", "en": "Staff"}, "t209": {"es": "Calidad", "ca": "Qualitat", "en": "Quality"}, "t210": {"es": "Espera en hora punta", "ca": "Espera en hora punta", "en": "Peak-time wait"}, "t211": {"es": "Gusta", "ca": "Agrada", "en": "Loved"}, "t212": {"es": "A mejorar", "ca": "A millorar", "en": "To improve"}, "t213": {"es": "Idea: reforzar el equipo los sábados de 14:00 a 15:00.", "ca": "Idea: reforçar l'equip els dissabtes de 14:00 a 15:00.", "en": "Idea: add staff on Saturdays from 2 to 3 pm."}, "t214": {"es": "+38 reseñas nuevas", "ca": "+38 ressenyes noves", "en": "+38 new reviews"}, "t215": {"es": "Ejemplos ilustrativos: los datos son inventados.", "ca": "Exemples il·lustratius: les dades són inventades.", "en": "Illustrative examples: the data is made up."}};
-/* Textos añadidos (formulario, pie legal) y cambiados */
-Object.assign(ORYON_DICT,{"t122":{"es":"Diagnóstico gratuito y sin compromiso","ca":"Diagnòstic gratuït i sense compromís","en":"Free assessment, no strings attached"},"t128":{"es":"O escríbenos directamente a","ca":"O escriu-nos directament a","en":"Or email us directly at"},"t301":{"es":"Nombre","ca":"Nom","en":"Name"},"t302":{"es":"Tu negocio","ca":"El teu negoci","en":"Your business"},"t303":{"es":"Correo electrónico","ca":"Correu electrònic","en":"Email"},"t304":{"es":"Teléfono (opcional)","ca":"Telèfon (opcional)","en":"Phone (optional)"},"t305":{"es":"He leído la","ca":"He llegit la","en":"I have read the"},"t306":{"es":"política de privacidad","ca":"política de privadesa","en":"privacy policy"},"t307":{"es":"y acepto que ORYON use mis datos para responder a mi solicitud.","ca":"i accepto que ORYON utilitzi les meves dades per respondre la meva sol·licitud.","en":"and agree that ORYON may use my details to reply to my request."},"t308":{"es":"¿Qué te gustaría mejorar? (opcional)","ca":"Què t'agradaria millorar? (opcional)","en":"What would you like to improve? (optional)"},"t309":{"es":"Por ejemplo: perdemos reservas por teléfono en hora punta…","ca":"Per exemple: perdem reserves per telèfon en hora punta…","en":"For example: we miss phone bookings at peak times…"},"t311":{"es":"Te respondemos personalmente y sin compromiso.","ca":"Et responem personalment i sense compromís.","en":"We reply personally, with no obligation."},"t320":{"es":"Escribe tu nombre.","ca":"Escriu el teu nom.","en":"Please enter your name."},"t321":{"es":"Escribe el nombre de tu negocio.","ca":"Escriu el nom del teu negoci.","en":"Please enter your business name."},"t322":{"es":"Revisa el correo: parece que no es válido.","ca":"Revisa el correu: sembla que no és vàlid.","en":"Please check your email address."},"t323":{"es":"Necesitamos tu permiso para responderte.","ca":"Necessitem el teu permís per respondre't.","en":"We need your consent to reply."},"t324":{"es":"Enviando…","ca":"Enviant…","en":"Sending…"},"t325":{"es":"Se ha abierto tu correo con el mensaje ya escrito: solo falta darle a enviar.","ca":"S'ha obert el teu correu amb el missatge ja escrit: només cal enviar-lo.","en":"Your email has opened with the message ready: just hit send."},"t326":{"es":"¡Recibido! Te escribimos muy pronto.","ca":"Rebut! T'escrivim ben aviat.","en":"Got it! We'll be in touch very soon."},"t327":{"es":"No hemos podido enviarlo. Escríbenos a {mail} y te respondemos enseguida.","ca":"No l'hem pogut enviar. Escriu-nos a {mail} i et responem de seguida.","en":"We couldn't send it. Email us at {mail} and we'll reply right away."},"t328":{"es":"¿Prefieres escribirnos directamente?","ca":"Prefereixes escriure'ns directament?","en":"Prefer to write to us directly?"},"t329":{"es":"Me gustaría recibir el diagnóstico gratuito para mi negocio.","ca":"M'agradaria rebre el diagnòstic gratuït per al meu negoci.","en":"I'd like to receive the free assessment for my business."},"t330":{"es":"Aviso legal","ca":"Avís legal","en":"Legal notice"},"t331":{"es":"Privacidad","ca":"Privadesa","en":"Privacy"},"t332":{"es":"Cookies","ca":"Galetes","en":"Cookies"},"t333":{"es":"Próximamente","ca":"Properament","en":"Coming soon"}});
+var ORYON_DICT={"t1": {"es": "Saltar al contenido", "ca": "Salta al contingut", "en": "Skip to content"}, "t2": {"es": "Web", "ca": "Web", "en": "Website"}, "t3": {"es": "Reservas", "ca": "Reserves", "en": "Bookings"}, "t4": {"es": "Reseñas", "ca": "Ressenyes", "en": "Reviews"}, "t5": {"es": "Servicios", "ca": "Serveis", "en": "Services"}, "t6": {"es": "Demos", "ca": "Demos", "en": "Demos"}, "t7": {"es": "Método", "ca": "Mètode", "en": "Method"}, "t8": {"es": "Preguntas", "ca": "Preguntes", "en": "FAQ"}, "t9": {"es": "Diagnóstico gratis", "ca": "Diagnòstic gratis", "en": "Free assessment"}, "t10": {"es": "Servicios", "ca": "Serveis", "en": "Services"}, "t11": {"es": "Demos", "ca": "Demos", "en": "Demos"}, "t12": {"es": "Método", "ca": "Mètode", "en": "Method"}, "t13": {"es": "Preguntas", "ca": "Preguntes", "en": "FAQ"}, "t14": {"es": "Quiero mi diagnóstico gratis", "ca": "Vull el meu diagnòstic gratis", "en": "Get my free assessment"}, "t15": {"es": "Umbral", "ca": "Llindar", "en": "Threshold"}, "t16": {"es": "Estudio digital para negocios que quieren crecer", "ca": "Estudi digital per a negocis que volen créixer", "en": "Digital studio for businesses ready to grow"}, "t17": {"es": "Tu negocio ya es excelente.", "ca": "El teu negoci ja és excel·lent.", "en": "Your business is already excellent."}, "t18": {"es": "Ahora haz que se note.", "ca": "Ara fes que es noti.", "en": "Now make it show."}, "t19": {"es": "Diseñamos webs que enamoran a primera vista y automatizamos tus reservas, mensajes y reseñas. Tú te dedicas a tus clientes. Del resto nos encargamos nosotros.", "ca": "Dissenyem webs que enamoren a primera vista i automatitzem les teves reserves, missatges i ressenyes. Tu et dediques als teus clients. De la resta ens n'encarreguem nosaltres.", "en": "We design websites people fall for at first sight and automate your bookings, messages and reviews. You take care of your customers. We handle the rest."}, "t20": {"es": "Quiero mi diagnóstico gratis", "ca": "Vull el meu diagnòstic gratis", "en": "Get my free assessment"}, "t21": {"es": "Ver demos", "ca": "Veure demos", "en": "See demos"}, "t22": {"es": "Sin compromiso · Sin tecnicismos · Hecho a tu medida", "ca": "Sense compromís · Sense tecnicismes · Fet a la teva mida", "en": "No commitment · No jargon · Made to measure"}, "t23": {"es": "Desliza", "ca": "Llisca", "en": "Scroll"}, "t24": {"es": "El problema invisible", "ca": "El problema invisible", "en": "The invisible problem"}, "t25": {"es": "Cada día, clientes que ya querían venir", "ca": "Cada dia, clients que ja volien venir", "en": "Every day, customers who already wanted to come"}, "t26": {"es": "acaban en otro sitio.", "ca": "acaben en un altre lloc.", "en": "end up somewhere else."}, "t27": {"es": "No es por tu producto ni por tu servicio. Es por todo lo que pasa antes de que crucen tu puerta.", "ca": "No és pel teu producte ni pel teu servei. És per tot el que passa abans que travessin la teva porta.", "en": "It's not your product or your service. It's everything that happens before they walk through your door."}, "t28": {"es": "Clientes que se escapan", "ca": "Clients que se t'escapen", "en": "Customers slipping away"}, "t29": {"es": "La llamada que nadie cogió", "ca": "La trucada que ningú va agafar", "en": "The call nobody picked up"}, "t30": {"es": "Hora punta, manos ocupadas, teléfono sonando. Esa reserva no espera: se va con tu competencia.", "ca": "Hora punta, mans ocupades, el telèfon sonant. Aquesta reserva no espera: se'n va amb la competència.", "en": "Rush hour, busy hands, phone ringing. That booking won't wait: it goes to your competitor."}, "t31": {"es": "Una web que no te representa", "ca": "Una web que no et representa", "en": "A website that doesn't represent you"}, "t32": {"es": "Lenta, anticuada o inexistente. La primera impresión se decide en segundos, y ahora mismo la estás perdiendo.", "ca": "Lenta, antiquada o inexistent. La primera impressió es decideix en segons, i ara mateix l'estàs perdent.", "en": "Slow, outdated or non-existent. First impressions are made in seconds, and right now you're losing them."}, "t33": {"es": "WhatsApps a medianoche", "ca": "WhatsApps a mitjanit", "en": "WhatsApps at midnight"}, "t34": {"es": "Respondes reservas fuera de horario, a mano y una a una. Horas de tu vida que no vuelven.", "ca": "Respons reserves fora d'horari, a mà i una a una. Hores de la teva vida que no tornen.", "en": "You answer bookings after hours, by hand, one by one. Hours of your life you won't get back."}, "t35": {"es": "Reseñas que nunca llegan", "ca": "Ressenyes que no arriben mai", "en": "Reviews that never come"}, "t36": {"es": "Tus clientes contentos se van satisfechos… y en silencio. Los que se quejan, no se callan.", "ca": "Els teus clients contents se'n van satisfets… i en silenci. Els que es queixen, no callen.", "en": "Your happy customers leave satisfied… and silent. The ones who complain don't keep quiet."}, "t37": {"es": "La solución ORYON", "ca": "La solució ORYON", "en": "The ORYON solution"}, "t38": {"es": "Tres estrellas alineadas.", "ca": "Tres estrelles alineades.", "en": "Three aligned stars."}, "t39": {"es": "Un sistema que trabaja 24 horas.", "ca": "Un sistema que treballa 24 hores.", "en": "A system that works 24 hours a day."}, "t40": {"es": "Estrella 01", "ca": "Estrella 01", "en": "Star 01"}, "t41": {"es": "Web de alto impacto", "ca": "Web d'alt impacte", "en": "High-impact website"}, "t42": {"es": "Diseño a medida, rapidísima en el móvil y pensada para convertir visitas en clientes. Nada de plantillas: tu marca, a otro nivel.", "ca": "Disseny a mida, rapidíssima al mòbil i pensada per convertir visites en clients. Res de plantilles: la teva marca, a un altre nivell.", "en": "Custom design, lightning-fast on mobile and built to turn visits into customers. No templates: your brand, on another level."}, "t43": {"es": "Estrella 02", "ca": "Estrella 02", "en": "Star 02"}, "t44": {"es": "Reservas automáticas", "ca": "Reserves automàtiques", "en": "Automatic bookings"}, "t45": {"es": "Tus clientes reservan en segundos, a cualquier hora, por web o WhatsApp. Confirmaciones y recordatorios sin que muevas un dedo.", "ca": "Els teus clients reserven en segons, a qualsevol hora, per web o WhatsApp. Confirmacions i recordatoris sense que moguis un dit.", "en": "Your customers book in seconds, at any time, on the web or WhatsApp. Confirmations and reminders without lifting a finger."}, "t46": {"es": "Estrella 03", "ca": "Estrella 03", "en": "Star 03"}, "t47": {"es": "Reputación en piloto automático", "ca": "Reputació en pilot automàtic", "en": "Reputation on autopilot"}, "t48": {"es": "Después de cada visita pedimos la reseña en el momento justo. Y cada mes recibes un informe claro de lo que dicen de ti.", "ca": "Després de cada visita demanem la ressenya en el moment just. I cada mes reps un informe clar del que diuen de tu.", "en": "After every visit we ask for the review at just the right moment. And every month you get a clear report of what people say about you."}, "t49": {"es": "El haz", "ca": "El feix", "en": "The beam"}, "t50": {"es": "Automatización a medida", "ca": "Automatització a mida", "en": "Tailor-made automation"}, "t51": {"es": "La luz que une las tres estrellas. Detectamos las tareas repetitivas que te roban horas y las eliminamos. Menos gestión, más negocio.", "ca": "La llum que uneix les tres estrelles. Detectem les tasques repetitives que et roben hores i les eliminem. Menys gestió, més negoci.", "en": "The light that connects the three stars. We find the repetitive tasks that steal your hours and remove them. Less admin, more business."}, "t52": {"es": "La diferencia,", "ca": "La diferència,", "en": "The difference,"}, "t53": {"es": "en una mirada.", "ca": "d'un cop d'ull.", "en": "at a glance."}, "t54": {"es": "Aspecto", "ca": "Aspecte", "en": "Area"}, "t55": {"es": "Sin ORYON", "ca": "Sense ORYON", "en": "Without ORYON"}, "t56": {"es": "Con ORYON", "ca": "Amb ORYON", "en": "With ORYON"}, "t57": {"es": "Reservas", "ca": "Reserves", "en": "Bookings"}, "t58": {"es": "Por teléfono y solo en horario", "ca": "Per telèfon i només en horari", "en": "By phone, only during opening hours"}, "t59": {"es": "Las 24 horas, sin intervenir", "ca": "Les 24 hores, sense intervenir", "en": "24 hours a day, hands-free"}, "t60": {"es": "Tu web", "ca": "La teva web", "en": "Your website"}, "t61": {"es": "Genérica, lenta o inexistente", "ca": "Genèrica, lenta o inexistent", "en": "Generic, slow or non-existent"}, "t62": {"es": "A medida y memorable", "ca": "A mida i memorable", "en": "Tailor-made and memorable"}, "t63": {"es": "Reseñas", "ca": "Ressenyes", "en": "Reviews"}, "t64": {"es": "Cuando el cliente se acuerda", "ca": "Quan el client se'n recorda", "en": "Whenever the customer remembers"}, "t65": {"es": "En el momento justo, cada vez", "ca": "En el moment just, cada vegada", "en": "At the right moment, every time"}, "t66": {"es": "Tu tiempo", "ca": "El teu temps", "en": "Your time"}, "t67": {"es": "Apagando fuegos", "ca": "Apagant focs", "en": "Putting out fires"}, "t68": {"es": "Dedicado a tu negocio", "ca": "Dedicat al teu negoci", "en": "Focused on your business"}, "t69": {"es": "Saber cómo vas", "ca": "Saber com vas", "en": "Knowing how you're doing"}, "t70": {"es": "Intuición", "ca": "Intuïció", "en": "Gut feeling"}, "t71": {"es": "Un informe claro cada mes", "ca": "Un informe clar cada mes", "en": "A clear report every month"}, "t72": {"es": "Lo que de verdad vendemos", "ca": "El que venem de debò", "en": "What we really sell"}, "t73": {"es": "No vendemos páginas web. Vendemos", "ca": "No venem pàgines web. Venem", "en": "We don't sell websites. We sell"}, "t74": {"es": "y", "ca": "i", "en": "and"}, "t75": {"es": "clientes que te encuentran,", "ca": "clients que et troben,", "en": "customers who find you,"}, "t76": {"es": "que te eligen", "ca": "que et trien", "en": "choose you"}, "t77": {"es": "que vuelven.", "ca": "que tornen.", "en": "come back."}, "t78": {"es": "Te encuentran", "ca": "Et troben", "en": "They find you"}, "t79": {"es": "Te eligen", "ca": "Et trien", "en": "They choose you"}, "t80": {"es": "Vuelven", "ca": "Tornen", "en": "They come back"}, "t81": {"es": "Nuestro trabajo", "ca": "La nostra feina", "en": "Our work"}, "t82": {"es": "Míralo con", "ca": "Mira-ho amb", "en": "See it with"}, "t83": {"es": "tus propios ojos.", "ca": "els teus propis ulls.", "en": "your own eyes."}, "t84": {"es": "Demos creadas para cada sector. Entra, navega y piensa en cómo se vería la tuya.", "ca": "Demos creades per a cada sector. Entra, navega i pensa com es veuria la teva.", "en": "Demos built for each sector. Go in, look around and imagine what yours could look like."}, "t85": {"es": "Ver demo", "ca": "Veure demo", "en": "View demo"}, "t86": {"es": "Demo 01", "ca": "Demo 01", "en": "Demo 01"}, "t87": {"es": "Restaurante", "ca": "Restaurant", "en": "Restaurant"}, "t88": {"es": "Muy pronto", "ca": "Molt aviat", "en": "Coming soon"}, "t89": {"es": "Demo 02", "ca": "Demo 02", "en": "Demo 02"}, "t90": {"es": "Clínica dental", "ca": "Clínica dental", "en": "Dental clinic"}, "t91": {"es": "Muy pronto", "ca": "Molt aviat", "en": "Coming soon"}, "t92": {"es": "Demo 03", "ca": "Demo 03", "en": "Demo 03"}, "t93": {"es": "Peluquería y estética", "ca": "Perruqueria i estètica", "en": "Hair & beauty salon"}, "t94": {"es": "Demo 04", "ca": "Demo 04", "en": "Demo 04"}, "t134": {"es": "Demo 05", "ca": "Demo 05", "en": "Demo 05"}, "t135": {"es": "Hotel boutique", "ca": "Hotel boutique", "en": "Boutique hotel"}, "t95": {"es": "La siguiente", "ca": "La següent", "en": "The next one"}, "t96": {"es": "puede ser la tuya.", "ca": "pot ser la teva.", "en": "could be yours."}, "t97": {"es": "Cuéntanos tu negocio y te enseñamos cómo podría verse.", "ca": "Explica'ns el teu negoci i et mostrem com es podria veure.", "en": "Tell us about your business and we'll show you how it could look."}, "t98": {"es": "Hablemos", "ca": "Parlem", "en": "Let's talk"}, "t99": {"es": "Cómo trabajamos", "ca": "Com treballem", "en": "How we work"}, "t100": {"es": "De la primera conversación a tu web", "ca": "De la primera conversa a la teva web", "en": "From the first conversation to your website"}, "t101": {"es": "en marcha.", "ca": "en marxa.", "en": "up and running."}, "t102": {"es": "Diagnóstico gratuito", "ca": "Diagnòstic gratuït", "en": "Free assessment"}, "t103": {"es": "Analizamos tu web, tus reservas y tu presencia online. Te decimos qué estás perdiendo y cómo recuperarlo.", "ca": "Analitzem la teva web, les teves reserves i la teva presència en línia. Et diem què estàs perdent i com recuperar-ho.", "en": "We review your website, your bookings and your online presence. We tell you what you're losing and how to get it back."}, "t104": {"es": "Diseño a tu medida", "ca": "Disseny a la teva mida", "en": "Designed for you"}, "t105": {"es": "Creamos tu web y tu sistema de reservas. Lo revisas y lo ajustamos hasta que te encante.", "ca": "Creem la teva web i el teu sistema de reserves. El revises i l'ajustem fins que t'encanti.", "en": "We build your website and booking system. You review it and we fine-tune it until you love it."}, "t106": {"es": "Lanzamiento", "ca": "Llançament", "en": "Launch"}, "t107": {"es": "Lo ponemos en marcha y te enseñamos todo en una sola sesión. Sin tecnicismos.", "ca": "El posem en marxa i t'ho ensenyem tot en una sola sessió. Sense tecnicismes.", "en": "We get it running and show you everything in a single session. No jargon."}, "t108": {"es": "Crecimiento continuo", "ca": "Creixement continu", "en": "Ongoing growth"}, "t109": {"es": "Mantenimiento, mejoras e informe mensual. Nunca te quedas solo.", "ca": "Manteniment, millores i informe mensual. Mai et quedes sol.", "en": "Maintenance, improvements and a monthly report. You're never on your own."}, "t110": {"es": "Lo que", "ca": "El que", "en": "What people"}, "t111": {"es": "nos suelen preguntar.", "ca": "ens solen preguntar.", "en": "usually ask us."}, "t112": {"es": "¿Y si ya tengo una web?", "ca": "I si ja tinc una web?", "en": "What if I already have a website?"}, "t113": {"es": "Perfecto. La analizamos y te decimos con total honestidad si merece la pena mejorarla o empezar de cero.", "ca": "Perfecte. L'analitzem i et diem amb total honestedat si val la pena millorar-la o començar de zero.", "en": "Great. We'll review it and tell you, with complete honesty, whether it's worth improving or starting from scratch."}, "t114": {"es": "¿Tengo que saber de tecnología?", "ca": "He de saber de tecnologia?", "en": "Do I need to know about technology?"}, "t115": {"es": "No. Nos encargamos de todo. Tú solo nos cuentas cómo funciona tu negocio.", "ca": "No. Ens n'encarreguem de tot. Tu només ens expliques com funciona el teu negoci.", "en": "No. We take care of everything. You just tell us how your business works."}, "t116": {"es": "¿Cuánto cuesta?", "ca": "Quant costa?", "en": "How much does it cost?"}, "t117": {"es": "Depende de lo que necesites. En el diagnóstico gratuito te damos un precio cerrado, sin letra pequeña ni sorpresas.", "ca": "Depèn del que necessitis. En el diagnòstic gratuït et donem un preu tancat, sense lletra petita ni sorpreses.", "en": "It depends on what you need. In the free assessment we give you a fixed price, with no small print and no surprises."}, "t118": {"es": "¿Cuánto se tarda?", "ca": "Quant es triga?", "en": "How long does it take?"}, "t119": {"es": "Cada proyecto es distinto, así que antes de empezar te damos una fecha de entrega cerrada.", "ca": "Cada projecte és diferent, així que abans de començar et donem una data d'entrega tancada.", "en": "Every project is different, so before we start we give you a fixed delivery date."}, "t120": {"es": "¿Qué pasa después del lanzamiento?", "ca": "Què passa després del llançament?", "en": "What happens after launch?"}, "t121": {"es": "Seguimos contigo: mantenimiento, cambios y un informe mensual de reservas y reseñas.", "ca": "Seguim amb tu: manteniment, canvis i un informe mensual de reserves i ressenyes.", "en": "We stay with you: maintenance, changes and a monthly report on bookings and reviews."}, "t122": {"es": "Plazas limitadas cada mes", "ca": "Places limitades cada mes", "en": "Limited spots each month"}, "t123": {"es": "Tu competencia ya está online.", "ca": "La teva competència ja és en línia.", "en": "Your competitors are already online."}, "t124": {"es": "La pregunta es quién lo hace mejor.", "ca": "La pregunta és qui ho fa millor.", "en": "The question is who does it better."}, "t125": {"es": "Trabajamos con pocos negocios a la vez, porque cada proyecto lleva nuestro nombre. Pide tu diagnóstico gratuito y descubre lo que estás dejando escapar.", "ca": "Treballem amb pocs negocis alhora, perquè cada projecte porta el nostre nom. Demana el teu diagnòstic gratuït i descobreix el que estàs deixant escapar.", "en": "We work with only a few businesses at a time, because every project carries our name. Ask for your free assessment and find out what you're letting slip away."}, "t126": {"es": "Escríbenos por WhatsApp", "ca": "Escriu-nos per WhatsApp", "en": "Message us on WhatsApp"}, "t127": {"es": "Pedir diagnóstico por email", "ca": "Demana el diagnòstic per email", "en": "Request an assessment by email"}, "t128": {"es": "Te llega el mensaje ya escrito: solo tienes que darle a enviar. Nuestro correo:", "ca": "Et arriba el missatge ja escrit: només has de donar-li a enviar. El nostre correu:", "en": "The message comes pre-written: you just hit send. Our email:"}, "t130": {"es": "Web · Reservas · Reputación — tres estrellas alineadas, como el cinturón de Orión.", "ca": "Web · Reserves · Reputació — tres estrelles alineades, com el cinturó d'Orió.", "en": "Website · Bookings · Reputation — three aligned stars, like Orion's Belt."}, "t132": {"es": "WhatsApp", "ca": "WhatsApp", "en": "WhatsApp"}, "t133": {"es": "Email", "ca": "Email", "en": "Email"}, "t136": {"es": "Míralo funcionando", "ca": "Mira-ho funcionant", "en": "See it in action"}, "t137": {"es": "Así se ve ORYON", "ca": "Així es veu ORYON", "en": "This is ORYON"}, "t138": {"es": "en tu negocio.", "ca": "al teu negoci.", "en": "in your business."}, "t139": {"es": "Ejemplos de lo que montamos, funcionando en directo.", "ca": "Exemples del que muntem, funcionant en directe.", "en": "Examples of what we build, running live."}, "t140": {"es": "Web", "ca": "Web", "en": "Web"}, "t141": {"es": "Clara, rápida y pensada para que te contacten.", "ca": "Clara, ràpida i pensada perquè et contactin.", "en": "Clear, fast and built to get you contacted."}, "t142": {"es": "Reservas", "ca": "Reserves", "en": "Bookings"}, "t143": {"es": "Citas y reservas online, con confirmación y recordatorio.", "ca": "Cites i reserves en línia, amb confirmació i recordatori.", "en": "Online bookings with confirmation and reminders."}, "t144": {"es": "Asistente", "ca": "Assistent", "en": "Assistant"}, "t145": {"es": "Responde lo de siempre, a cualquier hora.", "ca": "Respon el de sempre, a qualsevol hora.", "en": "Answers the usual questions, any time."}, "t146": {"es": "Automatización", "ca": "Automatització", "en": "Automation"}, "t147": {"es": "Lo repetitivo se hace solo.", "ca": "El repetitiu es fa sol.", "en": "Repetitive work runs itself."}, "t148": {"es": "Reseñas", "ca": "Ressenyes", "en": "Reviews"}, "t149": {"es": "Más opiniones y saber qué mejorar.", "ca": "Més opinions i saber què millorar.", "en": "More reviews and knowing what to improve."}, "t150": {"es": "Lo que incluye", "ca": "Què inclou", "en": "What's included"}, "t151": {"es": "Una web que explica lo que haces y te trae clientes.", "ca": "Una web que explica el que fas i et porta clients.", "en": "A website that explains what you do and brings you customers."}, "t152": {"es": "Diseño a medida, rapidísima en el móvil y preparada para que el cliente reserve o te escriba sin dar vueltas.", "ca": "Disseny a mida, rapidíssima al mòbil i preparada perquè el client reservi o t'escrigui sense voltes.", "en": "Custom design, lightning-fast on mobile and ready for customers to book or message you without hassle."}, "t153": {"es": "Diseño a medida, sin plantillas", "ca": "Disseny a mida, sense plantilles", "en": "Custom design, no templates"}, "t154": {"es": "Perfecta en móvil, tablet y ordenador", "ca": "Perfecta al mòbil, tauleta i ordinador", "en": "Perfect on mobile, tablet and desktop"}, "t155": {"es": "Botones de reservar y WhatsApp a mano", "ca": "Botons de reservar i WhatsApp a mà", "en": "Booking and WhatsApp buttons always at hand"}, "t156": {"es": "En español, catalán e inglés", "ca": "En castellà, català i anglès", "en": "In Spanish, Catalan and English"}, "t157": {"es": "Reservas y citas sin libreta ni llamadas perdidas.", "ca": "Reserves i cites sense llibreta ni trucades perdudes.", "en": "Bookings without notebooks or missed calls."}, "t158": {"es": "Tus clientes eligen día y hora cuando les va bien, también de noche. Tú lo ves todo en un calendario y el sistema confirma y recuerda la cita.", "ca": "Els teus clients trien dia i hora quan els va bé, també de nit. Tu ho veus tot en un calendari i el sistema confirma i recorda la cita.", "en": "Customers pick a day and time that suits them, even at night. You see everything in one calendar and the system confirms and sends reminders."}, "t159": {"es": "Mesas, habitaciones, pistas o citas", "ca": "Taules, habitacions, pistes o cites", "en": "Tables, rooms, courts or appointments"}, "t160": {"es": "Confirmación al momento", "ca": "Confirmació a l'instant", "en": "Instant confirmation"}, "t161": {"es": "Recordatorio antes de la cita", "ca": "Recordatori abans de la cita", "en": "Reminder before the appointment"}, "t162": {"es": "Calendario con tus horarios", "ca": "Calendari amb els teus horaris", "en": "Calendar with your opening hours"}, "t163": {"es": "Un asistente que responde lo de siempre, a cualquier hora.", "ca": "Un assistent que respon el de sempre, a qualsevol hora.", "en": "An assistant that answers the usual questions, any time."}, "t164": {"es": "Horarios, precios, cómo llegar, si hay sitio… Responde con tu información y te pasa lo que necesita a una persona.", "ca": "Horaris, preus, com arribar, si hi ha lloc… Respon amb la teva informació i et passa el que necessita una persona.", "en": "Opening hours, prices, directions, availability… It answers with your information and hands you anything that needs a person."}, "t165": {"es": "Asistente en tu web", "ca": "Assistent a la teva web", "en": "Assistant on your website"}, "t166": {"es": "Respuestas a preguntas frecuentes", "ca": "Respostes a preguntes freqüents", "en": "Answers to frequent questions"}, "t167": {"es": "Ninguna consulta se pierde", "ca": "Cap consulta es perd", "en": "No enquiry gets lost"}, "t168": {"es": "Te avisa cuando hace falta que respondas tú", "ca": "T'avisa quan cal que responguis tu", "en": "Alerts you when you need to step in"}, "t169": {"es": "Las tareas repetidas se hacen solas.", "ca": "Les tasques repetides es fan soles.", "en": "Repetitive tasks run themselves."}, "t170": {"es": "Conectamos las herramientas que ya usas para que la información pase de una a otra sin copiar y pegar.", "ca": "Connectem les eines que ja fas servir perquè la informació passi d'una a l'altra sense copiar i enganxar.", "en": "We connect the tools you already use so information flows between them without copy and paste."}, "t171": {"es": "Solicitudes que llegan ordenadas", "ca": "Sol·licituds que arriben ordenades", "en": "Requests that arrive organised"}, "t172": {"es": "Avisos al móvil al momento", "ca": "Avisos al mòbil a l'instant", "en": "Instant alerts on your phone"}, "t173": {"es": "Seguimientos automáticos", "ca": "Seguiments automàtics", "en": "Automatic follow-ups"}, "t174": {"es": "Informes que llegan solos", "ca": "Informes que arriben sols", "en": "Reports that arrive on their own"}, "t175": {"es": "Más reseñas y sabes qué mejorar.", "ca": "Més ressenyes i saps què millorar.", "en": "More reviews, and you know what to improve."}, "t176": {"es": "Pedimos opinión después de cada visita, en el momento justo, y resumimos lo que se repite: lo que más gusta y lo que falla.", "ca": "Demanem opinió després de cada visita, en el moment just, i resumim el que es repeteix: el que més agrada i el que falla.", "en": "We ask for feedback after every visit, at the right moment, and sum up what keeps coming up: what people love and what fails."}, "t177": {"es": "Petición de reseña automática", "ca": "Petició de ressenya automàtica", "en": "Automatic review requests"}, "t178": {"es": "Resumen de lo que se repite", "ca": "Resum del que es repeteix", "en": "Summary of recurring themes"}, "t179": {"es": "Aviso si llega una mala opinión", "ca": "Avís si arriba una mala opinió", "en": "Alert when a bad review comes in"}, "t180": {"es": "Informe mensual fácil de leer", "ca": "Informe mensual fàcil de llegir", "en": "Easy-to-read monthly report"}, "t181": {"es": "Cocina de brasa, producto de aquí.", "ca": "Cuina de brasa, producte d'aquí.", "en": "Grilled cuisine, local produce."}, "t182": {"es": "Tu sonrisa, en buenas manos.", "ca": "El teu somriure, en bones mans.", "en": "Your smile, in good hands."}, "t183": {"es": "Despierta frente al mar.", "ca": "Desperta davant del mar.", "en": "Wake up by the sea."}, "t184": {"es": "Tu pista, a un clic.", "ca": "La teva pista, a un clic.", "en": "Your court, one click away."}, "t185": {"es": "Reservar", "ca": "Reservar", "en": "Book now"}, "t187": {"es": "Elige día", "ca": "Tria dia", "en": "Pick a day"}, "t188": {"es": "Hora", "ca": "Hora", "en": "Time"}, "t189": {"es": "Personas", "ca": "Persones", "en": "Guests"}, "t190": {"es": "Reserva confirmada", "ca": "Reserva confirmada", "en": "Booking confirmed"}, "t191": {"es": "Vie 21 · 21:00 · 4 personas", "ca": "Dv 21 · 21:00 · 4 persones", "en": "Fri 21 · 9:00 pm · 4 guests"}, "t193": {"es": "Responde al momento", "ca": "Respon a l'instant", "en": "Replies instantly"}, "t194": {"es": "¿Abrís el domingo a mediodía?", "ca": "Obriu diumenge al migdia?", "en": "Are you open on Sunday at lunchtime?"}, "t195": {"es": "Sí, el domingo abrimos de 13:00 a 16:00. ¿Quieres que te reserve?", "ca": "Sí, diumenge obrim de 13:00 a 16:00. Vols que et reservi?", "en": "Yes, on Sunday we're open from 1 to 4 pm. Shall I book you in?"}, "t196": {"es": "Sí, para dos.", "ca": "Sí, per a dos.", "en": "Yes, for two."}, "t197": {"es": "¿A qué hora te va mejor?", "ca": "A quina hora et va millor?", "en": "What time suits you best?"}, "t198": {"es": "¡Hecho! Te esperamos el domingo a las 14:00.", "ca": "Fet! T'esperem diumenge a les 14:00.", "en": "Done! See you on Sunday at 2 pm."}, "t199": {"es": "Flujo automático", "ca": "Flux automàtic", "en": "Automatic flow"}, "t200": {"es": "Llega una solicitud desde tu web", "ca": "Arriba una sol·licitud des de la teva web", "en": "A request arrives from your website"}, "t201": {"es": "Se guarda en tu lista de clientes", "ca": "Es desa a la teva llista de clients", "en": "It's saved to your customer list"}, "t202": {"es": "Te avisa al móvil", "ca": "T'avisa al mòbil", "en": "You get an alert on your phone"}, "t203": {"es": "3 días sin respuesta: recordatorio", "ca": "3 dies sense resposta: recordatori", "en": "3 days without a reply: reminder"}, "t204": {"es": "Funcionando sin que hagas nada", "ca": "Funcionant sense que facis res", "en": "Running without you lifting a finger"}, "t205": {"es": "Resumen de opiniones", "ca": "Resum d'opinions", "en": "Review summary"}, "t206": {"es": "Este mes", "ca": "Aquest mes", "en": "This month"}, "t207": {"es": "Datos de ejemplo", "ca": "Dades d'exemple", "en": "Sample data"}, "t208": {"es": "Trato del personal", "ca": "Tracte del personal", "en": "Staff"}, "t209": {"es": "Calidad", "ca": "Qualitat", "en": "Quality"}, "t210": {"es": "Espera en hora punta", "ca": "Espera en hora punta", "en": "Peak-time wait"}, "t211": {"es": "Gusta", "ca": "Agrada", "en": "Loved"}, "t212": {"es": "A mejorar", "ca": "A millorar", "en": "To improve"}, "t213": {"es": "Idea: reforzar el equipo los sábados de 14:00 a 15:00.", "ca": "Idea: reforçar l'equip els dissabtes de 14:00 a 15:00.", "en": "Idea: add staff on Saturdays from 2 to 3 pm."}, "t214": {"es": "+38 reseñas nuevas", "ca": "+38 ressenyes noves", "en": "+38 new reviews"}, "t215": {"es": "Ejemplos ilustrativos: los datos son inventados.", "ca": "Exemples il·lustratius: les dades són inventades.", "en": "Illustrative examples: the data is made up."}, "t216": {"es": "Aviso legal", "ca": "Avís legal", "en": "Legal notice"}, "t217": {"es": "Privacidad", "ca": "Privacitat", "en": "Privacy"}, "t218": {"es": "Cookies", "ca": "Galetes", "en": "Cookies"}};
 var ORYON_UI_TXT={"es": {"menuOpen": "Abrir menú", "menuClose": "Cerrar menú", "title": "ORYON · Webs y automatización para negocios", "desc": "ORYON diseña webs a medida y automatiza reservas y reseñas para restaurantes, clubs de pádel y peluquerías.", "ch": ["Umbral", "La fuga", "Alineación", "Contraste", "Propósito", "Trabajo", "Método", "Dudas", "Contacto"], "waText": "Hola ORYON 👋 Me gustaría recibir el diagnóstico gratuito para mi negocio. ¿Podéis contarme cómo funciona?", "mailSubject": "Quiero mi diagnóstico gratis", "mailBody": "Hola ORYON,\n\nMe gustaría recibir el diagnóstico gratuito para mi negocio. ¿Podéis contactarme para contarme cómo funciona?\n\nGracias.", "waSoon": "Nuestro WhatsApp estará disponible muy pronto. Mientras tanto, <a href=\"{mail}\"{tgt}>escríbenos por email</a> y te respondemos enseguida.", "waAria": "Escríbenos por WhatsApp", "mailAria": "Escríbenos por email"}, "ca": {"menuOpen": "Obre el menú", "menuClose": "Tanca el menú", "title": "ORYON · Webs i automatització per a negocis", "desc": "ORYON dissenya webs a mida i automatitza reserves i ressenyes per a restaurants, clubs de pàdel i perruqueries.", "ch": ["Llindar", "La fuga", "Alineació", "Contrast", "Propòsit", "Feina", "Mètode", "Dubtes", "Contacte"], "waText": "Hola ORYON 👋 M'agradaria rebre el diagnòstic gratuït per al meu negoci. Em podeu explicar com funciona?", "mailSubject": "Vull el meu diagnòstic gratis", "mailBody": "Hola ORYON,\n\nM'agradaria rebre el diagnòstic gratuït per al meu negoci. Em podeu contactar per explicar-me com funciona?\n\nGràcies.", "waSoon": "El nostre WhatsApp estarà disponible molt aviat. Mentrestant, <a href=\"{mail}\"{tgt}>escriu-nos per email</a> i et responem de seguida.", "waAria": "Escriu-nos per WhatsApp", "mailAria": "Escriu-nos per email"}, "en": {"menuOpen": "Open menu", "menuClose": "Close menu", "title": "ORYON · Websites and automation for businesses", "desc": "ORYON designs custom websites and automates bookings and reviews for restaurants, padel clubs and hair salons.", "ch": ["Threshold", "The leak", "Alignment", "Contrast", "Purpose", "Work", "Method", "Questions", "Contact"], "waText": "Hi ORYON 👋 I'd like to get the free assessment for my business. Could you tell me how it works?", "mailSubject": "I want my free assessment", "mailBody": "Hi ORYON,\n\nI'd like to get the free assessment for my business. Could you get in touch to tell me how it works?\n\nThank you.", "waSoon": "Our WhatsApp will be available very soon. In the meantime, <a href=\"{mail}\"{tgt}>email us</a> and we'll get back to you right away.", "waAria": "Message us on WhatsApp", "mailAria": "Email us"}};
 (function(){
   var LANGS=['es','ca','en'];
@@ -959,7 +947,6 @@ var ORYON_UI_TXT={"es": {"menuOpen": "Abrir menú", "menuClose": "Cerrar menú",
     if(LANGS.indexOf(lang)<0)lang='es';
     window.ORYON_LANG=lang;document.documentElement.lang=lang;
     [].forEach.call(document.querySelectorAll('[data-i18n]'),function(el){var e=ORYON_DICT[el.getAttribute('data-i18n')];if(e&&e[lang]!=null)el.textContent=e[lang]});
-    [].forEach.call(document.querySelectorAll('[data-i18n-ph]'),function(el){var e=ORYON_DICT[el.getAttribute('data-i18n-ph')];if(e&&e[lang]!=null)el.setAttribute('placeholder',e[lang])});
     var U=ORYON_UI_TXT[lang];document.title=U.title;
     var md=document.querySelector('meta[name="description"]');if(md)md.setAttribute('content',U.desc);
     [].forEach.call(document.querySelectorAll('[data-ch]'),function(sec,i){if(U.ch[i])sec.setAttribute('data-title',U.ch[i])});
@@ -978,11 +965,7 @@ var ORYON_UI_TXT={"es": {"menuOpen": "Abrir menú", "menuClose": "Cerrar menú",
    Formato internacional sin "+" ni espacios. Ejemplo España: 34612345678 */
 var ORYON_CONTACT={
   whatsapp:'',
-  email:'oryonslcompany@gmail.com',
-  /* Dónde se envía el formulario del diagnóstico (automatización 1 de n8n: hoja de Google + aviso por correo).
-     En vuestro ordenador usa el n8n local. En la web publicada, poned aquí la dirección del n8n del servidor
-     cuando lo tengamos; mientras esté vacío, el formulario abre el correo con el mensaje ya escrito. */
-  formEndpoint:/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:5678/webhook/oryon-contacto':''
+  email:'oryonslcompany@gmail.com'
 };
 /* Los textos del mensaje (WhatsApp y email) están en ORYON_UI_TXT, uno por idioma. */
 (function(){
@@ -1009,40 +992,8 @@ var ORYON_CONTACT={
     a.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();
       show(T('waSoon').replace('{mail}',mailHref).replace('{tgt}',desktop?' target="_blank" rel="noopener"':''))});
   });
-  if(!num)document.documentElement.classList.add('no-wa');
   build();
   document.addEventListener('oryon:lang',build);
-})();
-</script>
-<script>
-/* ===== FORMULARIO DEL DIAGNÓSTICO GRATIS ===== */
-(function(){
-  var f=document.getElementById('diag-form');if(!f)return;
-  var st=f.querySelector('.df-status'),btn=f.querySelector('button[type="submit"]'),C=ORYON_CONTACT,enc=encodeURIComponent;
-  var desktop=matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>860;
-  function T(k){var d=ORYON_DICT[k];return d?(d[window.ORYON_LANG||'es']||d.es):''}
-  function show(msg,kind){st.textContent=msg;st.className='df-status'+(kind?' is-'+kind:'')}
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    if(f.web.value)return;
-    var v={nombre:f.nombre.value.trim(),negocio:f.negocio.value.trim(),email:f.email.value.trim(),tel:f.tel.value.trim(),msg:f.msg.value.trim()};
-    var err=v.nombre.length<2?['t320','nombre']:v.negocio.length<2?['t321','negocio']:!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email)?['t322','email']:!f.priv.checked?['t323','priv']:null;
-    if(err){show(T(err[0]),'err');f[err[1]].focus();return}
-    if(!C.formEndpoint){
-      var body=T('t329')+'\n\n'+T('t301')+': '+v.nombre+'\n'+T('t302')+': '+v.negocio+'\n'+T('t303')+': '+v.email+(v.tel?'\n'+T('t304').replace(/ \(.*\)/,'')+': '+v.tel:'')+(v.msg?'\n\n'+v.msg:'');
-      var subj=T('t20')+' · '+v.negocio;
-      var url=desktop?'https://mail.google.com/mail/?view=cm&fs=1&to='+enc(C.email)+'&su='+enc(subj)+'&body='+enc(body):'mailto:'+C.email+'?subject='+enc(subj)+'&body='+enc(body);
-      if(desktop)window.open(url,'_blank','noopener');else location.href=url;
-      show(T('t325'),'ok');return;
-    }
-    btn.disabled=true;show(T('t324'),'');
-    fetch(C.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
-      body:JSON.stringify({subject:'Diagnóstico gratis · '+v.negocio,name:v.nombre,email:v.email,empresa:v.negocio,telefono:v.tel,servicio:'Diagnóstico gratis',message:v.msg||'-'})})
-      .then(function(r){return r.json().catch(function(){return{}}).then(function(d){if(!r.ok||d.success===false)throw new Error('fallo')})})
-      .then(function(){f.reset();f.classList.add('sent');show(T('t326'),'ok')})
-      .catch(function(){show(T('t327').replace('{mail}',C.email),'err')})
-      .then(function(){btn.disabled=false});
-  });
 })();
 </script>
 <script>
@@ -1513,48 +1464,51 @@ function playIntro(){
     .to('.hero-fade',{y:0,opacity:1,duration:1.2,stagger:.1,ease:'expo.out'},GL?1.5:.4);
 }
 /* Sin fijar: la portada se desvanece mientras ya sube "La fuga", así no queda un tramo vacío */
-var heroTl=gsap.timeline({scrollTrigger:{trigger:'#inicio',start:'top top',end:'+=40%',scrub:true}});
+/* El logo y los textos se van al ritmo de siempre (a lo largo de toda la altura de la portada) */
+var heroTl=gsap.timeline({scrollTrigger:{trigger:'#inicio',start:'top top',end:'bottom top',scrub:true}});
 heroTl.to('.hero-word',{scale:1.9,letterSpacing:'.55em',opacity:0,filter:'blur(12px)',ease:'power2.in',duration:1},0)
   .to('.hero-copy',{y:-90,opacity:0,ease:'power2.in',duration:.55},0)
   .to('.hero-top',{y:-40,opacity:0,ease:'power2.in',duration:.4},0)
   .to('.scroll-hint',{opacity:0,duration:.15},0);
-segs.push({st:heroTl.scrollTrigger,f:function(p,P){P.morph=ss(.4,1,p);P.zoom=1+2.4*p*p}});
+segs.push({st:ScrollTrigger.create({trigger:'#inicio',start:'top top',end:'bottom 35%'}),f:function(p,P){P.morph=ss(.4,1,p);P.zoom=1+2.4*p*p}});
 
-/* II · La fuga — sin fijar: las 4 tarjetas aparecen juntas al llegar y se leen de un vistazo */
-segs.push({st:ScrollTrigger.create({trigger:'#problema',start:'top 60%',end:'top top'}),f:function(p,P){P.zoom=3.4-2.4*ss(0,1,p);P.lost=.82*ss(.35,1,p)}});
+/* II · La fuga */
+segs.push({st:ScrollTrigger.create({trigger:spacer('#problema'),start:'top 35%',end:'top top'}),f:function(p,P){P.zoom=3.4-2.4*ss(0,1,p)}});
+/* Sin fijar: las 4 tarjetas a la vista; entran escalonadas, la barra se llena sola y la tarjeta destacada va rotando */
 var pp=$$('#problema .panel');
-gsap.from(pp,{y:60,autoAlpha:0,filter:'blur(10px)',duration:1.1,stagger:.12,ease:'expo.out',clearProps:'transform,filter,opacity,visibility',scrollTrigger:{trigger:'#problema .panels',start:'top 82%',once:true}});
-gsap.fromTo('#problema .meter b',{scaleX:0},{scaleX:1,duration:2.4,ease:'power2.inOut',scrollTrigger:{trigger:'#problema',start:'top 35%',once:true}});
-segs.push({st:ScrollTrigger.create({trigger:'#problema',start:'top top',end:'bottom bottom'}),f:function(p,P){P.lost=.82;P.zoom=1+.12*p}});
+gsap.from(pp,{y:60,autoAlpha:0,duration:1.1,stagger:.12,ease:'expo.out',scrollTrigger:{trigger:'#problema .panels',start:'top 85%',once:true}});
+gsap.fromTo('#problema .meter b',{scaleX:0},{scaleX:1,ease:'power1.inOut',duration:3.6,scrollTrigger:{trigger:'#problema',start:'top 55%',toggleActions:'play none none reset'}});
+function cycleOn(list,ms){var k=-1,tm=null;function step(){list.forEach(function(e,j){e.classList.toggle('on',j===k)});k=(k+1)%list.length;tm=setTimeout(step,ms)}
+  return{play:function(){if(!tm){k=0;step()}},stop:function(){clearTimeout(tm);tm=null;list.forEach(function(e){e.classList.remove('on')})}}}
+var pCyc=cycleOn(pp,2600);
+ScrollTrigger.create({trigger:'#problema',start:'top 70%',end:'bottom 30%',onToggle:function(s){s.isActive?pCyc.play():pCyc.stop()}});
+segs.push({st:ScrollTrigger.create({trigger:'#problema',start:'top top',end:'bottom bottom'}),f:function(p,P){P.lost=.82;P.zoom=1.12}});
 
-/* III · Alineación — sin fijar ni esperar: las 4 tarjetas a la vista. Al llegar se encienden las estrellas
-   una tras otra (2 s) y, al pasar el ratón por una tarjeta, su estrella brilla y las demás se atenúan */
-var sp=$$('#servicios .panel'),al={b0:0,b1:0,b2:0,beam:0},SK=['b0','b1','b2','beam'],sOn=false;
-enter('#servicios','top top',function(p,P){P.morph=1+ss(.08,1,p);P.lost=.82*(1-ss(0,.6,p));P.zoom=1.12-.12*p;P.b0=al.b0;P.b1=al.b1;P.b2=al.b2;P.beam=al.beam});
-gsap.from(sp,{y:50,autoAlpha:0,duration:1,stagger:.1,ease:'expo.out',clearProps:'transform,opacity,visibility',scrollTrigger:{trigger:'#servicios .panels',start:'top 85%',once:true}});
-function starTo(k,v,d){var o={duration:d||.5,ease:'power2.out',overwrite:'auto'};o[k]=v;gsap.to(al,o)}
-function focusStar(i){
-  SK.forEach(function(k,j){starTo(k,i<0?(sOn?1:0):(j===i?1:.22))});
-  sp.forEach(function(c,j){c.classList.toggle('dim',i>=0&&j!==i);c.classList.toggle('focus',j===i)});
-}
-ScrollTrigger.create({trigger:'#servicios',start:'top 55%',once:true,onEnter:function(){
-  sOn=true;
-  SK.forEach(function(k,j){gsap.delayedCall(.2+j*.45,function(){if(!$('#servicios .panel.focus'))starTo(k,1,.9);sp[j].classList.add('lit')})});
-}});
-sp.forEach(function(c,i){
-  if(canHover){c.addEventListener('pointerenter',function(){focusStar(i)});c.addEventListener('pointerleave',function(){focusStar(-1)})}
-  else c.addEventListener('click',function(){focusStar(c.classList.contains('focus')?-1:i)});
-});
-segs.push({st:ScrollTrigger.create({trigger:'#servicios',start:'top top',end:'bottom bottom'}),f:function(p,P){P.b0=al.b0;P.b1=al.b1;P.b2=al.b2;P.beam=al.beam}});
+/* III · Alineación */
+enter('#servicios','top top',function(p,P){P.morph=1+ss(.08,1,p);P.lost=.82*(1-ss(0,.6,p));P.zoom=1.12-.12*p});
+/* Sin fijar: las 4 tarjetas a la vista. En bucle, mientras se ve, cada tarjeta se ilumina a la vez que su estrella
+   (la última enciende el haz que las une) */
+var sp=$$('#servicios .panel');
+gsap.from(sp,{y:60,autoAlpha:0,duration:1.1,stagger:.12,ease:'expo.out',scrollTrigger:{trigger:'#servicios .panels',start:'top 85%',once:true}});
+var sPin=ScrollTrigger.create({trigger:'#servicios',start:'top top',end:'bottom bottom'});
+var al={b0:0,b1:0,b2:0,beam:0},SD=2.6,sTl=gsap.timeline({paused:true,repeat:-1});
+function sOn(k){return function(){sp.forEach(function(e,j){e.classList.toggle('on',j===k)})}}
+sp.forEach(function(el,i){var t=i*SD+.2;sTl.call(sOn(i),null,t);
+  if(i<3)sTl.to(al,{['b'+i]:1,duration:.7,ease:'power2.out'},t);else sTl.to(al,{beam:1,duration:1.1,ease:'power2.inOut'},t)});
+var sEnd=sp.length*SD+1.6;
+sTl.call(sOn(-1),null,sEnd-.6).to(al,{b0:0,b1:0,b2:0,beam:0,duration:.5},sEnd-.6).to({},{duration:.1},sEnd-.1);
+ScrollTrigger.create({trigger:'#servicios',start:'top 60%',end:'bottom 30%',onToggle:function(s){s.isActive?sTl.play():sTl.pause()}});
+segs.push({st:sPin,f:function(p,P){P.b0=al.b0;P.b1=al.b1;P.b2=al.b2;P.beam=al.beam}});
 
-/* III-B · Míralo funcionando: el fondo se calma poco a poco para que se lean bien los ejemplos */
-segs.push({st:ScrollTrigger.create({trigger:'#casos',start:'top bottom',end:'bottom bottom'}),f:function(p,P){if(p>=1)return;var k=1-ss(0,.35,p);P.b0*=k;P.b1*=k;P.b2*=k;P.beam*=k;P.alpha=1-.5*ss(0,.35,p)}});
+/* III-B · Míralo funcionando: el fondo se calma (sin etiquetas de estrellas) para que se lean bien los ejemplos */
+segs.push({st:ScrollTrigger.create({trigger:'#casos',start:'top 35%',end:'bottom bottom'}),f:function(p,P){if(p>=1)return;P.b0=P.b1=P.b2=P.beam=0;P.alpha=.5}});
 
 /* IV · Contraste */
 enter('#contraste','top top',function(p,P){P.morph=2+ss(.1,1,p)});
 var rows=$$('#contraste .cmp-row');
 gsap.set($$('#contraste .con'),{autoAlpha:0,x:-18});
-/* El láser escanea la tabla solo al llegar (no depende de seguir bajando ni frena el scroll) */
+/* El láser escanea la tabla solo al llegar (no depende de seguir bajando) */
+ScrollTrigger.create({trigger:'#contraste',start:'top top',end:'+=70%',pin:true});
 var cTl=gsap.timeline({paused:true});
 ScrollTrigger.create({trigger:'#contraste',start:'top 45%',once:true,onEnter:function(){cTl.play()}});
 cTl.to('.cmp-beam',{opacity:1,duration:.1},0).fromTo('.cmp-beam',{top:'14%'},{top:'100%',ease:'none',duration:rows.length*.6},0);
@@ -1565,7 +1519,7 @@ rows.forEach(function(r,i){var t=.15+i*.6;
 cTl.to('.cmp-beam',{opacity:0,duration:.15},rows.length*.6).to({},{duration:.5});
 
 /* V · Propósito */
-var mt=$('.mani-text'),words=[],maniP=0;
+var mt=$('.mani-text'),words=[],maniP=0,kTh=[.1,.42,.74];
 function splitNode(node){
   Array.prototype.slice.call(node.childNodes).forEach(function(n){
     if(n.nodeType===3){
@@ -1581,22 +1535,20 @@ function splitNode(node){
 }
 function paintMani(p){words.forEach(function(w){var o=Math.min(1,Math.max(0,(p-w._th)/.04));w.style.opacity=(.12+.88*o).toFixed(3)})}
 function prepMani(){
-  splitNode(mt);words=$$('.w',mt);var seenK=false,i0=0;
-  words.forEach(function(w){var k=w.closest('.k');
-    if(k){seenK=true;var g=k.classList.contains('k1')?.08:k.classList.contains('k2')?.4:.72;w._th=g+$$('.w',k).indexOf(w)*.03}
-    else if(!seenK){w._th=.005+i0*.012;i0++}
-    else w._th=.36});
+  /* La frase sale ya escrita en blanco desde el principio */
+  splitNode(mt);words=$$('.w',mt);
+  words.forEach(function(w){w._th=-1});
+  kTh=[0,.33,.66];
   paintMani(maniP);
 }
 prepMani();
-/* Sin fijar: al llegar, la frase se ilumina sola en unos 2,5 s y luego quedan encendidas las tres etiquetas */
-var tags=$$('.mani-tags li'),mObj={p:0};
-function paintTags(p){tags[0].classList.toggle('on',p>.1);tags[1].classList.toggle('on',p>=.42);tags[2].classList.toggle('on',p>=.74)}
-ScrollTrigger.create({trigger:'#proposito .mani-text',start:'top 72%',once:true,onEnter:function(){
-  gsap.to(mObj,{p:1,duration:2.6,ease:'power1.inOut',onUpdate:function(){maniP=mObj.p;paintMani(maniP);paintTags(maniP)}});
-}});
-enter('#proposito','top top',function(p,P){var q=maniP*ss(.3,1,p);P.morph=3+ss(.06,.18,q)+ss(.38,.5,q)+ss(.7,.82,q)});
-segs.push({st:ScrollTrigger.create({trigger:'#proposito',start:'top top',end:'bottom bottom'}),f:function(p,P){var q=maniP;P.morph=3+ss(.06,.18,q)+ss(.38,.5,q)+ss(.7,.82,q)}});
+/* Fijada solo un momento: la frase ya está escrita, así que se sigue bajando enseguida */
+var mTl=gsap.timeline({scrollTrigger:{trigger:'#proposito',start:'top top',end:'+=50%',pin:true,scrub:true}});
+mTl.to({},{duration:1},0);
+var tags=$$('.mani-tags li');
+mTl.eventCallback('onUpdate',function(){var p=mTl.progress();maniP=p;paintMani(p);tags[0].classList.toggle('on',p>kTh[0]&&p<kTh[1]);tags[1].classList.toggle('on',p>=kTh[1]&&p<kTh[2]);tags[2].classList.toggle('on',p>=kTh[2])});
+enter('#proposito','top top',function(p,P){});
+segs.push({st:mTl.scrollTrigger,f:function(p,P){P.morph=3+ss(.06,.18,p)+ss(.38,.5,p)+ss(.7,.82,p)}});
 
 /* VI · Demos */
 enter('#demos','top 25%',function(p,P){P.morph=6+ss(0,1,p);P.alpha=1-.5*ss(0,1,p)});
@@ -1663,7 +1615,7 @@ if(document.fonts&&document.fonts.ready){document.fonts.ready.then(start)}else{a
 setTimeout(start,2500);
 })();
 </script>
-
+<div aria-hidden="true" id="bgm-yt"></div>
 <script>
 /* ===== MÚSICA DE FONDO =====
    1) Si existe AUDIO_FILE (junto a index.html) se usa ese archivo: funciona
@@ -1674,11 +1626,12 @@ setTimeout(start,2500);
    así que arranca con el primer clic / toque / tecla. El botón la silencia
    y la preferencia se recuerda. */
 (function(){
-  var AUDIO_FILE='musica-fondo.mp3', VOLUME=0.35;
+  var AUDIO_FILE='musica-fondo.mp3', VIDEO_ID='4PQzuCbSR4w', VOLUME=0.35;
   var btn=document.getElementById('bgm-btn'), tip=document.getElementById('bgm-tip');
+  if(!btn)return; /* sin botón no suena música */
   var TXT={es:{on:'Silenciar música',off:'Activar música',tip:'Música'},ca:{on:'Silencia la música',off:'Activa la música',tip:'Música'},en:{on:'Mute music',off:'Play music',tip:'Music'}};
   function pref(v){try{if(v!==undefined)localStorage.setItem('oryon-music',v);return localStorage.getItem('oryon-music')}catch(e){return null}}
-  var wantOn=pref()==='on', unlocked=false, playing=false, src=null; /* src: motor activo {play,stop} */
+  var wantOn=pref()!=='off', unlocked=false, playing=false, src=null; /* src: motor activo {play,stop} */
   function label(){var t=TXT[window.ORYON_LANG]||TXT.es;btn.setAttribute('aria-pressed',String(playing));btn.setAttribute('aria-label',playing?t.on:t.off);tip.textContent=t.tip}
   function setPlaying(v){playing=v;label()}
   document.addEventListener('oryon:lang',label);label();
@@ -1690,9 +1643,25 @@ setTimeout(start,2500);
   a.addEventListener('pause',function(){setPlaying(false)});
   a.addEventListener('canplay',function once(){a.removeEventListener('canplay',once);
     src={play:function(){a.play().catch(function(){})},stop:function(){a.pause()}};go()});
-  /* Sin archivo de música: se oculta el botón (ya no se usa YouTube, que mete cookies de Google) */
-  a.addEventListener('error',function(){btn.hidden=true;btn.style.display='none'},{once:true});
+  a.addEventListener('error',useYouTube,{once:true});
   a.src=AUDIO_FILE;
+
+  /* Motor 2 (respaldo): YouTube */
+  function useYouTube(){
+    if(location.protocol==='file:'){console.warn('[ORYON música] No hay '+AUDIO_FILE+' y YouTube no funciona abriendo la web con doble clic (file://).');return}
+    var player;
+    window.onYouTubeIframeAPIReady=function(){
+      player=new YT.Player('bgm-yt',{width:200,height:200,videoId:VIDEO_ID,
+        playerVars:{autoplay:0,controls:0,loop:1,playlist:VIDEO_ID,playsinline:1,disablekb:1,rel:0,origin:location.origin},
+        events:{
+          onReady:function(){player.setVolume(VOLUME*100);
+            src={play:function(){player.unMute();player.setVolume(VOLUME*100);player.playVideo()},stop:function(){player.pauseVideo()}};go()},
+          onStateChange:function(e){if(e.data===1)setPlaying(true);else if(e.data===2)setPlaying(false);if(e.data===0){player.seekTo(0);player.playVideo()}},
+          onError:function(e){console.warn('[ORYON música] YouTube no permite reproducir el vídeo (error '+e.data+').')}
+        }});
+    };
+    var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';s.async=true;document.head.appendChild(s);
+  }
 
   btn.addEventListener('click',function(e){
     e.stopPropagation();unlocked=true;
@@ -1706,22 +1675,25 @@ setTimeout(start,2500);
 })();
 </script>
 <script>
-/* ===== MÍRALO FUNCIONANDO: mosaico con los 5 servicios a la vista =====
-   Cada tarjeta repite su propia animación en bucle mientras está en pantalla: no hay que esperar ni pulsar nada.
-   En el móvil se desliza con el dedo. Con "reducir movimiento" se ve cada ejemplo ya terminado. */
+/* ===== MÍRALO FUNCIONANDO: las pestañas pasan solas y cada ejemplo se anima =====
+   Funciona también sin GSAP. Con "reducir movimiento" se muestra cada ejemplo ya terminado y no avanza solo. */
 (function(){
   var root=document.querySelector('[data-cs]');if(!root)return;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var cards=[].slice.call(root.querySelectorAll('.bx'));
-  var LOOP=[8800,8200,10200,7600,7600];
+  /* Los 5 ejemplos están a la vista a la vez: cada tarjeta repite su animación en bucle mientras se ve en pantalla */
+  var panels=[].slice.call(root.querySelectorAll('.cs-panel'));
+  var DUR=[9000,8000,10000,7500,7000];
+  var ctx=panels.map(function(){return{gen:0,steps:[],loop:null,on:false}}),CTX=null;
   var dd=root.querySelector('.bk-days');
   for(var d=1;d<=28;d++){var s=document.createElement('span');s.textContent=d;if(d%7===3)s.className='off';dd.appendChild(s)}
+  function later(ms,fn){var c=CTX,g=c.gen;c.steps.push(setTimeout(function(){if(g!==c.gen)return;var p=CTX;CTX=c;try{fn()}finally{CTX=p}},ms))}
+  function stop(c){c.steps.forEach(clearTimeout);c.steps=[];clearTimeout(c.loop);c.gen++}
   function cursor(v){return v.querySelector('.mk-cur')}
   function park(v){var c=cursor(v);if(!c)return;c.style.transition='none';c.style.opacity=0;c.style.transform='translate('+(v.clientWidth*.75)+'px,'+(v.clientHeight*.95)+'px)';void c.offsetWidth;c.style.transition=''}
   function tap(v){var c=cursor(v);if(!c)return;c.classList.remove('click');void c.offsetWidth;c.classList.add('click')}
   function moveTo(v,el){var c=cursor(v);if(!c||!el)return;var a=v.getBoundingClientRect(),b=el.getBoundingClientRect();c.style.opacity=1;c.style.transform='translate('+(b.left-a.left+b.width*.5)+'px,'+(b.top-a.top+b.height*.5)+'px)'}
   var scenes=[
-    function(v,fin,later){ /* Web: la misma web cambia de sector y el cursor pulsa "Reservar" */
+    function(v,fin){ /* Web: la misma web cambia de sector cada 2 s y el cursor pulsa "Reservar" */
       var n=0;v.setAttribute('data-s','0');if(fin)return;
       (function cyc(){later(2200,function(){n=(n+1)%4;v.setAttribute('data-s',String(n));cyc()})})();
       var b=v.querySelector('.mk-hero .mk-cta');
@@ -1731,7 +1703,7 @@ setTimeout(start,2500);
       later(3550,function(){tap(v)});
       later(4300,function(){cursor(v).style.opacity=0});
     },
-    function(v,fin,later){ /* Reservas: día → hora → personas → confirmada */
+    function(v,fin){ /* Reservas: día → hora → personas → confirmada */
       var days=v.querySelectorAll('.bk-days span'),day=days[20],t=v.querySelector('.t-on'),plus=v.querySelector('.bk-plus'),n=v.querySelector('.bk-n b');
       day.classList.remove('d-on');v.classList.remove('t-sel','ok');n.textContent='2';
       if(fin){day.classList.add('d-on');v.classList.add('t-sel','ok');n.textContent='4';return}
@@ -1744,7 +1716,7 @@ setTimeout(start,2500);
       later(5000,function(){tap(v);n.textContent='4'});
       later(5600,function(){cursor(v).style.opacity=0;v.classList.add('ok')});
     },
-    function(v,fin,later){ /* Asistente: conversación que se escribe sola */
+    function(v,fin){ /* Asistente: conversación que se escribe sola */
       var ms=[].slice.call(v.querySelectorAll('.ch-m')),ty=v.querySelector('.ch-typing'),chip=v.querySelector('.c-on');
       ms.forEach(function(m){m.classList.remove('show')});ty.classList.remove('show');chip.classList.remove('sel');
       if(fin){ms.forEach(function(m){m.classList.add('show')});chip.classList.add('sel');return}
@@ -1753,55 +1725,35 @@ setTimeout(start,2500);
       later(6200,function(){chip.classList.add('sel')});
       say(4,7600,true);
     },
-    function(v,fin,later){ /* Automatización: los pasos se encienden uno detrás de otro */
+    function(v,fin){ /* Automatización: los pasos se encienden uno detrás de otro */
       var li=v.querySelectorAll('.fl-steps li'),ol=v.querySelector('.fl-steps');
       v.classList.remove('done');[].forEach.call(li,function(l){l.classList.remove('on')});ol.style.setProperty('--p','0');
       if(fin){[].forEach.call(li,function(l){l.classList.add('on')});ol.style.setProperty('--p','1');v.classList.add('done');return}
       [0,1,2,3].forEach(function(i){later(450+i*1250,function(){li[i].classList.add('on');ol.style.setProperty('--p',String(i/3))})});
       later(450+3*1250+700,function(){v.classList.add('done')});
     },
-    function(v,fin,later,alive){ /* Reseñas: la nota sube, las estrellas y las barras se llenan */
+    function(v,fin){ /* Reseñas: la nota sube, las estrellas y las barras se llenan */
       var num=v.querySelector('.rv-num'),sep=window.ORYON_LANG==='en'?'.':',';
       v.classList.remove('go');num.textContent='0'+sep+'0';
       if(fin){v.classList.add('go');num.textContent='4'+sep+'6';return}
-      later(350,function(){v.classList.add('go');var t0=performance.now();
-        (function tick(t){if(!alive())return;var k=Math.min(1,(t-t0)/1400);num.textContent=(4.6*(1-Math.pow(1-k,3))).toFixed(1).replace('.',sep);if(k<1)requestAnimationFrame(tick)})(t0)});
-      later(6000,function(){v.classList.remove('go')});
+      later(350,function(){v.classList.add('go');var c=CTX,g=c.gen,t0=performance.now();
+        (function tick(t){if(g!==c.gen)return;var k=Math.min(1,(t-t0)/1400);num.textContent=(4.6*(1-Math.pow(1-k,3))).toFixed(1).replace('.',sep);if(k<1)requestAnimationFrame(tick)})(t0)});
     }
   ];
-
-  cards.forEach(function(card,i){
-    var v=card.querySelector('.cs-vis'),gen=0,timers=[];
-    card._on=false;
-    function stop(){gen++;timers.forEach(clearTimeout);timers=[]}
-    function later(ms,fn){var g=gen;timers.push(setTimeout(function(){if(g===gen)fn()},ms))}
-    function run(){stop();var g=gen;park(v);scenes[i](v,false,later,function(){return g===gen});later(LOOP[i],run)}
-    card._start=function(){card._on=true;run()};
-    card._stop=function(){card._on=false;stop()};
-    /* brillo que sigue al ratón */
-    card.addEventListener('pointermove',function(e){var r=card.getBoundingClientRect();card.style.setProperty('--mx',(e.clientX-r.left)+'px');card.style.setProperty('--my',(e.clientY-r.top)+'px')});
-    if(reduce){scenes[i](v,true,function(){},function(){return false})}
-  });
-
-  if(!reduce&&'IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){
-      var c=e.target;
-      if(e.isIntersecting&&!c._on)c._start();
-      else if(!e.isIntersecting&&c._on)c._stop();
-    })},{threshold:.35});
-    cards.forEach(function(c){io.observe(c)});
-  }else if(!reduce){cards.forEach(function(c){c._start()})}
-
-  document.addEventListener('oryon:lang',function(){cards.forEach(function(c){if(c._on)c._start()})});
-
-  /* Móvil: puntos que indican qué tarjeta se está viendo al deslizar */
-  var dots=[].slice.call(document.querySelectorAll('.bx-dots i'));
-  function markDot(){
-    var mid=root.scrollLeft+root.clientWidth/2,best=0,bd=1e9;
-    cards.forEach(function(c,i){var cx=c.offsetLeft+c.offsetWidth/2,dd=Math.abs(cx-mid);if(dd<bd){bd=dd;best=i}});
-    dots.forEach(function(d,i){d.classList.toggle('on',i===best)});
+  function run(i){
+    var c=ctx[i],v=panels[i].querySelector('.cs-vis');stop(c);park(v);
+    CTX=c;try{scenes[i](v,reduce)}finally{CTX=null}
+    if(!reduce&&c.on)c.loop=setTimeout(function(){run(i)},DUR[i]);
   }
-  root.addEventListener('scroll',markDot,{passive:true});markDot();
+  document.addEventListener('oryon:lang',function(){panels.forEach(function(p,i){if(ctx[i].on||reduce)run(i)})});
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      var i=panels.indexOf(e.target),c=ctx[i];
+      if(e.isIntersecting&&!c.on){c.on=true;e.target.classList.add('is-on');run(i)}
+      else if(!e.isIntersecting&&c.on){c.on=false;stop(c)}
+    })},{threshold:.3});
+    panels.forEach(function(p){io.observe(p)});
+  }else{panels.forEach(function(p,i){ctx[i].on=true;p.classList.add('is-on');run(i)})}
 })();
 </script>
 </body>
