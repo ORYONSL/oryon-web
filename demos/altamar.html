@@ -1,0 +1,1574 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<!-- BORRADOR: quitar esta línea el día de la inauguración para que Google la muestre -->
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ALTAMAR — terraza y cócteles con vistas al mar</title>
+<meta name="description" content="Altamar: terraza con vistas al mar, cócteles, atardeceres y DJ. Reserva tu mesa en un minuto. Demo de ORYON.">
+<meta property="og:title" content="ALTAMAR — terraza y cócteles con vistas">
+<meta property="og:description" content="Piña colada, daiquiri, mojito… y el sol poniéndose despacio. Reserva tu mesa.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#071A22">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  ============================================================================
+  ALTAMAR · terraza de cócteles ficticia · demo comercial de ORYON
+  Prompt: Projects/plantillas/prompt-terraza-cocteles.md
+  Modelo: carrusel de producto 3D en arco (vídeo «Websites in 2026»).
+  Escenas con scroll (variable S = escena + avance):
+    0 Atardecer · 1 Manifiesto · 2 Carrusel de bebidas · 3 Todas en fila · 4 Carta completa
+  Después: Momentos, Reserva, Opiniones, Cómo llegar, Preguntas y Cierre.
+  Para cambiar bebidas: array DRINKS. Para la carta: MENU. Textos: DICT (es, ca, en).
+  La reserva es una simulación: no envía nada.
+  ============================================================================
+-->
+<style>
+:root{
+  --deep:#071A22; --sea:#0C2A36; --sand:#F4E7D3; --sun:#FF9A4D; --coral:#FF5E5B;
+  --muted:#A3B7BC; --line:rgba(244,231,211,.15); --card:rgba(9,30,40,.62);
+  --acc:#FFD36B; --acc2:#FFF4D6; --sil:#02090D;
+  --display:'Anton','Impact','Arial Narrow',sans-serif;
+  --serif:'Instrument Serif','Iowan Old Style',Georgia,serif;
+  --sans:'Inter Tight',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --vh:100vh; --g:clamp(16px,3.2vw,44px);
+}
+@supports (height:100svh){:root{--vh:100svh}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--deep);-webkit-text-size-adjust:100%}
+body{background:var(--deep);color:var(--sand);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.no-gl{background:linear-gradient(180deg,#123049 0%,#E98A52 45%,#071A22 46%) fixed}
+body.locked{overflow:hidden}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+::selection{background:var(--acc);color:var(--deep)}
+em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--acc);letter-spacing:0;text-transform:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+#gl{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0;pointer-events:none}
+main,footer{position:relative;z-index:2}
+
+/* ---------- aviso de edad ---------- */
+#gate{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;background:radial-gradient(70% 60% at 50% 30%,rgba(255,154,77,.55),transparent 70%),linear-gradient(180deg,#123049,#071A22 70%);transition:opacity .8s,visibility .8s}
+#gate.out{opacity:0;visibility:hidden}
+.gate-in{text-align:center;max-width:460px}
+.gate-logo{font-family:var(--display);letter-spacing:.3em;font-size:15px;padding-left:.3em;color:var(--sand)}
+.gate-sun{width:110px;height:110px;border-radius:50%;margin:30px auto;background:radial-gradient(circle,#FFE6A8,#FF9A4D 60%,#FF5E5B);box-shadow:0 0 80px rgba(255,154,77,.7)}
+.gate-q{font-family:var(--display);font-size:clamp(38px,8vw,60px);line-height:1;text-transform:uppercase}
+.gate-t{font-family:var(--serif);font-size:22px;color:var(--muted);margin:14px 0 28px}
+.gate-b{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.gate-minor{display:none}
+#gate.minor .gate-main{display:none}
+#gate.minor .gate-minor{display:block}
+.gate-minor p{font-family:var(--serif);font-size:24px;line-height:1.25;margin-bottom:24px}
+
+/* ---------- botones ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--sand);color:var(--deep);border:0;border-radius:99px;padding:13px 22px;font-weight:600;font-size:14px;text-decoration:none;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--acc)}
+.btn.acc{background:var(--acc);color:#1b1206}
+.btn.ghost{background:transparent;color:var(--sand);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--acc)}
+.btn svg{width:16px;height:16px}
+
+/* ---------- navegación ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px var(--g);transition:background .5s,backdrop-filter .5s}
+.nav.solid{background:linear-gradient(180deg,rgba(7,26,34,.85),rgba(7,26,34,0))}
+.logo{font-family:var(--display);font-size:21px;letter-spacing:.24em;text-decoration:none;white-space:nowrap}
+.nav-l{display:flex;gap:26px;font-size:13px;letter-spacing:.06em}
+.nav-l a{text-decoration:none;opacity:.8}.nav-l a:hover{opacity:1;color:var(--acc)}
+.nav-r{display:flex;align-items:center;gap:12px}
+.lang{display:flex;gap:2px;border:1px solid var(--line);border-radius:99px;padding:3px}
+.lang button{background:none;border:0;font-size:11px;letter-spacing:.12em;padding:6px 9px;border-radius:99px;color:var(--muted)}
+.lang button.on{background:var(--sand);color:var(--deep)}
+.na-badge{display:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--acc);color:var(--acc);border-radius:99px;padding:6px 10px;background:none}
+body.minor .na-badge{display:inline-block}
+
+/* ---------- comunes ---------- */
+section{position:relative}
+.stick{position:sticky;top:0;height:var(--vh);overflow:hidden}
+.eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);display:flex;align-items:center;gap:12px}
+.eyebrow:before{content:"";width:28px;height:1px;background:currentColor}
+.h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(50px,7.6vw,132px);line-height:.88;margin-top:18px}
+.h2 em{display:block}
+.lead{font-family:var(--serif);font-size:clamp(20px,2vw,27px);line-height:1.25;color:var(--muted);max-width:34ch;margin-top:18px}
+.rv{opacity:0;transform:translateY(36px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.wrap{padding-left:var(--g);padding-right:var(--g)}
+.solid{background:linear-gradient(180deg,rgba(7,26,34,0),rgba(7,26,34,.9) 140px)}
+
+/* ---------- 0 · atardecer ---------- */
+#s0{height:220vh}
+.hero-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-svg .sil{fill:var(--sil)}
+.hero-svg .silS{stroke:var(--sil);fill:none;stroke-linecap:round}
+.bulb .b{fill:#3a3226;transition:fill .6s}
+.bulb .hl{fill:url(#bulbGlow);opacity:0;transition:opacity .8s}
+.bulb.on .b{fill:#FFE3A1}
+.bulb.on .hl{opacity:1}
+.hero-top{position:absolute;top:88px;left:var(--g);right:var(--g);display:flex;justify-content:space-between;gap:20px}
+.hero-lead{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);line-height:1.12;max-width:16ch}
+.hero-tag{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--sand);opacity:.75;text-align:right}
+.title{position:absolute;left:0;right:0;bottom:36%;text-align:center;font-family:var(--display);font-weight:400;font-size:min(19vw,34vh);line-height:.8;letter-spacing:.005em;white-space:nowrap;color:var(--sand);text-shadow:0 0 60px rgba(255,170,90,.35)}
+.title .ch{display:inline-block;overflow:hidden;vertical-align:bottom;padding-top:.12em}
+.title .ch i{display:inline-block;font-style:normal}
+.hero-bot{position:absolute;left:var(--g);right:var(--g);bottom:calc(16% + 18px);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.sunset{font-size:13px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.sunset:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--sun);box-shadow:0 0 16px var(--sun)}
+.sunset b{font-weight:600;color:var(--acc)}
+.hint{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;opacity:.8}
+.hint i{width:1px;height:38px;background:var(--line);position:relative;overflow:hidden}
+.hint i:after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--sand);animation:drop 2.2s cubic-bezier(.6,0,.3,1) infinite}
+@keyframes drop{to{top:110%}}
+
+/* ---------- 1 · manifiesto ---------- */
+#s1{height:260vh}
+.words{position:absolute;inset:0;display:grid;place-items:center}
+.w{grid-area:1/1;font-family:var(--display);text-transform:uppercase;font-size:min(23vw,40vh);line-height:.85;white-space:nowrap;opacity:0;background:linear-gradient(180deg,var(--sand) 10%,var(--acc) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;will-change:opacity,transform}
+
+/* ---------- 2 · carrusel ---------- */
+#cstick{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.c-head{position:absolute;top:88px;left:var(--g);right:var(--g);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;z-index:3}
+.c-hint{font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+.count{font-family:var(--display);font-size:clamp(28px,3vw,44px);letter-spacing:.04em;text-align:right}
+.count b{font-weight:400;color:var(--acc)}
+.cbar{width:140px;height:2px;background:var(--line);margin-top:10px;margin-left:auto;overflow:hidden}
+.cbar i{display:block;height:100%;background:var(--acc);width:10%;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.bigname{position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);text-align:center;font-family:var(--display);text-transform:uppercase;font-size:min(16vw,30vh);line-height:.85;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px var(--acc);opacity:.6;pointer-events:none;z-index:1}
+.bigname.swap{animation:wipe 1s cubic-bezier(.7,0,.2,1)}
+@keyframes wipe{0%{clip-path:inset(100% 0 0 0);transform:translateY(-44%) skewY(4deg)}100%{clip-path:inset(0 0 0 0);transform:translateY(-50%)}}
+.arrow{position:absolute;top:46%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;border:1px solid var(--line);background:rgba(7,26,34,.55);display:grid;place-items:center;z-index:4;transition:border-color .3s,transform .3s}
+.arrow:hover{border-color:var(--acc);transform:translateY(-50%) scale(1.06)}
+.arrow svg{width:20px;height:20px}
+.arrow.prev{left:var(--g)}.arrow.next{right:var(--g)}
+.arrow[disabled]{opacity:.25;pointer-events:none}
+.ficha{position:absolute;left:var(--g);bottom:32px;width:min(380px,40vw);background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 22px 18px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:4}
+.ficha.swap>*{animation:fin .7s cubic-bezier(.2,.7,.2,1) both}
+.ficha.swap>*:nth-child(2){animation-delay:.04s}.ficha.swap>*:nth-child(3){animation-delay:.08s}.ficha.swap>*:nth-child(4){animation-delay:.12s}.ficha.swap>*:nth-child(5){animation-delay:.16s}
+@keyframes fin{from{opacity:0;transform:translateY(14px)}}
+.f-top{display:flex;justify-content:space-between;align-items:center}
+.f-abv{font-size:11px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--acc);color:var(--acc);border-radius:99px;padding:4px 10px}
+.f-price{font-family:var(--display);font-size:26px}
+.f-name{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:40px;line-height:.95;margin-top:10px}
+.f-desc{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.2;color:var(--acc2);margin-top:4px}
+.f-bars{display:grid;gap:6px;margin:14px 0 12px}
+.f-bar{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:10px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.f-bar span{height:5px;border-radius:9px;background:var(--line);overflow:hidden}
+.f-bar span i{display:block;height:100%;width:calc(var(--v)*20%);background:linear-gradient(90deg,var(--acc2),var(--acc));border-radius:9px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.f-ing{font-size:13px;letter-spacing:.06em;color:var(--sand)}
+.f-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:8px}
+.f-meta b{color:var(--sand);font-weight:500}
+.f-act{display:flex;gap:8px;margin-top:14px}
+.f-act .btn{padding:10px 16px;font-size:13px}
+.c-close{position:absolute;top:88px;left:50%;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:14px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+body.closeup .c-close{display:flex}
+body.closeup .ficha,body.closeup .arrow,body.closeup .c-head,body.closeup .bigname,body.closeup .nav,body.closeup .fab{opacity:0;pointer-events:none}
+.ficha,.arrow,.c-head,.bigname,.nav{transition:opacity .5s}
+body.closeup #cstick{cursor:grab}
+
+/* ---------- 3 · todas en fila ---------- */
+#s3{height:220vh}
+.l-head{position:absolute;top:96px;left:var(--g);right:var(--g);z-index:3}
+.l-cta{position:absolute;left:0;right:0;bottom:7vh;display:flex;justify-content:center;z-index:3}
+.labels{position:absolute;inset:0;pointer-events:none;z-index:3}
+.labels button{position:absolute;left:0;top:0;pointer-events:auto;background:rgba(7,26,34,.7);border:1px solid var(--line);border-radius:99px;padding:5px 10px;font-size:11px;letter-spacing:.06em;white-space:nowrap;opacity:0;transition:opacity .4s,border-color .3s}
+.labels button:hover{border-color:var(--acc)}
+.labels.on button{opacity:1}
+
+/* ---------- 4 · carta completa ---------- */
+#s4{padding-top:18vh;padding-bottom:12vh}
+.m-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:40px 0 18px}
+.search{flex:1 1 280px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:99px;padding:12px 18px;background:rgba(244,231,211,.04)}
+.search input{flex:1;background:none;border:0;outline:none;font-size:15px;min-width:0}
+.search svg{width:16px;height:16px;opacity:.6;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:none;border-radius:99px;padding:9px 14px;font-size:13px;transition:all .3s}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#1b1206;font-weight:600}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;font-family:var(--display);font-size:20px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);transition:color .3s,border-color .3s}
+.tab.on{color:var(--sand);border-color:var(--acc)}
+.mlist{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.mi{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 0;border-bottom:1px solid var(--line);animation:fin .5s cubic-bezier(.2,.7,.2,1) both}
+.mi h4{font-weight:600;font-size:17px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mi .p{font-family:var(--display);font-size:21px;color:var(--acc)}
+.mi .d{grid-column:1/-1;font-size:13px;color:var(--muted)}
+.mi .tg{font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:2px 8px;color:var(--muted);font-weight:500}
+.mi .al{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.mi .al span{font-size:11px;color:var(--sand);background:rgba(244,231,211,.08);border-radius:6px;padding:2px 7px}
+.mi .see{background:none;border:0;color:var(--acc);font-size:12px;text-decoration:underline;text-underline-offset:3px;padding:0}
+.empty{padding:40px 0;font-family:var(--serif);font-size:24px;color:var(--muted)}
+
+/* ---------- momentos ---------- */
+#momentos{padding-top:12vh;padding-bottom:12vh}
+.moms{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.mom{position:relative;border-radius:24px;padding:26px 24px;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;border:1px solid var(--line);background:var(--card);transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.mom:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),var(--c1),transparent 55%);opacity:.55;transition:opacity .4s}
+.mom:hover:before{opacity:.9}
+.mom>*{position:relative}
+.mom .ic{position:absolute;top:22px;left:22px;width:46px;height:46px}
+.mom h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:34px;line-height:1}
+.mom p{font-size:14px;color:var(--sand);opacity:.85;margin-top:8px}
+.mom .live{margin-top:14px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;background:rgba(7,26,34,.55);border-radius:99px;padding:6px 12px;align-self:flex-start}
+.mom .live:before{content:"";width:7px;height:7px;border-radius:50%;background:#6CFF9E;box-shadow:0 0 10px #6CFF9E;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+/* ---------- reserva ---------- */
+#reserva{padding-top:14vh;padding-bottom:12vh}
+.res-grid>*,.g-grid>*,.mlist>*,.moms>*{min-width:0}
+.res-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:4vw;margin-top:48px;align-items:start}
+.map{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.map svg{width:100%;height:auto;display:block}
+.zone{cursor:pointer}
+.zone .zr{fill:rgba(244,231,211,.05);stroke:rgba(244,231,211,.3);stroke-width:1.5;transition:fill .3s,stroke .3s}
+.zone:hover .zr,.zone:focus .zr{fill:rgba(244,231,211,.12)}
+.zone.on .zr{fill:color-mix(in srgb,var(--acc) 28%,transparent);stroke:var(--acc);stroke-width:2.5}
+.zone text{fill:var(--sand);font-family:var(--sans);font-size:19px;font-weight:600;pointer-events:none}
+.zone .zs{font-size:13px;font-weight:500;fill:var(--muted)}
+.zone .fx{fill:rgba(244,231,211,.35)}
+.zone.on .fx{fill:var(--acc)}
+.zinfo{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 6px 2px;font-size:14px}
+.zinfo b{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.02em;text-transform:uppercase}
+.zinfo span{color:var(--muted)}
+.few{color:#FFB35C!important}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px;backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2)}
+.fl{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.fl:first-child{margin-top:0}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.day{flex:none;width:58px;padding:10px 0;border-radius:14px;border:1px solid var(--line);background:none;text-align:center;line-height:1.15;transition:all .3s}
+.day small{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.day b{font-family:var(--display);font-weight:400;font-size:22px}
+.day.on{background:var(--acc);border-color:var(--acc);color:#1b1206}
+.day.on small{color:#1b1206}
+.day[disabled]{opacity:.35;cursor:not-allowed}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{border:1px solid var(--line);background:none;border-radius:12px;padding:9px 4px;font-size:14px;line-height:1.1;position:relative;transition:all .3s}
+.slot small{display:block;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.slot.few small{color:#FFB35C}
+.slot.sun{border-color:rgba(255,154,77,.6)}
+.slot.on{background:var(--acc);border-color:var(--acc);color:#1b1206}
+.slot.on small{color:#1b1206}
+.slot[disabled]{opacity:.3;text-decoration:line-through;cursor:not-allowed}
+.ppl{display:flex;align-items:center;gap:14px}
+.ppl button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;font-size:20px}
+.ppl output{font-family:var(--display);font-size:30px;min-width:40px;text-align:center}
+.gnote{font-size:13px;color:#FFB35C;margin-top:8px;display:none}
+.gnote.on{display:block}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inp{width:100%;background:rgba(244,231,211,.05);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:16px;outline:none;transition:border-color .3s;color-scheme:dark}
+.inp:focus{border-color:var(--acc)}
+textarea.inp{resize:vertical;min-height:70px}
+.reqs{display:flex;flex-wrap:wrap;gap:8px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);margin-top:16px}
+.chk input{margin-top:3px;accent-color:var(--acc);width:16px;height:16px;flex:none}
+.chk a{color:var(--sand)}
+.err{color:#FF8A7A;font-size:13px;min-height:20px;margin-top:10px}
+.sub{width:100%;margin-top:6px;padding:16px;font-size:15px}
+.sim{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+.done{display:none;text-align:center}
+.card.ok .rf{display:none}
+.card.ok .done{display:block;animation:fin .9s cubic-bezier(.2,.7,.2,1)}
+.done .tick{width:70px;height:70px;border-radius:50%;margin:0 auto 18px;background:var(--acc);display:grid;place-items:center;box-shadow:0 0 50px var(--acc)}
+.done .tick svg{width:32px;height:32px;stroke:#1b1206}
+.done h3{font-family:var(--display);font-weight:400;font-size:50px;line-height:1;text-transform:uppercase}
+.done .sum{font-family:var(--serif);font-size:23px;margin:12px 0 6px}
+.done .nt{font-size:14px;color:var(--muted);max-width:36ch;margin:0 auto 18px}
+.code{display:inline-flex;flex-direction:column;gap:2px;border:1px dashed var(--acc);border-radius:12px;padding:10px 22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.code b{font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:.12em;color:var(--acc)}
+.dacts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.cancelled{display:none;text-align:center;font-family:var(--serif);font-size:24px;padding:30px 0}
+.card.cx .rf,.card.cx .done{display:none}
+.card.cx .cancelled{display:block}
+
+/* ---------- opiniones ---------- */
+#opiniones{padding-top:12vh;padding-bottom:12vh;overflow:hidden}
+.r-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.avg{text-align:right}
+.avg b{font-family:var(--display);font-weight:400;font-size:64px;line-height:1;color:var(--acc)}
+.avg small{display:block;font-size:12px;color:var(--muted)}
+.stars{color:var(--acc);letter-spacing:.12em}
+.marq{margin-top:48px;display:flex;gap:16px;width:max-content;animation:marq 60s linear infinite}
+.marq:hover{animation-play-state:paused}
+@keyframes marq{to{transform:translateX(-50%)}}
+.rev{width:340px;flex:none;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+.rev p{font-family:var(--serif);font-size:22px;line-height:1.25;margin:10px 0 14px}
+.rev span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.rnote{font-size:12px;color:var(--muted);margin-top:16px}
+
+/* ---------- cómo llegar ---------- */
+#llegar{padding-top:12vh;padding-bottom:12vh}
+.g-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:4vw;margin-top:48px;align-items:center}
+.gmap{border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+.gmap svg{display:block;width:100%;height:auto}
+.pin{animation:bob 2.4s ease-in-out infinite;transform-origin:center bottom}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.ring{animation:ring 2.4s ease-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes ring{from{transform:scale(.4);opacity:.9}to{transform:scale(2.2);opacity:0}}
+.ginfo{display:grid;gap:18px}
+.gi{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+.gi svg{width:22px;height:22px;stroke:var(--acc);margin-top:3px}
+.gi b{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.gi p{font-size:16px}
+.gacts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+/* ---------- preguntas ---------- */
+#faq{padding-top:12vh;padding-bottom:14vh}
+.faqs{margin-top:40px;max-width:900px}
+.faqs details{border-bottom:1px solid var(--line)}
+.faqs summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:clamp(18px,2vw,24px);font-weight:500;cursor:pointer}
+.faqs summary::-webkit-details-marker{display:none}
+.faqs summary i{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);position:relative;transition:transform .4s,border-color .3s}
+.faqs summary i:before,.faqs summary i:after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:var(--sand);transform:translate(-50%,-50%)}
+.faqs summary i:after{transform:translate(-50%,-50%) rotate(90deg)}
+.faqs details[open] summary i{transform:rotate(45deg);border-color:var(--acc)}
+.faqs details p{padding:0 0 22px;color:var(--muted);font-size:16px;max-width:62ch}
+
+/* ---------- cierre ---------- */
+footer{padding:12vh var(--g) 24px;overflow:hidden;background:rgba(7,26,34,.9)}
+.end-name{font-family:var(--display);font-size:min(19vw,34vh);line-height:.8;text-align:center;color:transparent;-webkit-text-stroke:1.5px rgba(244,231,211,.38)}
+.end-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px 24px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;margin-top:26px}
+.end-row a,.end-row button{background:none;border:0;text-decoration:none;border-bottom:1px solid var(--line);letter-spacing:inherit;text-transform:inherit;font-size:inherit;color:inherit}
+.end-row a:hover,.end-row button:hover{color:var(--acc)}
+.end-row .lg{display:flex;gap:16px}
+
+/* ---------- botón fijo, aviso y ventana legal ---------- */
+.fab{position:fixed;left:16px;right:16px;bottom:14px;z-index:25;display:none;justify-content:center;padding:15px;font-size:15px;opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .4s,transform .4s;box-shadow:0 12px 40px -12px rgba(0,0,0,.6)}
+.fab.on{opacity:1;transform:none;pointer-events:auto}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);z-index:70;background:var(--sand);color:var(--deep);border-radius:99px;padding:12px 20px;font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:all .4s;max-width:calc(100vw - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;z-index:75;display:none;place-items:center;padding:20px;background:rgba(2,9,13,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.modal.on{display:grid}
+.modal .card{max-width:560px;width:100%}
+.modal h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:36px}
+.modal p{color:var(--muted);margin:12px 0 20px}
+
+/* ---------- móvil ---------- */
+@media (max-width:860px){
+  .nav-l{display:none}
+  .nav{padding:14px 16px}
+  .nav .btn{padding:10px 15px;font-size:13px}
+  .logo{font-size:18px}
+  .na-badge{font-size:0;padding:7px 9px}
+  .na-badge:after{content:"0%";font-size:11px;letter-spacing:.06em}
+  .lang button{padding:6px 7px}
+  .fab{display:flex}
+  .hero-top{top:72px;flex-direction:column}
+  .hero-tag{text-align:left}
+  .title{font-size:21vw;bottom:36%}
+  .hero-bot{bottom:calc(14% + 12px);flex-direction:column;align-items:flex-start}
+  .hint{display:none}
+  .w{font-size:25vw}
+  .c-head{top:70px}
+  .c-hint{display:none}
+  .cbar{width:90px}
+  .bigname{top:34%;font-size:22vw;-webkit-text-stroke:1px var(--acc)}
+  .arrow{top:34%;width:44px;height:44px}
+  .arrow.prev{left:10px}.arrow.next{right:10px}
+  .ficha{left:12px;right:12px;width:auto;bottom:12px;padding:16px 16px 14px;border-radius:18px}
+  .f-name{font-size:30px}
+  .f-desc{font-size:17px}
+  .f-bars{grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 8px}
+  .f-bar{grid-template-columns:1fr;gap:4px;font-size:9.5px}
+  .f-meta{display:none}
+  .f-act{margin-top:10px}
+  .l-head{top:76px}
+  .l-cta{bottom:4vh}
+  .labels{display:none}
+  .mlist{grid-template-columns:1fr}
+  .moms{grid-template-columns:1fr}
+  .mom{min-height:220px}
+  .res-grid,.g-grid{grid-template-columns:1fr}
+  .slots{grid-template-columns:repeat(3,1fr)}
+  .card{padding:20px}
+  .rev{width:280px}
+  .end-row{flex-direction:column}
+  footer{padding-bottom:90px}
+}
+@media (max-width:380px){.f2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){
+  .rv,.mi,.ficha.swap>*,.bigname.swap{transition:none!important;animation:none!important}
+  .marq{animation:none;overflow-x:auto;width:auto}
+  .hint i:after,.pin,.ring{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Filtros de tinta para el manifiesto (letras que se deshacen) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="ink0" x="-20%" y="-30%" width="140%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.035" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="ink1" x="-20%" y="-30%" width="140%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.01 0.03" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="ink2" x="-20%" y="-30%" width="140%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.009 0.04" numOctaves="3" seed="11"/><feDisplacementMap in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+  </defs>
+</svg>
+
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gq">
+  <div class="gate-in">
+    <div class="gate-logo">ALTAMAR</div>
+    <div class="gate-sun" aria-hidden="true"></div>
+    <div class="gate-main">
+      <h2 class="gate-q" id="gq" data-i18n="gate_q">¿Tienes 18 años o más?</h2>
+      <p class="gate-t" data-i18n="gate_t">Altamar sirve alcohol. Bebe con cabeza.</p>
+      <div class="gate-b"><button class="btn acc" id="gYes" data-i18n="gate_yes">Sí, entrar</button><button class="btn ghost" id="gNo" data-i18n="gate_no">No</button></div>
+    </div>
+    <div class="gate-minor">
+      <p data-i18n="gate_minor">Vuelve cuando cumplas 18.</p>
+      <button class="btn acc" id="gNa" data-i18n="gate_na">Ver la carta sin alcohol</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#s0" data-go="#s0">ALTAMAR</a>
+  <nav class="nav-l" aria-label="Secciones">
+    <a href="#s2" data-go="#s2" data-i18n="nav_carta">Carta</a>
+    <a href="#momentos" data-go="#momentos" data-i18n="nav_mom">Momentos</a>
+    <a href="#llegar" data-go="#llegar" data-i18n="nav_get">Cómo llegar</a>
+  </nav>
+  <div class="nav-r">
+    <button class="na-badge" id="naBadge" data-i18n="na_badge">Sin alcohol</button>
+    <div class="lang" role="group" aria-label="Idioma"><button data-l="es">ES</button><button data-l="ca">CA</button><button data-l="en">EN</button></div>
+    <a class="btn acc" href="#reserva" data-go="#reserva" data-i18n="book">Reservar</a>
+  </div>
+</header>
+
+<main>
+  <!-- 0 · ATARDECER -->
+  <section id="s0" data-s data-pin>
+    <div class="stick">
+      <svg class="hero-svg" id="heroSvg" aria-hidden="true"></svg>
+      <div class="hero-top">
+        <p class="hero-lead" data-i18n="lead">Aquí el sol se pone despacio. <em>Tú también.</em></p>
+        <p class="hero-tag" data-i18n="tag">Terraza con vistas · Costa de Llevant</p>
+      </div>
+      <h1 class="title" id="title" aria-label="Altamar">ALTAMAR</h1>
+      <div class="hero-bot">
+        <p class="sunset" id="sunsetTxt"></p>
+        <div class="hint"><span data-i18n="scroll">Baja</span><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 · MANIFIESTO -->
+  <section id="s1" data-s data-pin>
+    <div class="stick">
+      <div class="words">
+        <p class="w" style="filter:url(#ink0)" data-i18n="w1">Sin prisa</p>
+        <p class="w" style="filter:url(#ink1)" data-i18n="w2">Con vistas</p>
+        <p class="w" style="filter:url(#ink2)" data-i18n="w3">Con hielo</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · CARRUSEL DE BEBIDAS -->
+  <section id="s2" data-s data-pin aria-roledescription="carrusel" aria-label="Carta de cócteles">
+    <div class="stick" id="cstick">
+      <div class="c-head">
+        <div><p class="eyebrow" data-i18n="carta">La carta</p><p class="c-hint" data-i18n="hint">Desliza, usa las flechas o baja</p></div>
+        <div><div class="count"><b id="cNum">01</b> / <span id="cTot">10</span></div><div class="cbar"><i id="cBar"></i></div></div>
+      </div>
+      <div class="bigname" id="bigname" aria-hidden="true"></div>
+      <button class="arrow prev" id="prev" data-i18n-aria="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="arrow next" id="next" data-i18n-aria="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      <article class="ficha" id="ficha">
+        <div class="f-top"><span class="f-abv" id="fAbv"></span><span class="f-price" id="fPrice"></span></div>
+        <h3 class="f-name" id="fName"></h3>
+        <p class="f-desc" id="fDesc"></p>
+        <div class="f-bars" id="fBars"></div>
+        <div><p class="f-ing" id="fIng"></p><div class="f-meta"><span><b data-i18n="al">Alérgenos</b>: <span id="fAl"></span></span><span><b data-i18n="pair">Perfecto con</b>: <span id="fPair"></span></span></div>
+        <div class="f-act"><button class="btn" id="closeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg><span data-i18n="close">Mirar de cerca</span></button><a class="btn ghost" href="#reserva" data-go="#reserva" data-i18n="book">Reservar</a></div></div>
+      </article>
+      <div class="c-close"><span data-i18n="closeHint">Arrastra para girar</span><button class="btn" id="closeX" data-i18n="closeX">Volver</button></div>
+      <p class="sr" aria-live="polite" id="announce"></p>
+    </div>
+  </section>
+
+  <!-- 3 · TODAS EN FILA -->
+  <section id="s3" data-s data-pin>
+    <div class="stick">
+      <div class="l-head"><p class="eyebrow" data-i18n="line_e">La familia</p><h2 class="h2" data-i18n="line_t">Todas, <em>en fila.</em></h2><p class="lead" data-i18n="line_s">Elige con los ojos. Luego, con la boca.</p></div>
+      <div class="labels" id="labels"></div>
+      <div class="l-cta"><a class="btn acc" href="#s4" data-go="#s4"><span data-i18n="line_cta">Ver la carta completa</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+    </div>
+  </section>
+
+  <!-- 4 · CARTA COMPLETA -->
+  <section id="s4" class="wrap solid" data-s>
+    <p class="eyebrow rv" data-i18n="menu_e">Todo lo que servimos</p>
+    <h2 class="h2 rv" data-i18n="menu_t">Carta <em>completa.</em></h2>
+    <div class="m-tools rv">
+      <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" data-i18n-ph="search" placeholder="Busca una bebida o un plato" autocomplete="off"></label>
+      <div class="chips" id="filters"></div>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="mlist" id="mlist"></div>
+  </section>
+
+  <!-- MOMENTOS -->
+  <section id="momentos" class="wrap solid">
+    <p class="eyebrow rv" data-i18n="mom_e">Planes</p>
+    <h2 class="h2 rv" data-i18n="mom_t">Momentos <em>Altamar.</em></h2>
+    <div class="moms" id="moms"></div>
+  </section>
+
+  <!-- RESERVA -->
+  <section id="reserva" class="wrap solid">
+    <p class="eyebrow rv" data-i18n="res_e">Reserva</p>
+    <h2 class="h2 rv" data-i18n="res_t">Reserva <em>tu mesa.</em></h2>
+    <p class="lead rv" data-i18n="res_s">Elige zona, día y hora. En un minuto lo tienes.</p>
+    <div class="res-grid">
+      <div class="map rv">
+        <svg viewBox="0 0 600 430" id="zmap" role="group" aria-label="Mapa de la terraza">
+          <defs>
+            <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E4A5E"/><stop offset="1" stop-color="#0A3442"/></linearGradient>
+            <pattern id="roof" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="rgba(244,231,211,.12)" stroke-width="3"/></pattern>
+          </defs>
+          <rect x="0" y="0" width="600" height="78" rx="14" fill="url(#seaG)"/>
+          <path d="M20 30 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+          <path d="M5 52 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+          <text x="300" y="22" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="11" letter-spacing="3" font-family="Inter Tight" id="zSea">MAR</text>
+          <line x1="14" y1="86" x2="586" y2="86" stroke="rgba(244,231,211,.5)" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+          <g class="zone" data-zone="front" tabindex="0" role="button">
+            <rect class="zr" x="20" y="98" width="560" height="92" rx="14"/>
+            <g class="fx"><circle cx="70" cy="150" r="13"/><circle cx="150" cy="150" r="13"/><circle cx="230" cy="150" r="13"/><circle cx="370" cy="150" r="13"/><circle cx="450" cy="150" r="13"/><circle cx="530" cy="150" r="13"/></g>
+            <text x="300" y="124" text-anchor="middle" data-zl="z_front"></text><text class="zs" x="300" y="180" text-anchor="middle" data-zs="front"></text>
+          </g>
+          <g class="zone" data-zone="chill" tabindex="0" role="button">
+            <rect class="zr" x="20" y="202" width="270" height="128" rx="14"/>
+            <g class="fx"><rect x="44" y="262" width="70" height="26" rx="10"/><rect x="132" y="262" width="70" height="26" rx="10"/><rect x="220" y="262" width="50" height="26" rx="10"/><circle cx="90" cy="302" r="7"/><circle cx="178" cy="302" r="7"/></g>
+            <text x="155" y="232" text-anchor="middle" data-zl="z_chill"></text><text class="zs" x="155" y="250" text-anchor="middle" data-zs="chill"></text>
+          </g>
+          <g class="zone" data-zone="bar" tabindex="0" role="button">
+            <rect class="zr" x="310" y="202" width="270" height="128" rx="14"/>
+            <g class="fx"><rect x="340" y="290" width="212" height="18" rx="6"/><circle cx="356" cy="276" r="6"/><circle cx="388" cy="276" r="6"/><circle cx="420" cy="276" r="6"/><circle cx="452" cy="276" r="6"/><circle cx="484" cy="276" r="6"/><circle cx="516" cy="276" r="6"/></g>
+            <text x="445" y="232" text-anchor="middle" data-zl="z_bar"></text><text class="zs" x="445" y="250" text-anchor="middle" data-zs="bar"></text>
+          </g>
+          <g class="zone" data-zone="cover" tabindex="0" role="button">
+            <rect class="zr" x="20" y="342" width="560" height="74" rx="14"/>
+            <rect x="20" y="342" width="560" height="74" rx="14" fill="url(#roof)" pointer-events="none"/>
+            <g class="fx"><circle cx="80" cy="392" r="10"/><circle cx="140" cy="392" r="10"/><circle cx="460" cy="392" r="10"/><circle cx="520" cy="392" r="10"/></g>
+            <text x="300" y="372" text-anchor="middle" data-zl="z_cover"></text><text class="zs" x="300" y="392" text-anchor="middle" data-zs="cover"></text>
+          </g>
+        </svg>
+        <div class="zinfo" id="zinfo"></div>
+      </div>
+      <div class="card rv" id="rcard">
+        <form class="rf" id="rform" novalidate>
+          <span class="fl" data-i18n="f_day">Día</span>
+          <div class="days" id="days"></div>
+          <span class="fl" data-i18n="f_time">Hora</span>
+          <div class="slots" id="slots"></div>
+          <span class="fl" data-i18n="f_ppl">Personas</span>
+          <div class="ppl"><button type="button" id="pMinus" aria-label="−">−</button><output id="pOut">2</output><button type="button" id="pPlus" aria-label="+">+</button></div>
+          <p class="gnote" id="gnote" data-i18n="group">Grupo grande: te llamamos para prepararlo todo.</p>
+          <div class="f2" style="margin-top:16px">
+            <label><span class="fl" data-i18n="f_name">Nombre</span><input class="inp" id="rName" autocomplete="off"></label>
+            <label><span class="fl" data-i18n="f_phone">Teléfono</span><input class="inp" id="rPhone" type="tel" inputmode="tel" autocomplete="off"></label>
+          </div>
+          <label><span class="fl" data-i18n="f_mail">Correo (opcional)</span><input class="inp" id="rMail" type="email" autocomplete="off"></label>
+          <span class="fl" data-i18n="f_req">Peticiones</span>
+          <div class="reqs" id="reqs"></div>
+          <textarea class="inp" id="rNotes" style="margin-top:10px" data-i18n-ph="f_notes" placeholder="Algo más que debamos saber"></textarea>
+          <label class="chk"><input type="checkbox" id="rPriv"><span data-i18n="priv">He leído y acepto la política de privacidad.</span></label>
+          <p class="err" id="rErr" role="alert"></p>
+          <button class="btn acc sub" type="submit"><span data-i18n="submit">Reservar mesa</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="sim" data-i18n="sim">Simulación de ORYON: no se envía ningún dato.</p>
+        </form>
+        <div class="done" aria-live="polite">
+          <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+          <h3 data-i18n="ok_t">¡Mesa reservada!</h3>
+          <p class="sum" id="okSum"></p>
+          <p class="nt" data-i18n="ok_n">Te recordaremos tu mesa 24 h antes.</p>
+          <div class="code"><span data-i18n="code">Código</span><b id="okCode">ALT-0000</b></div>
+          <div class="dacts"><button class="btn acc" id="ics" type="button" data-i18n="ics">Añadir a mi calendario</button><button class="btn ghost" id="chg" type="button" data-i18n="change">Cambiar</button><button class="btn ghost" id="cnl" type="button" data-i18n="cancel">Cancelar</button></div>
+        </div>
+        <div class="cancelled"><p data-i18n="canceled">Reserva cancelada.</p><button class="btn acc" id="again" type="button" style="margin-top:20px" data-i18n="again">Hacer otra reserva</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" class="solid">
+    <div class="wrap r-head">
+      <div><p class="eyebrow rv" data-i18n="rev_e">Opiniones</p><h2 class="h2 rv" data-i18n="rev_t">Lo que <em>dicen.</em></h2></div>
+      <div class="avg rv"><b>4,8</b><span class="stars">★★★★★</span><small id="revAvg"></small></div>
+    </div>
+    <div class="marq" id="marq"></div>
+    <p class="rnote wrap" data-i18n="rev_n">Opiniones de ejemplo para la demo.</p>
+  </section>
+
+  <!-- CÓMO LLEGAR -->
+  <section id="llegar" class="wrap solid">
+    <p class="eyebrow rv" data-i18n="get_e">Dónde estamos</p>
+    <h2 class="h2 rv" data-i18n="get_t">Cómo <em>llegar.</em></h2>
+    <div class="g-grid">
+      <div class="gmap rv">
+        <svg viewBox="0 0 600 420" aria-label="Mapa ilustrado de Altamar">
+          <rect width="600" height="420" fill="#0E2E3A"/>
+          <path d="M0 0 H600 V150 C520 175 470 120 390 150 C310 180 260 130 180 160 C110 186 60 150 0 170 Z" fill="#0F5269"/>
+          <path d="M0 0 H600 V150 C520 175 470 120 390 150 C310 180 260 130 180 160 C110 186 60 150 0 170" fill="none" stroke="#F4E7D3" stroke-opacity=".5" stroke-width="2"/>
+          <path d="M0 175 C60 158 110 192 180 166 C260 136 310 186 390 156 C470 128 520 182 600 158" fill="none" stroke="#E9D3AE" stroke-opacity=".35" stroke-width="10"/>
+          <g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5"><path d="M40 60 q14 -7 28 0 t28 0 t28 0"/><path d="M380 80 q14 -7 28 0 t28 0 t28 0"/><path d="M220 40 q14 -7 28 0 t28 0"/></g>
+          <path d="M-10 300 C120 270 220 330 330 290 S520 250 610 280" fill="none" stroke="#F4E7D3" stroke-opacity=".22" stroke-width="22"/>
+          <path d="M-10 300 C120 270 220 330 330 290 S520 250 610 280" fill="none" stroke="#F4E7D3" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="10 10"/>
+          <path d="M330 290 L330 420" stroke="#F4E7D3" stroke-opacity=".18" stroke-width="16"/>
+          <g transform="translate(110 330)"><rect width="40" height="40" rx="8" fill="#2B6CB0"/><text x="20" y="28" text-anchor="middle" fill="#fff" font-family="Inter Tight" font-weight="700" font-size="22">P</text></g>
+          <g transform="translate(470 300)"><rect width="40" height="40" rx="8" fill="#E86A3A"/><path d="M11 12h18v13H11z M13 28h3M24 28h3" stroke="#fff" stroke-width="2.4" fill="none"/></g>
+          <g transform="translate(300 176)">
+            <circle class="ring" cx="0" cy="0" r="18" fill="none" stroke="#FFD36B" stroke-width="2"/>
+            <g class="pin"><path d="M0 -6 C-16 -6 -22 -26 -22 -36 A22 22 0 0 1 22 -36 C22 -26 16 -6 0 -6 Z" transform="translate(0 4)" fill="#FFD36B"/><circle cx="0" cy="-32" r="8" fill="#071A22"/></g>
+            <text x="34" y="-28" fill="#F4E7D3" font-family="Anton" font-size="24" letter-spacing="2">ALTAMAR</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ginfo">
+        <div class="gi rv"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><div><b data-i18n="g_addr">Dirección</b><p>Passeig del Mirador, 12 · Costa de Llevant</p></div></div>
+        <div class="gi rv"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b data-i18n="g_hours">Horario</b><p data-i18n="g_hoursd">Miércoles a domingo · 12:00 – 02:00</p></div></div>
+        <div class="gi rv"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"/></svg><div><b data-i18n="g_park">Aparcamiento</b><p data-i18n="g_parkd">Parking público a 200 m.</p></div></div>
+        <div class="gi rv"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8 20l1-3M16 20l-1-3"/></svg><div><b data-i18n="g_bus">Transporte</b><p data-i18n="g_busd">Bus 7, parada Mirador.</p></div></div>
+        <div class="gi rv"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="4.5" r="1.8"/><path d="M12 7v6l4 5M8 10h8M9 21a5 5 0 0 1 0-8"/></svg><div><b data-i18n="g_acc">Accesibilidad</b><p data-i18n="g_accd">Acceso sin escalones y baño adaptado.</p></div></div>
+        <div class="gacts rv"><button class="btn acc" data-demo="WhatsApp" data-i18n="wa">Escríbenos por WhatsApp</button><button class="btn ghost" data-demo="tel" data-i18n="call">Llamar</button><button class="btn ghost" data-demo="mail" data-i18n="mail">Correo</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS -->
+  <section id="faq" class="wrap solid">
+    <p class="eyebrow rv" data-i18n="faq_e">Antes de venir</p>
+    <h2 class="h2 rv" data-i18n="faq_t">Preguntas <em>frecuentes.</em></h2>
+    <div class="faqs" id="faqs"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="end-name" aria-hidden="true">ALTAMAR</div>
+  <div class="end-row">
+    <span>Passeig del Mirador, 12 · Costa de Llevant</span>
+    <span>Instagram · @altamar.terraza</span>
+    <span data-i18n="resp">Bebe con responsabilidad · +18</span>
+  </div>
+  <div class="end-row">
+    <span class="lg"><button data-legal="legal" data-i18n="legal_l">Aviso legal</button><button data-legal="priv" data-i18n="legal_p">Privacidad</button><button data-legal="cook" data-i18n="legal_c">Cookies</button></span>
+    <span data-i18n="made">Demo creada por ORYON · Altamar es un local ficticio</span>
+  </div>
+</footer>
+
+<a class="btn acc fab" id="fab" href="#reserva" data-go="#reserva" data-i18n="fab">Reservar mesa</a>
+<div class="toast" id="toast" role="status"></div>
+<div class="modal" id="modal"><div class="card"><h3 id="mTitle"></h3><p id="mText"></p><button class="btn acc" id="mClose" data-i18n="closeX">Volver</button></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(pointer: fine)').matches;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const sstep = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+const backOut = t => { const c = 1.6; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const LS = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
+const TEST = /escena=/.test(location.hash);
+
+/* =====================================================================
+   TEXTOS · cada clave: [español, català, english]
+   ===================================================================== */
+const LANGS = ['es', 'ca', 'en'], LOCS = ['es-ES', 'ca-ES', 'en-GB'];
+let LI = Math.max(0, LANGS.indexOf(LS.get('altamar-lang') || 'es'));
+const DICT = {
+  nav_carta: ['Carta', 'Carta', 'Menu'], nav_mom: ['Momentos', 'Moments', 'Moments'], nav_get: ['Cómo llegar', 'Com arribar', 'Getting here'],
+  book: ['Reservar', 'Reservar', 'Book'], na_badge: ['Sin alcohol', 'Sense alcohol', 'Alcohol-free'],
+  gate_q: ['¿Tienes 18 años o más?', 'Tens 18 anys o més?', 'Are you 18 or over?'],
+  gate_t: ['Altamar sirve alcohol. Bebe con cabeza.', 'Altamar serveix alcohol. Beu amb cap.', 'Altamar serves alcohol. Drink wisely.'],
+  gate_yes: ['Sí, entrar', 'Sí, entrar', 'Yes, come in'], gate_no: ['No', 'No', 'No'],
+  gate_minor: ['Vuelve cuando cumplas 18. Mientras, pásate a lo sin alcohol: también está de vicio.', "Torna quan en facis 18. Mentrestant, passa't al sense alcohol: també està boníssim.", 'Come back when you turn 18. Meanwhile, try our alcohol-free drinks: they are just as good.'],
+  gate_na: ['Ver la carta sin alcohol', 'Veure la carta sense alcohol', 'See the alcohol-free menu'],
+  lead: ['Aquí el sol se pone despacio. <em>Tú también.</em>', 'Aquí el sol es pon a poc a poc. <em>Tu també.</em>', 'Here the sun sets slowly. <em>So do you.</em>'],
+  tag: ['Terraza con vistas · Costa de Llevant', 'Terrassa amb vistes · Costa de Llevant', 'Terrace with a view · Costa de Llevant'],
+  sunset: ['Hoy el sol se pone a las <b>{t}</b>', 'Avui el sol es pon a les <b>{t}</b>', 'Today the sun sets at <b>{t}</b>'],
+  scroll: ['Baja', 'Baixa', 'Scroll'],
+  w1: ['Sin prisa', 'Sense pressa', 'No rush'], w2: ['Con vistas', 'Amb vistes', 'With a view'], w3: ['Con hielo', 'Amb gel', 'On the rocks'],
+  carta: ['La carta', 'La carta', 'The menu'], hint: ['Desliza, usa las flechas o baja', 'Llisca, fes servir les fletxes o baixa', 'Swipe, use the arrows or scroll'],
+  prev: ['Bebida anterior', 'Beguda anterior', 'Previous drink'], next: ['Bebida siguiente', 'Beguda següent', 'Next drink'],
+  close: ['Mirar de cerca', 'Mirar de prop', 'Closer look'], closeHint: ['Arrastra para girar', 'Arrossega per girar', 'Drag to rotate'], closeX: ['Volver', 'Tornar', 'Back'],
+  f_sweet: ['Dulce', 'Dolç', 'Sweet'], f_acid: ['Ácido', 'Àcid', 'Tart'], f_strong: ['Fuerte', 'Fort', 'Strong'],
+  al: ['Alérgenos', 'Al·lèrgens', 'Allergens'], noal: ['ninguno', 'cap', 'none'], pair: ['Perfecto con', 'Perfecte amb', 'Perfect with'],
+  abv_na: ['Sin alcohol', 'Sense alcohol', 'Alcohol-free'], abv_soft: ['Suave', 'Suau', 'Light'], abv_mid: ['Graduación media', 'Graduació mitjana', 'Medium strength'], abv_strong: ['Fuerte', 'Fort', 'Strong'],
+  line_e: ['La familia', 'La família', 'The family'], line_t: ['Todas, <em>en fila.</em>', 'Totes, <em>en fila.</em>', 'All of them, <em>in a row.</em>'],
+  line_s: ['Elige con los ojos. Luego, con la boca.', 'Tria amb els ulls. Després, amb la boca.', 'Choose with your eyes. Then with your mouth.'],
+  line_cta: ['Ver la carta completa', 'Veure la carta completa', 'See the full menu'],
+  menu_e: ['Todo lo que servimos', 'Tot el que servim', 'Everything we serve'], menu_t: ['Carta <em>completa.</em>', 'Carta <em>completa.</em>', 'Full <em>menu.</em>'],
+  search: ['Busca una bebida o un plato', 'Cerca una beguda o un plat', 'Search a drink or a dish'],
+  c_cock: ['Cócteles', 'Còctels', 'Cocktails'], c_na: ['Sin alcohol', 'Sense alcohol', 'Alcohol-free'], c_shots: ['Licores y chupitos', 'Licors i xupitos', 'Liqueurs & shots'],
+  c_bot: ['Botellas', 'Ampolles', 'Bottles'], c_beer: ['Cervezas y vinos', 'Cerveses i vins', 'Beer & wine'], c_food: ['Para picar', 'Per picar', 'To share'],
+  t_na: ['Sin alcohol', 'Sense alcohol', 'Alcohol-free'], t_fruit: ['Afrutado', 'Afruitat', 'Fruity'], t_strong: ['Fuerte', 'Fort', 'Strong'], t_gf: ['Sin gluten', 'Sense gluten', 'Gluten-free'],
+  empty: ['Nada por aquí. Prueba con otra palabra.', 'Res per aquí. Prova amb una altra paraula.', 'Nothing here. Try another word.'],
+  see3d: ['Verla en 3D', 'Veure-la en 3D', 'See it in 3D'],
+  a_gluten: ['Gluten', 'Gluten', 'Gluten'], a_lact: ['Lactosa', 'Lactosa', 'Lactose'], a_egg: ['Huevo', 'Ou', 'Egg'], a_sulf: ['Sulfitos', 'Sulfits', 'Sulphites'], a_nuts: ['Frutos secos', 'Fruits secs', 'Nuts'], a_ses: ['Sésamo', 'Sèsam', 'Sesame'],
+  mom_e: ['Planes', 'Plans', 'Plans'], mom_t: ['Momentos <em>Altamar.</em>', 'Moments <em>Altamar.</em>', 'Altamar <em>moments.</em>'],
+  m1t: ['Happy hour', 'Happy hour', 'Happy hour'], m1d: ['2×1 en cócteles seleccionados, de 18:00 a 20:00.', '2×1 en còctels seleccionats, de 18:00 a 20:00.', '2-for-1 on selected cocktails, 6 to 8 pm.'],
+  hh_in: ['Empieza en {t}', "Comença d'aquí a {t}", 'Starts in {t}'], hh_now: ['Ahora · acaba en {t}', "Ara · acaba d'aquí a {t}", 'On now · ends in {t}'],
+  hh_tom: ['Mañana a las 18:00', 'Demà a les 18:00', 'Tomorrow at 6 pm'], hh_wed: ['Vuelve el miércoles a las 18:00', 'Torna dimecres a les 18:00', 'Back on Wednesday at 6 pm'],
+  m2t: ['Sunset DJ', 'Sunset DJ', 'Sunset DJ'], m2d: ['De jueves a domingo, música en directo mientras cae el sol.', 'De dijous a diumenge, música en directe mentre es pon el sol.', 'Thursday to Sunday, live music as the sun goes down.'],
+  m3t: ['Celebraciones', 'Celebracions', 'Celebrations'], m3d: ['Cumpleaños, despedidas y grupos. Te preparamos la mesa y la tarta.', 'Aniversaris, comiats i grups. Et preparem la taula i el pastís.', 'Birthdays, parties and groups. We set the table and bring the cake.'],
+  m4t: ['Si llueve', 'Si plou', 'If it rains'], m4d: ['Zona cubierta con vistas. El plan sigue en pie.', 'Zona coberta amb vistes. El pla continua.', 'Covered area with a view. The plan is still on.'],
+  res_e: ['Reserva', 'Reserva', 'Booking'], res_t: ['Reserva <em>tu mesa.</em>', 'Reserva <em>la teva taula.</em>', 'Book <em>your table.</em>'],
+  res_s: ['Elige zona, día y hora. En un minuto lo tienes.', 'Tria zona, dia i hora. En un minut ho tens.', 'Pick an area, a day and a time. Done in a minute.'],
+  sea: ['MAR', 'MAR', 'SEA'],
+  z_front: ['Primera línea', 'Primera línia', 'Front row'], z_chill: ['Chill-out', 'Chill-out', 'Chill-out'], z_bar: ['Barra', 'Barra', 'Bar'], z_cover: ['Zona cubierta', 'Zona coberta', 'Covered area'],
+  zd_front: ['Las mejores vistas', 'Les millors vistes', 'The best views'], zd_chill: ['Sofás y cojines', 'Sofàs i coixins', 'Sofas and cushions'], zd_bar: ['Junto a los cócteles', 'Al costat dels còctels', 'Right by the cocktails'], zd_cover: ['Por si llueve o hace aire', 'Per si plou o fa vent', 'In case of rain or wind'],
+  seats: ['{n} plazas', '{n} places', '{n} seats'], few: ['Quedan pocas', 'En queden poques', 'Few left'], pick: ['Toca una zona del mapa', 'Toca una zona del mapa', 'Tap an area on the map'],
+  f_day: ['Día', 'Dia', 'Day'], f_time: ['Hora', 'Hora', 'Time'], f_ppl: ['Personas', 'Persones', 'Guests'], f_name: ['Nombre', 'Nom', 'Name'], f_phone: ['Teléfono', 'Telèfon', 'Phone'],
+  f_mail: ['Correo (opcional)', 'Correu (opcional)', 'Email (optional)'], f_req: ['Peticiones', 'Peticions', 'Requests'], f_notes: ['Algo más que debamos saber', 'Alguna cosa més que hàgim de saber', 'Anything else we should know'],
+  rq_bday: ['Cumpleaños', 'Aniversari', 'Birthday'], rq_chair: ['Trona', 'Trona', 'High chair'], rq_pet: ['Mascota', 'Mascota', 'Pet'], rq_party: ['Celebración', 'Celebració', 'Celebration'],
+  closed: ['Cerrado', 'Tancat', 'Closed'], s_free: ['Libre', 'Lliure', 'Free'], s_few: ['Últimas', 'Últimes', 'Last ones'], s_full: ['Completo', 'Complet', 'Full'], s_sun: ['Atardecer', 'Posta de sol', 'Sunset'],
+  group: ['Grupo grande: te llamamos para prepararlo todo.', 'Grup gran: et truquem per preparar-ho tot.', 'Large group: we will call you to set everything up.'],
+  priv: ['He leído y acepto la <a href="#" data-legal="priv">política de privacidad</a>.', 'He llegit i accepto la <a href="#" data-legal="priv">política de privacitat</a>.', 'I have read and accept the <a href="#" data-legal="priv">privacy policy</a>.'],
+  submit: ['Reservar mesa', 'Reservar taula', 'Book a table'], sim: ['Simulación de ORYON: no se envía ningún dato.', "Simulació d'ORYON: no s'envia cap dada.", 'ORYON simulation: no data is sent.'],
+  e_zone: ['Elige una zona en el mapa.', 'Tria una zona al mapa.', 'Choose an area on the map.'], e_time: ['Elige una hora libre.', 'Tria una hora lliure.', 'Choose an available time.'],
+  e_name: ['Escribe tu nombre.', 'Escriu el teu nom.', 'Please enter your name.'], e_phone: ['Escribe un teléfono válido.', 'Escriu un telèfon vàlid.', 'Please enter a valid phone number.'],
+  e_mail: ['Revisa el correo.', 'Revisa el correu.', 'Please check the email.'], e_priv: ['Acepta la política de privacidad.', 'Accepta la política de privacitat.', 'Please accept the privacy policy.'],
+  ok_t: ['¡Mesa reservada!', 'Taula reservada!', 'Table booked!'], ok_s: ['{p} personas · {z} · {d}, {h}', '{p} persones · {z} · {d}, {h}', '{p} guests · {z} · {d}, {h}'],
+  ok_n: ['Te recordaremos tu mesa 24 h antes y, después, te preguntaremos qué tal.', 'Et recordarem la taula 24 h abans i, després, et preguntarem com ha anat.', 'We will remind you 24 h before and ask how it went afterwards.'],
+  code: ['Código', 'Codi', 'Code'], ics: ['Añadir a mi calendario', 'Afegir al calendari', 'Add to my calendar'], change: ['Cambiar', 'Canviar', 'Change'], cancel: ['Cancelar', "Cancel·lar", 'Cancel'],
+  canceled: ['Reserva cancelada. Cuando quieras, aquí estaremos.', 'Reserva cancel·lada. Quan vulguis, aquí serem.', 'Booking cancelled. We will be here whenever you like.'], again: ['Hacer otra reserva', 'Fer una altra reserva', 'Make another booking'],
+  rev_e: ['Opiniones', 'Opinions', 'Reviews'], rev_t: ['Lo que <em>dicen.</em>', 'El que <em>diuen.</em>', 'What people <em>say.</em>'], rev_n: ['Opiniones de ejemplo para la demo.', "Opinions d'exemple per a la demo.", 'Sample reviews for the demo.'], rev_avg: ['de media · 8 opiniones', 'de mitjana · 8 opinions', 'average · 8 reviews'],
+  get_e: ['Dónde estamos', 'On som', 'Where we are'], get_t: ['Cómo <em>llegar.</em>', 'Com <em>arribar-hi.</em>', 'Getting <em>here.</em>'],
+  g_addr: ['Dirección', 'Adreça', 'Address'], g_hours: ['Horario', 'Horari', 'Opening hours'], g_hoursd: ['Miércoles a domingo · 12:00 – 02:00', 'Dimecres a diumenge · 12:00 – 02:00', 'Wednesday to Sunday · 12 pm – 2 am'],
+  g_park: ['Aparcamiento', 'Aparcament', 'Parking'], g_parkd: ['Parking público a 200 m, gratis a partir de las 21:00.', 'Pàrquing públic a 200 m, gratuït a partir de les 21:00.', 'Public car park 200 m away, free after 9 pm.'],
+  g_bus: ['Transporte', 'Transport', 'Transport'], g_busd: ['Bus 7, parada Mirador. Tren a 10 minutos a pie.', 'Bus 7, parada Mirador. Tren a 10 minuts a peu.', 'Bus 7, Mirador stop. Train station a 10-minute walk.'],
+  g_acc: ['Accesibilidad', 'Accessibilitat', 'Accessibility'], g_accd: ['Acceso sin escalones y baño adaptado.', 'Accés sense esglaons i lavabo adaptat.', 'Step-free access and accessible toilet.'],
+  wa: ['Escríbenos por WhatsApp', 'Escriu-nos per WhatsApp', 'Message us on WhatsApp'], call: ['Llamar', 'Trucar', 'Call'], mail: ['Correo', 'Correu', 'Email'],
+  toast: ['Demo: aquí se abriría {x}.', "Demo: aquí s'obriria {x}.", 'Demo: this would open {x}.'], x_tel: ['el teléfono', 'el telèfon', 'the phone'], x_mail: ['el correo', 'el correu', 'your email'],
+  faq_e: ['Antes de venir', 'Abans de venir', 'Before you come'], faq_t: ['Preguntas <em>frecuentes.</em>', 'Preguntes <em>freqüents.</em>', 'Frequently asked <em>questions.</em>'],
+  fab: ['Reservar mesa', 'Reservar taula', 'Book a table'], resp: ['Bebe con responsabilidad · +18', 'Beu amb responsabilitat · +18', 'Drink responsibly · 18+'],
+  legal_l: ['Aviso legal', 'Avís legal', 'Legal notice'], legal_p: ['Privacidad', 'Privacitat', 'Privacy'], legal_c: ['Cookies', 'Galetes', 'Cookies'],
+  legal_txt: ['Texto de ejemplo. Altamar es un local ficticio creado por ORYON como demostración. Esta página no recoge ni guarda datos personales: solo recuerda tu idioma y tu respuesta al aviso de edad en tu propio navegador, sin cookies.', "Text d'exemple. Altamar és un local fictici creat per ORYON com a demostració. Aquesta pàgina no recull ni desa dades personals: només recorda el teu idioma i la resposta a l'avís d'edat al teu navegador, sense galetes.", 'Sample text. Altamar is a fictional venue created by ORYON as a demo. This page does not collect or store personal data: it only remembers your language and your age answer in your own browser, without cookies.'],
+  made: ['Demo creada por <a href="https://oryonsl.github.io/oryon-web/">ORYON</a> · Altamar es un local ficticio', 'Demo creada per <a href="https://oryonsl.github.io/oryon-web/">ORYON</a> · Altamar és un local fictici', 'Demo made by <a href="https://oryonsl.github.io/oryon-web/">ORYON</a> · Altamar is a fictional venue']
+};
+const T = k => (DICT[k] || ['', '', ''])[LI];
+const tr = v => Array.isArray(v) ? v[LI] : v;
+
+/* =====================================================================
+   BEBIDAS EN 3D · para añadir una, copia un bloque y cambia los datos
+   glass: hurricane · balloon · coupe · highball · flute · margarita · jar
+   ===================================================================== */
+const DRINKS = [
+  { id: 'colada', n: 'Piña colada', glass: 'hurricane', liq: ['#EBD9A6', '#FFF6DC'], glow: '#FFD36B', deep: '#14110A', fill: .88, frozen: 1, dome: 1,
+    gar: ['pineapple', 'cherry', 'umbrella', 'straw:#FF5E5B'], fruit: ['pineapple', 'pineapple', 'coconut', 'cherry'], abv: 'mid', p: 9, fl: [5, 2, 2],
+    ing: ['Ron blanco · piña · crema de coco', 'Rom blanc · pinya · crema de coco', 'White rum · pineapple · coconut cream'], al: ['lact'],
+    pair: ['Nachos con guacamole', 'Nachos amb guacamole', 'Nachos with guacamole'], d: ['Cremosa, tropical y sin prisas.', 'Cremosa, tropical i sense presses.', 'Creamy, tropical and unhurried.'], tags: ['fruit'] },
+  { id: 'bosque', n: ['Frutos del bosque', 'Fruits del bosc', 'Forest berries'], glass: 'balloon', liq: ['#3B0A40', '#9B3399'], glow: '#C84FE0', deep: '#11061A', fill: .62, ice: 3, bubbles: 1,
+    gar: ['berries', 'mint'], fruit: ['blackberry', 'raspberry', 'blackberry', 'mint'], abv: 'mid', p: 9, fl: [4, 3, 2],
+    ing: ['Ginebra · moras · frambuesa · tónica', 'Ginebra · móres · gerds · tònica', 'Gin · blackberries · raspberries · tonic'], al: [],
+    pair: ['Tabla de quesos', 'Taula de formatges', 'Cheese board'], d: ['Morado, fresco y con burbuja fina.', 'Morat, fresc i amb bombolla fina.', 'Purple, fresh and finely bubbly.'], tags: ['fruit'] },
+  { id: 'daiquiri', n: ['Daiquiri de fresa', 'Daiquiri de maduixa', 'Strawberry daiquiri'], glass: 'coupe', liq: ['#B5102A', '#FF4D61'], glow: '#FF3B52', deep: '#190509', fill: .9, frozen: 1, dome: 1,
+    gar: ['strawberry'], fruit: ['strawberry', 'strawberry', 'limeSlice'], abv: 'mid', p: 8.5, fl: [4, 4, 2],
+    ing: ['Ron blanco · fresa · lima', 'Rom blanc · maduixa · llima', 'White rum · strawberry · lime'], al: [],
+    pair: ['Croquetas de jamón', 'Croquetes de pernil', 'Ham croquettes'], d: ['Granizado, rojo y peligrosamente fácil.', 'Granissat, vermell i perillosament fàcil.', 'Frozen, red and dangerously easy.'], tags: ['fruit'] },
+  { id: 'sotb', n: 'Sex on the Beach', glass: 'highball', liq: ['#D11B3B', '#FFA43A'], glow: '#FF6A3D', deep: '#190A06', fill: .84, ice: 4,
+    gar: ['orange', 'straw:#FFE08A'], fruit: ['orangeSlice', 'cranberry', 'cranberry', 'peach'], abv: 'mid', p: 9, fl: [4, 3, 2],
+    ing: ['Vodka · melocotón · naranja · arándano', 'Vodka · préssec · taronja · nabiu', 'Vodka · peach · orange · cranberry'], al: [],
+    pair: ['Patatas bravas', 'Patates braves', 'Patatas bravas'], d: ['El atardecer, pero en vaso.', 'La posta de sol, però en got.', 'The sunset, but in a glass.'], tags: ['fruit'] },
+  { id: 'peach', n: ['Melocotón y cava', 'Préssec i cava', 'Peach & cava'], glass: 'flute', liq: ['#F2915F', '#FFD3A8'], glow: '#FFB07A', deep: '#170E09', fill: .86, bubbles: 2,
+    gar: ['peach'], fruit: ['peach', 'peach', 'mint'], abv: 'soft', p: 8, fl: [4, 2, 1],
+    ing: ['Cava brut · pulpa de melocotón', 'Cava brut · polpa de préssec', 'Brut cava · peach purée'], al: ['sulf'],
+    pair: ['Pan con tomate', 'Pa amb tomàquet', 'Pa amb tomàquet'], d: ['Suave, dorado y con burbujas que suben.', 'Suau, daurat i amb bombolles que pugen.', 'Soft, golden, with rising bubbles.'], tags: ['fruit'] },
+  { id: 'mojito', n: 'Mojito', glass: 'highball', liq: ['#9ED68A', '#E6FFD6'], glow: '#7DFF9A', deep: '#05140C', fill: .82, ice: 4, crushed: 1, bubbles: 1,
+    gar: ['lime', 'mint', 'straw:#FFFFFF'], fruit: ['mint', 'mint', 'limeSlice'], abv: 'mid', p: 8.5, fl: [3, 4, 2],
+    ing: ['Ron blanco · lima · hierbabuena · soda', 'Rom blanc · llima · menta · soda', 'White rum · lime · mint · soda'], al: [],
+    pair: ['Nachos con guacamole', 'Nachos amb guacamole', 'Nachos with guacamole'], d: ['Hielo picado, menta fresca y a la sombra.', "Gel picat, menta fresca i a l'ombra.", 'Crushed ice, fresh mint, in the shade.'], tags: [] },
+  { id: 'margarita', n: ['Margarita de mango', 'Margarita de mango', 'Mango margarita'], glass: 'margarita', liq: ['#FF961A', '#FFCB5C'], glow: '#FFB22E', deep: '#191004', fill: .82,
+    gar: ['salt', 'lime'], fruit: ['mango', 'mango', 'limeSlice'], abv: 'strong', p: 9.5, fl: [3, 4, 4],
+    ing: ['Tequila · triple seco · mango · lima', 'Tequila · triple sec · mango · llima', 'Tequila · triple sec · mango · lime'], al: [],
+    pair: ['Nachos con guacamole', 'Nachos amb guacamole', 'Nachos with guacamole'], d: ['Borde de sal, mango maduro y carácter.', 'Vora de sal, mango madur i caràcter.', 'Salted rim, ripe mango and attitude.'], tags: ['fruit', 'strong'] },
+  { id: 'blue', n: 'Blue Lagoon', glass: 'highball', liq: ['#0757E8', '#45D4FF'], glow: '#2FA8FF', deep: '#030F20', fill: .84, ice: 4, bubbles: 1,
+    gar: ['lemon', 'straw:#FFFFFF'], fruit: ['drop', 'drop', 'lemonSlice'], abv: 'mid', p: 8.5, fl: [3, 3, 3],
+    ing: ['Vodka · curaçao azul · limonada', 'Vodka · curaçao blau · llimonada', 'Vodka · blue curaçao · lemonade'], al: [],
+    pair: ['Hummus con crudités', 'Hummus amb crudités', 'Hummus with crudités'], d: ['Del color del mar a mediodía.', 'Del color del mar a migdia.', 'The colour of the sea at noon.'], tags: [] },
+  { id: 'sunrise', n: 'Tequila Sunrise', glass: 'highball', liq: ['#E0211C', '#FFC53A'], glow: '#FF8C1A', deep: '#190B04', fill: .84, ice: 3,
+    gar: ['orange', 'cherry'], fruit: ['orangeSlice', 'cherry', 'orangeSlice'], abv: 'mid', p: 9, fl: [4, 2, 3],
+    ing: ['Tequila · naranja · granadina', 'Tequila · taronja · granadina', 'Tequila · orange · grenadine'], al: [],
+    pair: ['Patatas bravas', 'Patates braves', 'Patatas bravas'], d: ['Amanecer en capas. Se remueve con la pajita.', 'Matinada en capes. Es remena amb la palleta.', 'A layered sunrise. Stir it with the straw.'], tags: ['fruit'] },
+  { id: 'sandia', n: ['Limonada de sandía', 'Llimonada de síndria', 'Watermelon lemonade'], glass: 'jar', liq: ['#FF3F6E', '#FF9CB2'], glow: '#FF5C8A', deep: '#19060F', fill: .82, ice: 3, bubbles: 1,
+    gar: ['watermelon', 'straw:#3FBF6F'], fruit: ['watermelon', 'mint', 'watermelon'], abv: 'na', p: 6, fl: [4, 3, 0],
+    ing: ['Sandía · limón · menta · soda', 'Síndria · llimona · menta · soda', 'Watermelon · lemon · mint · soda'], al: [],
+    pair: ['Hummus con crudités', 'Hummus amb crudités', 'Hummus with crudités'], d: ['Cero alcohol, cien por cien verano.', 'Zero alcohol, cent per cent estiu.', 'Zero alcohol, one hundred percent summer.'], tags: ['na', 'fruit'] },
+  { id: 'virgin', n: 'Virgin colada', glass: 'hurricane', liq: ['#F0E2B8', '#FFF8E6'], glow: '#FFE08A', deep: '#14110A', fill: .88, frozen: 1, dome: 1, minorOnly: 1,
+    gar: ['pineapple', 'umbrella', 'straw:#3FBF6F'], fruit: ['pineapple', 'coconut', 'pineapple'], abv: 'na', p: 6.5, fl: [5, 2, 0],
+    ing: ['Piña · crema de coco · lima', 'Pinya · crema de coco · llima', 'Pineapple · coconut cream · lime'], al: ['lact'],
+    pair: ['Nachos con guacamole', 'Nachos amb guacamole', 'Nachos with guacamole'], d: ['Toda la piña colada, nada de ron.', 'Tota la pinya colada, gens de rom.', 'All the piña colada, none of the rum.'], tags: ['na', 'fruit'] },
+  { id: 'mojito0', n: ['Mojito sin alcohol', 'Mojito sense alcohol', 'Alcohol-free mojito'], glass: 'highball', liq: ['#B5E6A0', '#EEFFE2'], glow: '#8CFFA8', deep: '#05140C', fill: .82, ice: 4, crushed: 1, bubbles: 1, minorOnly: 1,
+    gar: ['lime', 'mint', 'straw:#FF5E5B'], fruit: ['mint', 'limeSlice', 'mint'], abv: 'na', p: 6, fl: [3, 4, 0],
+    ing: ['Lima · hierbabuena · soda · azúcar de caña', 'Llima · menta · soda · sucre de canya', 'Lime · mint · soda · cane sugar'], al: [],
+    pair: ['Patatas bravas', 'Patates braves', 'Patatas bravas'], d: ['Todo el frescor, cero grados.', 'Tota la frescor, zero graus.', 'All the freshness, zero proof.'], tags: ['na'] }
+];
+let MINOR = false;
+let LIST = [];
+function buildList() { LIST = DRINKS.map((d, i) => i).filter(i => MINOR ? DRINKS[i].abv === 'na' : !DRINKS[i].minorOnly); }
+
+/* =====================================================================
+   CARTA COMPLETA
+   ===================================================================== */
+const MENU = [
+  { id: 'cock', items: DRINKS.map((d, i) => ({ drink: i })).filter(x => !DRINKS[x.drink].minorOnly && DRINKS[x.drink].abv !== 'na') },
+  { id: 'na', items: [{ drink: 9 }, { drink: 10 }, { drink: 11 },
+    { n: ['Zumo de naranja natural', 'Suc de taronja natural', 'Fresh orange juice'], p: 4, tags: ['fruit', 'na'] },
+    { n: ['Agua con gas', 'Aigua amb gas', 'Sparkling water'], p: 2.5, tags: ['na'] }, { n: ['Refrescos', 'Refrescos', 'Soft drinks'], p: 3, tags: ['na'] }] },
+  { id: 'shots', items: [{ n: ['Licor de melocotón', 'Licor de préssec', 'Peach liqueur'], p: 3.5, tags: ['fruit'] }, { n: ['Hierbas ibicencas', 'Herbes eivissenques', 'Ibiza herb liqueur'], p: 3.5 },
+    { n: ["Crema de orujo", "Crema d'orujo", 'Orujo cream liqueur'], p: 3.5, al: ['lact'] }, { n: 'Limoncello', p: 3.5, tags: ['fruit'] },
+    { n: ['Tequila con sal y lima', 'Tequila amb sal i llima', 'Tequila, salt & lime'], p: 4, tags: ['strong'] }, { n: ['Chupito Altamar (secreto de la casa)', 'Xupito Altamar (secret de la casa)', 'Altamar shot (house secret)'], p: 3, tags: ['fruit'] }] },
+  { id: 'bot', items: [{ n: ['Ron añejo + 4 refrescos', 'Rom añejo + 4 refrescos', 'Aged rum + 4 mixers'], p: 75, tags: ['strong'] }, { n: ['Ginebra premium + 4 tónicas', 'Ginebra prèmium + 4 tòniques', 'Premium gin + 4 tonics'], p: 80, tags: ['strong'] },
+    { n: ['Vodka + 4 refrescos', 'Vodka + 4 refrescos', 'Vodka + 4 mixers'], p: 70, tags: ['strong'] }, { n: ['Cava brut (botella)', 'Cava brut (ampolla)', 'Brut cava (bottle)'], p: 28, al: ['sulf'] }] },
+  { id: 'beer', items: [{ n: ['Caña', 'Canya', 'Small draught beer'], p: 3, al: ['gluten'] }, { n: ['Cerveza artesana IPA', 'Cervesa artesana IPA', 'Craft IPA'], p: 5, al: ['gluten'] },
+    { n: ['Cerveza sin gluten', 'Cervesa sense gluten', 'Gluten-free beer'], p: 4 }, { n: ['Tinto de verano', 'Tinto de verano', 'Tinto de verano'], p: 4.5, al: ['sulf'], tags: ['fruit'] },
+    { n: ['Sangría (jarra 1 l)', 'Sangria (gerra 1 l)', 'Sangria (1 l jug)'], p: 18, al: ['sulf'], tags: ['fruit'] }, { n: ['Copa de vino blanco', 'Copa de vi blanc', 'Glass of white wine'], p: 4.5, al: ['sulf'] },
+    { n: ['Copa de rosado', 'Copa de rosat', 'Glass of rosé'], p: 4.5, al: ['sulf'] }] },
+  { id: 'food', items: [{ n: ['Patatas bravas', 'Patates braves', 'Patatas bravas'], p: 6.5, al: ['egg'] }, { n: ['Croquetas de jamón (6)', 'Croquetes de pernil (6)', 'Ham croquettes (6)'], p: 9, al: ['gluten', 'lact', 'egg'] },
+    { n: ['Nachos con guacamole', 'Nachos amb guacamole', 'Nachos with guacamole'], p: 9.5, al: ['lact'] }, { n: ['Tabla de quesos', 'Taula de formatges', 'Cheese board'], p: 14, al: ['lact', 'nuts'] },
+    { n: ['Hummus con crudités', 'Hummus amb crudités', 'Hummus with crudités'], p: 7.5, al: ['ses'] }, { n: ['Pan con tomate', 'Pa amb tomàquet', 'Pa amb tomàquet'], p: 4, al: ['gluten'] }] }
+];
+const FAQ = [
+  [['¿Hace falta reservar?', 'Cal reservar?', 'Do I need to book?'], ['No, pero al atardecer se llena. Con reserva, la mesa es tuya.', "No, però a la posta de sol s'omple. Amb reserva, la taula és teva.", 'No, but it fills up at sunset. With a booking, the table is yours.']],
+  [['¿Puedo venir con mi perro?', 'Puc venir amb el meu gos?', 'Can I bring my dog?'], ['Sí, en todas las zonas menos el chill-out. Le traemos agua.', 'Sí, a totes les zones menys el chill-out. Li portem aigua.', 'Yes, in every area except the chill-out. We will bring water.']],
+  [['¿Y si llueve?', 'I si plou?', 'What if it rains?'], ['Tenemos zona cubierta con vistas. Si reservaste fuera, te cambiamos sin coste.', 'Tenim zona coberta amb vistes. Si vas reservar a fora, et canviem sense cost.', 'We have a covered area with a view. If you booked outside, we move you at no cost.']],
+  [['¿Aceptáis grupos grandes?', 'Accepteu grups grans?', 'Do you take large groups?'], ['Sí. A partir de 12 personas te llamamos para preparar mesa y menú.', 'Sí. A partir de 12 persones et truquem per preparar taula i menú.', 'Yes. From 12 people we call you to arrange the table and menu.']],
+  [['¿Tenéis opciones sin gluten y sin alcohol?', 'Teniu opcions sense gluten i sense alcohol?', 'Do you have gluten-free and alcohol-free options?'], ['Sí: en la carta completa puedes filtrar por las dos cosas.', 'Sí: a la carta completa pots filtrar per totes dues coses.', 'Yes: you can filter by both in the full menu.']],
+  [['¿Hasta qué hora se puede reservar?', 'Fins a quina hora es pot reservar?', 'How late can I book?'], ['Hasta la 01:00. La cocina cierra a las 23:30.', 'Fins a la 01:00. La cuina tanca a les 23:30.', 'Until 1 am. The kitchen closes at 11:30 pm.']]
+];
+const REVIEWS = [
+  ['Marta G.', 5, ['El atardecer con una piña colada en la mano. No necesito nada más.', 'La posta de sol amb una pinya colada a la mà. No necessito res més.', 'Sunset with a piña colada in hand. I need nothing else.']],
+  ['Jordi P.', 5, ['Reservamos en primera línea y acertamos. El Sex on the Beach, de diez.', 'Vam reservar a primera línia i vam encertar. El Sex on the Beach, de deu.', 'We booked the front row and nailed it. The Sex on the Beach was perfect.']],
+  ['Laura M.', 4, ['Mucho ambiente con el DJ. Ve con tiempo, que se llena.', "Molt d'ambient amb el DJ. Vés amb temps, que s'omple.", 'Great vibe with the DJ. Go early, it fills up.']],
+  ['Tom H.', 5, ['Las mejores vistas de la costa y el mojito, perfecto.', 'Les millors vistes de la costa i el mojito, perfecte.', 'Best view on the coast, and the mojito was spot on.']],
+  ['Núria S.', 5, ['Celebramos un cumpleaños y nos sacaron la tarta con bengalas.', 'Vam celebrar un aniversari i ens van treure el pastís amb bengales.', 'We celebrated a birthday and they brought the cake with sparklers.']],
+  ['Carlos R.', 4, ['La limonada de sandía sin alcohol está buenísima.', 'La llimonada de síndria sense alcohol és boníssima.', 'The alcohol-free watermelon lemonade is delicious.']],
+  ['Ana B.', 5, ['Reservar fue cosa de un minuto y nos recordaron la mesa el día antes.', 'Reservar va ser cosa d’un minut i ens van recordar la taula el dia abans.', 'Booking took a minute and they reminded us the day before.']],
+  ['Pau L.', 5, ['El daiquiri de fresa granizado, con este calor, es una salvación.', 'El daiquiri de maduixa granissat, amb aquesta calor, és una salvació.', 'A frozen strawberry daiquiri in this heat is a lifesaver.']]
+];
+const ZONES = { front: 40, chill: 24, bar: 16, cover: 30 };
+const money = v => v.toLocaleString(LOCS[LI], { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
+
+/* =====================================================================
+   PUESTA DE SOL REAL (fórmula de la NOAA, costa de Barcelona)
+   ===================================================================== */
+function sunsetUTCmin(date, lat = 41.39, lon = 2.17) {
+  const y = date.getFullYear(), n = Math.round((Date.UTC(y, date.getMonth(), date.getDate()) - Date.UTC(y, 0, 0)) / 864e5);
+  const g = 2 * Math.PI / 365 * (n - .5), rad = Math.PI / 180;
+  const eot = 229.18 * (.000075 + .001868 * Math.cos(g) - .032077 * Math.sin(g) - .014615 * Math.cos(2 * g) - .040849 * Math.sin(2 * g));
+  const dec = .006918 - .399912 * Math.cos(g) + .070257 * Math.sin(g) - .006758 * Math.cos(2 * g) + .000907 * Math.sin(2 * g) - .002697 * Math.cos(3 * g) + .00148 * Math.sin(3 * g);
+  const ha = Math.acos(Math.cos(90.833 * rad) / (Math.cos(lat * rad) * Math.cos(dec)) - Math.tan(lat * rad) * Math.tan(dec)) / rad;
+  return 720 - 4 * (lon - ha) - eot;
+}
+function sunsetDate(date) { return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) + sunsetUTCmin(date) * 6e4); }
+const hhmm = d => d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Madrid' });
+
+/* =====================================================================
+   TEXTOS EN PANTALLA
+   ===================================================================== */
+const title = $('#title');
+title.innerHTML = [...title.textContent].map(c => `<span class="ch" aria-hidden="true"><i>${c}</i></span>`).join('');
+function applyLang() {
+  document.documentElement.lang = LANGS[LI];
+  $$('[data-i18n]').forEach(el => { const v = T(el.dataset.i18n); if (v) el.innerHTML = v; });
+  $$('[data-i18n-ph]').forEach(el => el.placeholder = T(el.dataset.i18nPh));
+  $$('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', T(el.dataset.i18nAria)));
+  $$('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === LANGS[LI]));
+  $('#sunsetTxt').innerHTML = T('sunset').replace('{t}', hhmm(sunsetDate(new Date())));
+  $('#zSea').textContent = T('sea');
+  $$('[data-zl]').forEach(el => el.textContent = T(el.dataset.zl));
+  $$('[data-zs]').forEach(el => el.textContent = T('seats').replace('{n}', ZONES[el.dataset.zs]));
+  $('#revAvg').textContent = T('rev_avg');
+  renderMenu(); renderMoments(); renderFaq(); renderReviews(); renderReqs(); renderDays(); renderSlots(); renderZoneInfo(); renderLabels();
+  curIdx = -1;
+  if (booking) fillDone();
+}
+$$('.lang button').forEach(b => b.addEventListener('click', () => { LI = LANGS.indexOf(b.dataset.l); LS.set('altamar-lang', b.dataset.l); applyLang(); }));
+
+/* ---------- carta completa ---------- */
+let tab = 'cock', query = '', filt = new Set();
+const FILTERS = ['na', 'fruit', 'strong', 'gf'];
+function itemOf(x) {
+  if (x.drink != null) { const d = DRINKS[x.drink]; return { n: tr(d.n), p: d.p, d: tr(d.ing), al: d.al, tags: d.tags.concat(d.abv === 'na' ? ['na'] : []), drink: x.drink }; }
+  return { n: tr(x.n), p: x.p, d: '', al: x.al || [], tags: (x.tags || []).slice(), drink: null };
+}
+function renderMenu() {
+  const tabsEl = $('#tabs'), filtEl = $('#filters');
+  const cats = MENU.filter(c => !MINOR || c.id === 'na' || c.id === 'food');
+  if (MINOR && !cats.find(c => c.id === tab)) tab = 'na';
+  tabsEl.innerHTML = cats.map(c => `<button class="tab${c.id === tab && !query ? ' on' : ''}" role="tab" data-tab="${c.id}">${T('c_' + c.id)}</button>`).join('');
+  filtEl.innerHTML = FILTERS.map(f => `<button class="chip${filt.has(f) ? ' on' : ''}" data-f="${f}">${T('t_' + f)}</button>`).join('');
+  let items = [];
+  const q = query.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  cats.forEach(c => { if (q || c.id === tab) c.items.forEach(x => items.push(itemOf(x))); });
+  items.forEach(it => { if (!it.al.includes('gluten')) it.tags.push('gf'); });
+  if (q) items = items.filter(it => (it.n + ' ' + it.d).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(q));
+  filt.forEach(f => { items = items.filter(it => f === 'na' ? it.tags.includes('na') || (tab === 'food' && !q) : it.tags.includes(f)); });
+  if (MINOR) items = items.filter(it => it.tags.includes('na') || MENU[5].items.some(x => tr(x.n) === it.n));
+  $('#mlist').innerHTML = items.length ? items.map((it, k) => `<div class="mi" style="animation-delay:${Math.min(k, 12) * .03}s">
+      <h4>${it.n}${it.tags.filter(t => t !== 'gf').map(t => `<span class="tg">${T('t_' + t)}</span>`).join('')}</h4><span class="p">${money(it.p)}</span>
+      ${it.d ? `<p class="d">${it.d}</p>` : ''}
+      ${it.al.length || it.drink != null ? `<div class="al">${it.al.map(a => `<span>${T('a_' + a)}</span>`).join('')}${it.drink != null && LIST.includes(it.drink) ? `<button class="see" data-see="${it.drink}">${T('see3d')} →</button>` : ''}</div>` : ''}
+    </div>`).join('') : `<p class="empty">${T('empty')}</p>`;
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; query = ''; $('#q').value = ''; renderMenu(); });
+$('#filters').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; filt.has(b.dataset.f) ? filt.delete(b.dataset.f) : filt.add(b.dataset.f); renderMenu(); });
+$('#q').addEventListener('input', e => { query = e.target.value; renderMenu(); });
+$('#mlist').addEventListener('click', e => { const b = e.target.closest('[data-see]'); if (b) goTo(LIST.indexOf(+b.dataset.see), true); });
+
+/* ---------- momentos ---------- */
+const MOM_IC = {
+  m1: '<svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#F4E7D3" stroke-width="2"><path d="M12 8h24l-10 16v12h6M18 36h12M14 14h20"/></svg>',
+  m2: '<svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#F4E7D3" stroke-width="2"><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="4"/><path d="M24 8v4M38 30l-4-2"/></svg>',
+  m3: '<svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#F4E7D3" stroke-width="2"><rect x="10" y="22" width="28" height="16" rx="2"/><path d="M10 30h28M18 22v-4M24 22v-6M30 22v-4"/></svg>',
+  m4: '<svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#F4E7D3" stroke-width="2"><path d="M8 24a16 16 0 0 1 32 0z M24 24v12a4 4 0 0 1-8 0"/></svg>'
+};
+const MOM_C = { m1: '#FF6A3D', m2: '#C84FE0', m3: '#FFD36B', m4: '#2FA8FF' };
+function hhText() {
+  const now = new Date(), d = now.getDay(), m = now.getHours() * 60 + now.getMinutes(), open = d === 0 || d >= 3;
+  const fmt = mins => mins >= 60 ? `${Math.floor(mins / 60)} h ${mins % 60} min` : `${mins} min`;
+  if (open && m < 18 * 60) return T('hh_in').replace('{t}', fmt(18 * 60 - m));
+  if (open && m < 20 * 60) return T('hh_now').replace('{t}', fmt(20 * 60 - m));
+  const tomorrow = (d + 1) % 7; return (tomorrow === 0 || tomorrow >= 3) ? T('hh_tom') : T('hh_wed');
+}
+function renderMoments() {
+  $('#moms').innerHTML = ['m1', 'm2', 'm3', 'm4'].map(k => `<article class="mom rv in" style="--c1:${MOM_C[k]}">${MOM_IC[k]}<h3>${T(k + 't')}</h3><p>${T(k + 'd')}</p>${k === 'm1' ? `<span class="live" id="hhLive">${hhText()}</span>` : ''}</article>`).join('');
+}
+setInterval(() => { const el = $('#hhLive'); if (el) el.textContent = hhText(); }, 30000);
+$('#moms').addEventListener('pointermove', e => {
+  const c = e.target.closest('.mom'); if (!c || !FINE) return;
+  const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  c.style.setProperty('--mx', x * 100 + '%'); c.style.setProperty('--my', y * 100 + '%');
+  c.style.transform = `perspective(800px) rotateY(${(x - .5) * 8}deg) rotateX(${(.5 - y) * 8}deg)`;
+});
+$('#moms').addEventListener('pointerout', e => { const c = e.target.closest('.mom'); if (c && !c.contains(e.relatedTarget)) c.style.transform = ''; });
+
+/* ---------- preguntas y opiniones ---------- */
+function renderFaq() { $('#faqs').innerHTML = FAQ.map(([q, a]) => `<details class="rv in"><summary>${tr(q)}<i></i></summary><p>${tr(a)}</p></details>`).join(''); }
+function renderReviews() {
+  const one = REVIEWS.map(([n, s, t]) => `<article class="rev"><span class="stars">${'★'.repeat(s)}${'☆'.repeat(5 - s)}</span><p>«${tr(t)}»</p><span>${n}</span></article>`).join('');
+  $('#marq').innerHTML = one + one.replace(/<article class="rev">/g, '<article class="rev" aria-hidden="true">');
+}
+
+/* =====================================================================
+   RESERVA (simulada)
+   ===================================================================== */
+const R = { zone: null, day: null, slot: null, ppl: 2, reqs: new Set() };
+const SLOTS = ['12:30', '13:30', '14:30', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00'];
+const today0 = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+const DAYS = [...Array(14)].map((_, i) => { const d = today0(); d.setDate(d.getDate() + i); return d; });
+const isOpen = d => d.getDay() === 0 || d.getDay() >= 3;
+const hash = s => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) % 100; };
+function slotState(di, s) {
+  const d = DAYS[di]; const [h, m] = s.split(':').map(Number);
+  const when = new Date(d); when.setHours(h, m); if (h < 6) when.setDate(when.getDate() + 1);
+  if (when < new Date()) return 'full';
+  const v = hash(di + '|' + (R.zone || 'x') + '|' + s);
+  return v < 14 ? 'full' : v < 34 ? 'few' : 'free';
+}
+function sunSlot(di) {
+  const sd = sunsetDate(DAYS[di]); const [h, m] = hhmm(sd).split(':').map(Number); const mins = h * 60 + m;
+  let best = null, bd = 1e9; SLOTS.forEach(s => { const [a, b] = s.split(':').map(Number); const v = a * 60 + b; if (a >= 6 && Math.abs(v - mins) < bd) { bd = Math.abs(v - mins); best = s; } });
+  return best;
+}
+function renderDays() {
+  if (R.day == null || !isOpen(DAYS[R.day])) R.day = DAYS.findIndex(isOpen);
+  $('#days').innerHTML = DAYS.map((d, i) => `<button type="button" class="day${i === R.day ? ' on' : ''}" data-day="${i}" ${isOpen(d) ? '' : 'disabled title="' + T('closed') + '"'}><small>${d.toLocaleDateString(LOCS[LI], { weekday: 'short' }).replace('.', '')}</small><b>${d.getDate()}</b><small>${isOpen(d) ? d.toLocaleDateString(LOCS[LI], { month: 'short' }).replace('.', '') : T('closed')}</small></button>`).join('');
+}
+function renderSlots() {
+  const sun = sunSlot(R.day);
+  $('#slots').innerHTML = SLOTS.map(s => { const st = slotState(R.day, s); if (st === 'full' && R.slot === s) R.slot = null;
+    return `<button type="button" class="slot ${st}${s === sun ? ' sun' : ''}${R.slot === s ? ' on' : ''}" data-slot="${s}" ${st === 'full' ? 'disabled' : ''}>${s}<small>${s === sun && st !== 'full' ? T('s_sun') : T('s_' + st)}</small></button>`; }).join('');
+}
+function renderReqs() { $('#reqs').innerHTML = ['bday', 'chair', 'pet', 'party'].map(k => `<button type="button" class="chip${R.reqs.has(k) ? ' on' : ''}" data-rq="${k}">${T('rq_' + k)}</button>`).join(''); }
+function zoneFew(z) { return hash(R.day + z) < 45; }
+function renderZoneInfo() {
+  $$('.zone').forEach(g => g.classList.toggle('on', g.dataset.zone === R.zone));
+  const z = R.zone;
+  $('#zinfo').innerHTML = z ? `<div><b>${T('z_' + z)}</b><br><span>${T('zd_' + z)}</span></div><div style="text-align:right">${T('seats').replace('{n}', ZONES[z])}<br><span class="${zoneFew(z) ? 'few' : ''}">${zoneFew(z) ? T('few') : T('s_free')}</span></div>` : `<span>${T('pick')}</span>`;
+}
+$('#zmap').addEventListener('click', e => { const g = e.target.closest('.zone'); if (!g) return; R.zone = g.dataset.zone; renderZoneInfo(); renderSlots(); });
+$('#zmap').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.zone')) { e.preventDefault(); e.target.closest('.zone').dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+$('#days').addEventListener('click', e => { const b = e.target.closest('[data-day]'); if (!b || b.disabled) return; R.day = +b.dataset.day; renderDays(); renderSlots(); renderZoneInfo(); });
+$('#slots').addEventListener('click', e => { const b = e.target.closest('[data-slot]'); if (!b || b.disabled) return; R.slot = b.dataset.slot; renderSlots(); });
+$('#reqs').addEventListener('click', e => { const b = e.target.closest('[data-rq]'); if (!b) return; R.reqs.has(b.dataset.rq) ? R.reqs.delete(b.dataset.rq) : R.reqs.add(b.dataset.rq); renderReqs(); });
+function setPpl(v) { R.ppl = clamp(v, 1, 20); $('#pOut').textContent = R.ppl; $('#gnote').classList.toggle('on', R.ppl > 12); }
+$('#pMinus').addEventListener('click', () => setPpl(R.ppl - 1)); $('#pPlus').addEventListener('click', () => setPpl(R.ppl + 1));
+let booking = null;
+function dayLabel(di) { return DAYS[di].toLocaleDateString(LOCS[LI], { weekday: 'long', day: 'numeric', month: 'long' }); }
+function fillDone() {
+  $('#okSum').textContent = T('ok_s').replace('{p}', booking.ppl).replace('{z}', T('z_' + booking.zone)).replace('{d}', dayLabel(booking.day)).replace('{h}', booking.slot);
+  $('#okCode').textContent = booking.code;
+}
+$('#rform').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#rName').value.trim(), phone = $('#rPhone').value.replace(/\D/g, ''), mail = $('#rMail').value.trim();
+  const err = !R.zone ? 'e_zone' : !R.slot ? 'e_time' : !name ? 'e_name' : phone.length < 9 ? 'e_phone' : (mail && !/^\S+@\S+\.\S+$/.test(mail)) ? 'e_mail' : !$('#rPriv').checked ? 'e_priv' : '';
+  $('#rErr').textContent = err ? T(err) : '';
+  if (err) { if (err === 'e_zone') $('#zmap').scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' }); return; }
+  booking = { zone: R.zone, day: R.day, slot: R.slot, ppl: R.ppl, code: 'ALT-' + Math.random().toString(36).slice(2, 6).toUpperCase() };
+  fillDone(); $('#rcard').classList.remove('cx'); $('#rcard').classList.add('ok');
+  $('#rcard').scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
+});
+$('#chg').addEventListener('click', () => { $('#rcard').classList.remove('ok'); });
+$('#cnl').addEventListener('click', () => { booking = null; $('#rcard').classList.remove('ok'); $('#rcard').classList.add('cx'); });
+$('#again').addEventListener('click', () => { $('#rcard').classList.remove('cx'); R.slot = null; renderSlots(); });
+$('#ics').addEventListener('click', () => {
+  if (!booking) return;
+  const [h, m] = booking.slot.split(':').map(Number), st = new Date(DAYS[booking.day]); st.setHours(h, m); if (h < 6) st.setDate(st.getDate() + 1);
+  const en = new Date(st.getTime() + 2 * 36e5), f = d => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}T${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}00`;
+  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//ORYON//Altamar demo//ES', 'BEGIN:VEVENT', `UID:${booking.code}@altamar.demo`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(st)}`, `DTEND:${f(en)}`,
+    `SUMMARY:Altamar · ${booking.ppl} · ${T('z_' + booking.zone)}`, 'LOCATION:Passeig del Mirador\\, 12 · Costa de Llevant', `DESCRIPTION:${T('code')}: ${booking.code}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' })); a.download = 'altamar-' + booking.code + '.ics';
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+/* ---------- avisos, legal y botones de demo ---------- */
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
+$$('[data-demo]').forEach(b => b.addEventListener('click', () => { const k = b.dataset.demo; toast(T('toast').replace('{x}', k === 'WhatsApp' ? 'WhatsApp' : T('x_' + k))); }));
+document.addEventListener('click', e => {
+  const l = e.target.closest('[data-legal]'); if (!l) return; e.preventDefault();
+  $('#mTitle').textContent = T({ legal: 'legal_l', priv: 'legal_p', cook: 'legal_c' }[l.dataset.legal]); $('#mText').textContent = T('legal_txt'); $('#modal').classList.add('on');
+});
+$('#mClose').addEventListener('click', () => $('#modal').classList.remove('on'));
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') $('#modal').classList.remove('on'); });
+
+/* =====================================================================
+   SCROLL: S = escena + avance (0..1)
+   ===================================================================== */
+const secs = $$('[data-s]');
+let M = [], PF = [];
+function sizeCarta() { $('#s2').style.height = `calc(100vh + ${(Math.max(2, LIST.length) - 1) * 55}vh)`; }
+function measure() {
+  const vh = innerHeight;
+  M = secs.map(el => ({ top: el.getBoundingClientRect().top + scrollY, len: Math.max(1, el.offsetHeight) }));
+  PF = secs.map((el, i) => el.hasAttribute('data-pin') ? clamp((M[i].len - vh) / M[i].len, .05, 1) : 1);
+}
+function getS() { const y = scrollY; let i = 0; for (let k = 0; k < M.length; k++) if (y >= M[k].top - 1) i = k; return i + clamp((y - M[i].top) / M[i].len); }
+const qOf = (S, i) => clamp((S - i) / PF[i]);
+function scrollToY(y, dur) { if (lenis) lenis.scrollTo(y, { duration: dur == null ? 1.6 : dur, force: true }); else scrollTo({ top: y, behavior: RM ? 'auto' : 'smooth' }); }
+function goTo(k, fromMenu) {
+  if (k < 0) return; k = clamp(k, 0, LIST.length - 1);
+  const y = M[2].top + (LIST.length > 1 ? k / (LIST.length - 1) : 0) * (M[2].len - innerHeight) + 2;
+  scrollToY(y, fromMenu ? 2.2 : 1.1);
+}
+
+/* =====================================================================
+   3D
+   ===================================================================== */
+let GL = null;
+try { if (!window.THREE) throw new Error('three'); GL = init3D(); } catch (e) { console.warn('Sin 3D:', e); document.body.classList.add('no-gl'); }
+
+function init3D() {
+  const canvas = $('#gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: FINE, powerPreference: 'high-performance' });
+  if (!renderer.getContext()) throw new Error('webgl');
+  renderer.autoClear = false;
+  let DPR = Math.min(devicePixelRatio || 1, FINE ? 1.75 : 1.4);
+  renderer.setPixelRatio(DPR);
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x071A22, 10.6, 18.5);
+  const camera = new THREE.PerspectiveCamera(35, 1, .1, 100);
+  camera.position.set(0, .25, 10);
+  const V = (x, y) => new THREE.Vector2(x, y);
+  const col = h => new THREE.Color(h);
+
+  /* ---- Fondo: atardecer (cielo, sol, mar) y halo de la bebida ---- */
+  const bgScene = new THREE.Scene(), bgCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const bgU = { uTime: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) }, uHero: { value: 1 }, uSun: { value: 0 }, uHalo: { value: 1 },
+    uDeep: { value: col('#071A22') }, uGlow: { value: col('#FFD36B') }, uGlowPos: { value: new THREE.Vector2(.5, .5) } };
+  bgScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: bgU, depthWrite: false, depthTest: false,
+    vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+    fragmentShader: `
+      precision highp float; varying vec2 vUv;
+      uniform vec2 uRes,uGlowPos; uniform float uTime,uHero,uSun,uHalo; uniform vec3 uDeep,uGlow;
+      float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+      float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+      void main(){
+        float asp=uRes.x/uRes.y; vec2 uv=vUv; vec2 p=(uv-.5)*vec2(asp,1.); float t=uTime;
+        vec2 g=(uGlowPos-.5)*vec2(asp,1.);
+        vec2 q=vec2(fbm(p*1.3+t*.03),fbm(p*1.3-t*.03+3.1));
+        float sm=fbm(p*1.6+q*1.5+vec2(t*.02,-t*.05));
+        float d=length(p-g);
+        float halo=(exp(-d*d*2.4)*.8+exp(-d*6.)*.35)*uHalo;
+        vec3 cA=uDeep+uGlow*(halo*.5+smoothstep(.45,1.,sm)*.2*(.35+halo));
+        cA*=1.-smoothstep(.45,1.3,length(p*vec2(.85,1.1)))*.7;
+        vec3 c=cA;
+        if(uHero>.001){
+          float hy=.36;
+          vec3 top=mix(vec3(.12,.25,.40),vec3(.012,.035,.06),uSun);
+          vec3 mid=mix(vec3(.97,.52,.30),vec3(.09,.08,.19),uSun);
+          vec3 hor=mix(vec3(1.,.80,.52),vec3(.34,.15,.25),uSun);
+          vec2 sc=vec2(0.,mix(.30,-.24,uSun));
+          vec3 sunC=mix(vec3(1.,.93,.72),vec3(1.,.40,.20),smoothstep(.25,.85,uSun));
+          float ds=length(p-sc);
+          float ty=(uv.y-hy)/(1.-hy);
+          vec3 sky=mix(hor,mid,smoothstep(0.,.3,ty)); sky=mix(sky,top,smoothstep(.25,1.,ty));
+          sky+=sunC*(exp(-ds*5.)*.55+exp(-ds*1.6)*.25)*(1.-uSun*.55);
+          sky+=(fbm(vec2(p.x*1.4+t*.012,uv.y*7.))-.5)*.07*(1.-uSun*.7);
+          float st=step(.9965,h(floor(uv*uRes/2.5)))*smoothstep(.45,1.,uSun)*smoothstep(.05,.6,ty);
+          sky+=vec3(st)*(.6+.4*sin(t*2.+uv.x*80.));
+          sky=mix(sky,sunC*1.08,smoothstep(.078,.072,ds));
+          float tt=clamp((hy-uv.y)/hy,0.,1.);
+          vec3 sea=mix(hor*.55+mid*.12,mix(vec3(.03,.12,.17),vec3(.008,.03,.05),uSun),smoothstep(0.,.55,tt));
+          float spread=mix(.05,.34,tt);
+          float colm=exp(-pow((p.x-sc.x)/spread,2.));
+          float wv=sin((1./(tt+.035))*2.6+t*1.3+fbm(vec2(p.x*4.,tt*18.))*6.);
+          float glint=smoothstep(.55,1.,wv)*colm;
+          float up=smoothstep(-.03,.05,sc.y-(hy-.5));
+          sea+=sunC*(glint*.85+colm*.16)*mix(1.,.12,uSun)*(.25+.75*up);
+          sea+=vec3(1.,.9,.8)*smoothstep(.006,0.,abs(uv.y-hy))*.12;
+          c=mix(cA,uv.y>hy?sky:sea,uHero);
+        }
+        gl_FragColor=vec4(c,1.);
+      }` })));
+  const BG_SCALE = .55, bgRT = new THREE.WebGLRenderTarget(4, 4, { depthBuffer: false });
+  const blitScene = new THREE.Scene(), blitU = { tMap: { value: bgRT.texture }, uRes: { value: new THREE.Vector2(1, 1) }, uTime: bgU.uTime };
+  blitScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: blitU, depthWrite: false, depthTest: false,
+    vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+    fragmentShader: 'uniform sampler2D tMap;uniform vec2 uRes;uniform float uTime;varying vec2 vUv;float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}void main(){vec3 c=texture2D(tMap,vUv).rgb;c+=(h(vUv*uRes+fract(uTime*7.)*91.)-.5)*.045;gl_FragColor=vec4(c,1.);}' })));
+
+  /* ---- Luces ---- */
+  scene.add(new THREE.AmbientLight(0xffffff, .42));
+  scene.add(new THREE.HemisphereLight(0xFFE2C2, 0x0A3442, .35));
+  const key = new THREE.DirectionalLight(0xFFF2E0, 1.25); key.position.set(3, 6, 6); scene.add(key);
+  const rim = new THREE.PointLight(0xFFD36B, 3.2, 20); rim.position.set(-5, 2, -3); scene.add(rim);
+  const fillL = new THREE.DirectionalLight(0xffffff, .55); fillL.position.set(5, -1, 3); scene.add(fillL);
+
+  /* ---- Cristal: shader con borde de Fresnel y brillos ---- */
+  const glassMat = (tint, base) => new THREE.ShaderMaterial({
+    uniforms: { uTint: { value: col(tint) }, uGlow: bgU.uGlow, uBase: { value: base }, uOp: { value: 1 } },
+    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    vertexShader: 'varying vec3 vN,vV;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=-mv.xyz;gl_Position=projectionMatrix*mv;}',
+    fragmentShader: `uniform vec3 uTint,uGlow;uniform float uBase,uOp;varying vec3 vN,vV;
+      void main(){vec3 n=normalize(vN),v=normalize(vV);float fr=pow(1.-abs(dot(n,v)),2.2);
+        float h1=smoothstep(.16,.0,abs(n.x-.58)),h2=smoothstep(.1,.0,abs(n.x+.8))*.55;
+        float sp=pow(max(dot(reflect(-v,n),normalize(vec3(-.4,.75,.55))),0.),30.);
+        vec3 c=mix(uTint,vec3(1.),clamp(fr*.6+h1+sp,0.,1.))+uGlow*fr*.4;
+        gl_FragColor=vec4(c,clamp(uBase+fr*.5+(h1+h2)*.4+sp*.9,0.,1.)*uOp);}`
+  });
+
+  /* ---- Formas de vaso: hueco interior [radio, altura] desde el fondo hasta el borde ---- */
+  const GLASSES = {
+    hurricane: { stem: { baseR: .55, stemR: .06 }, C: [[.1, .6], [.36, .7], [.52, .94], [.56, 1.2], [.47, 1.55], [.4, 1.82], [.44, 2.15], [.57, 2.5]] },
+    balloon: { stem: { baseR: .62, stemR: .05 }, C: [[.1, .8], [.46, .9], [.73, 1.15], [.83, 1.5], [.79, 1.86], [.67, 2.15], [.59, 2.35]] },
+    coupe: { stem: { baseR: .6, stemR: .05 }, C: [[.08, 1.42], [.46, 1.49], [.73, 1.64], [.86, 1.84], [.89, 1.97]] },
+    highball: { C: [[.5, .22], [.52, .7], [.55, 2.6]] },
+    flute: { stem: { baseR: .5, stemR: .045 }, C: [[.04, .95], [.2, 1.1], [.28, 1.5], [.3, 2.0], [.31, 2.62]] },
+    margarita: { stem: { baseR: .6, stemR: .05 }, C: [[.1, 1.0], [.3, 1.14], [.36, 1.34], [.63, 1.5], [.87, 1.72], [.96, 1.9]] },
+    jar: { C: [[.55, .2], [.59, .42], [.61, 1.9], [.56, 2.05], [.58, 2.25]], handle: 1 }
+  };
+  const TH = .045;
+  function profile(G) {
+    const C = G.C, pts = [];
+    if (G.stem) { const s = G.stem, y0 = C[0][1];
+      pts.push(V(0, 0), V(s.baseR, 0), V(s.baseR, .03), V(s.stemR * 2.4, .07), V(s.stemR, .2), V(s.stemR, y0 - .16), V(s.stemR * 1.7, y0 - .07), V(C[0][0] + TH * .7, y0 - .02));
+    } else { const r0 = C[0][0]; pts.push(V(0, 0), V(r0 + TH - .03, 0), V(r0 + TH, .03)); }
+    for (let i = G.stem ? 1 : 0; i < C.length; i++) pts.push(V(C[i][0] + TH, C[i][1]));
+    const L = C[C.length - 1]; pts.push(V(L[0] + TH * .5, L[1] + .02));
+    for (let i = C.length - 1; i >= 0; i--) pts.push(V(C[i][0], C[i][1]));
+    pts.push(V(0, C[0][1]));
+    return pts;
+  }
+  function rAt(C, y) {
+    if (y <= C[0][1]) return C[0][0];
+    for (let i = 0; i < C.length - 1; i++) if (y <= C[i + 1][1]) return lerp(C[i][0], C[i + 1][0], (y - C[i][1]) / (C[i + 1][1] - C[i][1]));
+    return C[C.length - 1][0];
+  }
+
+  /* ---- Texturas dibujadas ---- */
+  const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; };
+  const discTex = (rind, pith, flesh, segs, seeds) => canvasTex(256, 256, (x) => {
+    x.fillStyle = rind; x.beginPath(); x.arc(128, 128, 127, 0, 7); x.fill();
+    x.fillStyle = pith; x.beginPath(); x.arc(128, 128, segs ? 112 : 106, 0, 7); x.fill();
+    if (segs) for (let i = 0; i < segs; i++) { const a0 = i / segs * Math.PI * 2 + .05, a1 = (i + 1) / segs * Math.PI * 2 - .05;
+      x.fillStyle = flesh; x.beginPath(); x.moveTo(128 + Math.cos((a0 + a1) / 2) * 13, 128 + Math.sin((a0 + a1) / 2) * 13); x.arc(128, 128, 100, a0, a1); x.closePath(); x.fill();
+      x.strokeStyle = 'rgba(255,255,255,.28)'; x.lineWidth = 2; for (let k = 0; k < 5; k++) { const a = lerp(a0, a1, (k + .5) / 5); x.beginPath(); x.moveTo(128 + Math.cos(a) * 28, 128 + Math.sin(a) * 28); x.lineTo(128 + Math.cos(a) * 92, 128 + Math.sin(a) * 92); x.stroke(); } }
+    else { x.fillStyle = flesh; x.beginPath(); x.arc(128, 128, 98, 0, 7); x.fill(); }
+    if (seeds) { x.fillStyle = '#1a1010'; for (let i = 0; i < 22; i++) { const a = i * 2.39, r = 30 + (i * 37 % 55); x.beginPath(); x.ellipse(128 + Math.cos(a) * r, 128 + Math.sin(a) * r, 3, 6, a, 0, 7); x.fill(); } }
+    if (segs) { x.fillStyle = pith; x.beginPath(); x.arc(128, 128, 11, 0, 7); x.fill(); }
+  });
+  const TEX = {
+    orange: discTex('#E8731A', '#FBEBD2', '#F9A23A', 10), lemon: discTex('#F3D23A', '#FBF5DC', '#F7E46A', 10), lime: discTex('#4E8F22', '#EAF5D2', '#B9DB55', 10),
+    melon: discTex('#2F7D32', '#E6F1D8', '#FF4F6D', 0, 1),
+    stripes: c => canvasTex(64, 64, (x, w, h) => { x.fillStyle = '#ffffff'; x.fillRect(0, 0, w, h); x.fillStyle = c; for (let i = -2; i < 4; i++) { x.beginPath(); x.moveTo(i * 32, 0); x.lineTo(i * 32 + 16, 0); x.lineTo(i * 32 + 16 + 64, h); x.lineTo(i * 32 + 64, h); x.closePath(); x.fill(); } }),
+    seeds: canvasTex(128, 128, (x) => { x.fillStyle = '#D4182F'; x.fillRect(0, 0, 128, 128); x.fillStyle = '#FFE48A'; for (let i = 0; i < 60; i++) { x.beginPath(); x.ellipse((i * 47) % 128, (i * 29 + (i % 3) * 11) % 128, 1.6, 2.6, 0, 0, 7); x.fill(); } }),
+    umbrella: canvasTex(256, 32, (x) => { const c = ['#FF5E5B', '#FFD36B', '#2FA8FF', '#7DFF9A']; for (let i = 0; i < 8; i++) { x.fillStyle = c[i % 4]; x.fillRect(i * 32, 0, 32, 32); } })
+  };
+  const dot = canvasTex(32, 32, (x) => { const g = x.createRadialGradient(16, 16, 0, 16, 16, 16); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.45, 'rgba(255,255,255,.7)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 32, 32); });
+  const stdMat = (c, o) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: .45, metalness: 0, emissive: c, emissiveIntensity: .14 }, o || {}));
+  const sliceMesh = (tex, rindC, r) => { const fm = stdMat(0xffffff, { map: tex, emissiveMap: tex, emissive: 0xffffff, emissiveIntensity: .25 }); const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, .05, 40), [stdMat(rindC), fm, fm]); m.rotation.x = Math.PI / 2; return m; };
+  const wedgeMesh = (r, th, ang, side, capTex, capCol) => { const cm = capTex ? stdMat(0xffffff, { map: capTex, emissiveMap: capTex, emissive: 0xffffff, emissiveIntensity: .2, side: THREE.DoubleSide }) : stdMat(capCol, { side: THREE.DoubleSide });
+    return new THREE.Mesh(new THREE.CylinderGeometry(r, r, th, 18, 1, false, 0, ang), [stdMat(side, { side: THREE.DoubleSide }), cm, cm]); };
+  const leafGeo = (() => { const s = new THREE.Shape(); s.moveTo(0, 0); s.quadraticCurveTo(.1, .09, 0, .24); s.quadraticCurveTo(-.1, .09, 0, 0); return new THREE.ShapeGeometry(s, 8); })();
+  const leafMat = stdMat('#3FA34D', { side: THREE.DoubleSide, roughness: .6 });
+
+  /* Piezas de fruta (sirven para la guarnición y para la fruta que vuela) */
+  const PIECE = {
+    pineapple: () => new THREE.Mesh(new THREE.BoxGeometry(.2, .15, .15), stdMat('#FFD54A', { flatShading: true })),
+    coconut: () => new THREE.Mesh(new THREE.BoxGeometry(.2, .035, .13), stdMat('#FFF6E6', { roughness: .8 })),
+    blackberry: () => new THREE.Mesh(new THREE.IcosahedronGeometry(.08, 1), stdMat('#2E0B33', { flatShading: true, roughness: .25, emissiveIntensity: .25 })),
+    raspberry: () => new THREE.Mesh(new THREE.IcosahedronGeometry(.08, 1), stdMat('#D72952', { flatShading: true, roughness: .35 })),
+    strawberry: () => { const g = new THREE.Group(); const b = new THREE.Mesh(new THREE.SphereGeometry(.12, 16, 12), stdMat(0xffffff, { map: TEX.seeds, emissiveMap: TEX.seeds, emissive: 0xffffff, emissiveIntensity: .2, roughness: .3 })); b.scale.set(1, 1.25, 1); b.position.y = -.02; g.add(b);
+      const cx = new THREE.Mesh(new THREE.ConeGeometry(.1, .05, 7), stdMat('#3E9E3A')); cx.position.y = .13; cx.rotation.x = Math.PI; g.add(cx); return g; },
+    cherry: () => { const g = new THREE.Group(); g.add(new THREE.Mesh(new THREE.SphereGeometry(.085, 18, 14), new THREE.MeshPhysicalMaterial({ color: '#A80E26', roughness: .15, clearcoat: 1, emissive: '#A80E26', emissiveIntensity: .2 })));
+      const st = new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(new THREE.Vector3(0, .07, 0), new THREE.Vector3(.04, .2, 0), new THREE.Vector3(.1, .28, 0)), 8, .008, 5), stdMat('#5B6B2A')); g.add(st); return g; },
+    orangeSlice: () => sliceMesh(TEX.orange, '#E8731A', .16), limeSlice: () => sliceMesh(TEX.lime, '#4E8F22', .14), lemonSlice: () => sliceMesh(TEX.lemon, '#F3D23A', .15),
+    cranberry: () => new THREE.Mesh(new THREE.SphereGeometry(.055, 12, 10), stdMat('#B3122E', { roughness: .25 })),
+    peach: () => wedgeMesh(.17, .1, 1.2, '#F06A3C', null, '#FFC38A'),
+    mint: () => { const m = new THREE.Mesh(leafGeo, leafMat); m.scale.setScalar(1.1); return m; },
+    mango: () => new THREE.Mesh(new THREE.BoxGeometry(.15, .15, .15), stdMat('#FFAA00', { flatShading: true })),
+    drop: () => new THREE.Mesh(new THREE.SphereGeometry(.065, 16, 12), new THREE.MeshPhysicalMaterial({ color: '#2FA8FF', roughness: .05, clearcoat: 1, emissive: '#1C7BFF', emissiveIntensity: .45, transparent: true, opacity: .9 })),
+    watermelon: () => wedgeMesh(.2, .05, .8, '#2F7D32', TEX.melon)
+  };
+
+  /* Guarnición en el borde del vaso */
+  function garnish(tok, body, C, H) {
+    const [kind, arg] = tok.split(':'), L = C[C.length - 1], rr = L[0] + TH, ry = L[1];
+    const on = (o, x, y, z) => { o.position.set(x, y, z); body.add(o); return o; };
+    if (kind === 'orange' || kind === 'lemon' || kind === 'lime') { const s = sliceMesh(TEX[kind], { orange: '#E8731A', lemon: '#F3D23A', lime: '#4E8F22' }[kind], .34); const p = new THREE.Group(); p.add(s); s.rotation.y = .25; p.rotation.z = -.25; on(p, rr * .92, ry + .2, 0); }
+    if (kind === 'pineapple') { const sh = new THREE.Shape(); sh.moveTo(-.28, 0); sh.lineTo(.28, 0); sh.lineTo(0, .42); sh.closePath();
+      const w = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: .14, bevelEnabled: true, bevelSize: .015, bevelThickness: .015, bevelSegments: 1 }), stdMat('#FFD54A', { roughness: .5 })); w.position.z = -.07;
+      const rindM = new THREE.Mesh(new THREE.BoxGeometry(.6, .05, .16), stdMat('#9C7A2A')); rindM.position.y = -.01;
+      const g = new THREE.Group(); g.add(w, rindM); for (let i = 0; i < 3; i++) { const lf = new THREE.Mesh(new THREE.ConeGeometry(.04, .32, 4), stdMat('#3E8E3A')); lf.position.set((i - 1) * .05, .52, 0); lf.rotation.z = (i - 1) * .35; g.add(lf); }
+      g.rotation.z = -.3; on(g, rr * .95, ry + .02, .05); }
+    if (kind === 'cherry') { const c = PIECE.cherry(); c.scale.setScalar(1.25); on(c, -.12, ry + .08, .1); }
+    if (kind === 'umbrella') { const g = new THREE.Group(); const can = new THREE.Mesh(new THREE.ConeGeometry(.42, .15, 8, 1, true), stdMat(0xffffff, { map: TEX.umbrella, emissiveMap: TEX.umbrella, emissive: 0xffffff, emissiveIntensity: .2, side: THREE.DoubleSide })); can.position.y = .62;
+      const stick = new THREE.Mesh(new THREE.CylinderGeometry(.012, .012, 1.0, 6), stdMat('#E8D2A8')); stick.position.y = .12; g.add(can, stick); g.rotation.z = .5; g.rotation.x = -.15; on(g, -.25, ry - .1, -.05); }
+    if (kind === 'straw') { const t = TEX.stripes(arg || '#FF5E5B'); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1, 8);
+      const s = new THREE.Mesh(new THREE.CylinderGeometry(.035, .035, H * .95, 12, 1, true), stdMat(0xffffff, { map: t, emissiveMap: t, emissive: 0xffffff, emissiveIntensity: .15, side: THREE.DoubleSide }));
+      s.rotation.z = -.2; on(s, .18, C[0][1] + H * .5, -.12); }
+    if (kind === 'berries') { [['blackberry', -.12, .02], ['raspberry', .1, .06], ['blackberry', .02, -.1], ['raspberry', -.04, .12]].forEach(([k, x, z]) => { const b = PIECE[k](); b.scale.setScalar(1.25); on(b, x, ry - .12, z); }); }
+    if (kind === 'mint') { for (let i = 0; i < 4; i++) { const l = new THREE.Mesh(leafGeo, leafMat); l.scale.setScalar(1.3); l.rotation.set(-.4 + i * .1, i * 1.6, (i - 1.5) * .35); on(l, -.08 + i * .05, ry - .05, -.05 + (i % 2) * .1); } }
+    if (kind === 'strawberry') { const s = PIECE.strawberry(); s.scale.setScalar(1.5); s.rotation.z = .4; on(s, rr * .9, ry + .08, 0); }
+    if (kind === 'peach') { const w = wedgeMesh(.3, .12, 1.15, '#F06A3C', null, '#FFC38A'); w.rotation.set(Math.PI / 2, 0, -.5); on(w, rr * .82, ry + .14, 0); }
+    if (kind === 'salt') { const s = new THREE.Mesh(new THREE.TorusGeometry(L[0] + TH * .6, .035, 8, 80), stdMat('#F6F2EA', { roughness: 1, emissiveIntensity: .25, flatShading: true })); s.rotation.x = Math.PI / 2; on(s, 0, ry + .012, 0); }
+    if (kind === 'watermelon') { const w = wedgeMesh(.42, .07, .8, '#2F7D32', TEX.melon); w.rotation.set(Math.PI / 2, 0, -1.2); on(w, rr * .9, ry + .16, 0); }
+  }
+
+  /* ---- Construir cada bebida ---- */
+  const root = new THREE.Group(); scene.add(root);
+  const glassList = [];
+  const drinks = DRINKS.map((D, i) => {
+    const G = GLASSES[D.glass], C = G.C, H = C[C.length - 1][1];
+    const grp = new THREE.Group(), tilt = new THREE.Group(), spin = new THREE.Group(), body = new THREE.Group();
+    grp.add(tilt); tilt.add(spin); spin.add(body); body.position.y = -H / 2 - .05; root.add(grp);
+    const gm = glassMat('#DDEBF2', .05);
+    const glass = new THREE.Mesh(new THREE.LatheGeometry(profile(G), 56), gm); glass.renderOrder = 3; glass.userData.drink = i; body.add(glass); glassList.push(glass);
+    if (G.handle) { const hnd = new THREE.Mesh(new THREE.TorusGeometry(.34, .06, 10, 24, Math.PI), gm); hnd.rotation.z = -Math.PI / 2; hnd.position.set(C[2][0] + TH + .02, 1.15, 0); hnd.renderOrder = 3; body.add(hnd); }
+    /* líquido con degradado */
+    const y0 = C[0][1] + .012, yT = y0 + (H - y0) * D.fill, c0 = col(D.liq[0]), c1 = col(D.liq[1]);
+    const pts = [V(0, y0)]; for (let k = 0; k <= 20; k++) { const y = lerp(y0, yT, k / 20); pts.push(V(Math.max(.006, rAt(C, y) * .955 - .004), y)); } pts.push(V(0, yT));
+    const lg = new THREE.LatheGeometry(pts, 48), pa = lg.attributes.position, cols = new Float32Array(pa.count * 3), tmp = new THREE.Color();
+    for (let k = 0; k < pa.count; k++) { const y = pa.getY(k), t = clamp((y - y0) / (yT - y0)); tmp.copy(c0).lerp(c1, Math.pow(t, .85)); if (y >= yT - 1e-4) tmp.multiplyScalar(1.12); cols[k * 3] = tmp.r; cols[k * 3 + 1] = tmp.g; cols[k * 3 + 2] = tmp.b; }
+    lg.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+    const lm = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: D.frozen ? .7 : .14, metalness: D.frozen ? 0 : .05, emissive: col(D.glow), emissiveIntensity: .12, transparent: !D.frozen, opacity: D.frozen ? 1 : .9 });
+    body.add(new THREE.Mesh(lg, lm));
+    if (D.dome) { const rT = rAt(C, yT) * .955; const dm = new THREE.Mesh(new THREE.SphereGeometry(rT, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: c1.clone().multiplyScalar(1.05), roughness: .85, emissive: col(D.glow), emissiveIntensity: .1, flatShading: true })); dm.scale.y = .4; dm.position.y = yT - .01; body.add(dm); }
+    /* hielo */
+    const iceM = glassMat('#D6ECFF', .12); const nIce = D.crushed ? 14 : (D.ice || 0);
+    for (let k = 0; k < nIce; k++) { const s = D.crushed ? .17 + (k % 3) * .03 : .32 + (k % 2) * .05; const cube = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), iceM); cube.renderOrder = 2;
+      const a = k * 2.3, r = D.crushed ? (k % 3) * .14 : .14 + (k % 2) * .1, yy = yT - .14 - (D.crushed ? (k % 5) * .2 : (k >> 1) * .36);
+      cube.position.set(Math.cos(a) * r, Math.max(y0 + s, yy), Math.sin(a) * r); cube.rotation.set(k * .7, k * 1.1, k * .4); body.add(cube); }
+    /* burbujas */
+    let bub = null;
+    if (D.bubbles) { const N = D.bubbles > 1 ? 70 : 34, bp = new Float32Array(N * 3), sp = new Float32Array(N);
+      for (let k = 0; k < N; k++) { const y = lerp(y0, yT, Math.random()), r = rAt(C, y) * .7 * Math.sqrt(Math.random()), a = Math.random() * 7; bp[k * 3] = Math.cos(a) * r; bp[k * 3 + 1] = y; bp[k * 3 + 2] = Math.sin(a) * r; sp[k] = .25 + Math.random() * .5; }
+      const bg = new THREE.BufferGeometry(); bg.setAttribute('position', new THREE.BufferAttribute(bp, 3));
+      const pm = new THREE.Points(bg, new THREE.PointsMaterial({ size: D.bubbles > 1 ? .045 : .035, map: dot, transparent: true, opacity: .8, depthWrite: false, color: 0xffffff })); pm.renderOrder = 1; pm.frustumCulled = false; body.add(pm);
+      bub = { pos: bp, sp, N, y0, yT, C, geo: bg }; }
+    /* gotas de condensación por fuera */
+    const NC = 150, cp = new Float32Array(NC * 3), cs = new Float32Array(NC), yMaxC = Math.min(yT, H - .06);
+    for (let k = 0; k < NC; k++) { const y = lerp(y0 + .04, yMaxC, Math.random()), a = Math.random() * 7, r = rAt(C, y) + TH + .006; cp[k * 3] = Math.cos(a) * r; cp[k * 3 + 1] = y; cp[k * 3 + 2] = Math.sin(a) * r; cs[k] = k < 22 ? .04 + Math.random() * .08 : 0; }
+    const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(cp, 3));
+    const cMat = new THREE.PointsMaterial({ size: .03, map: dot, transparent: true, opacity: .55, depthWrite: false, color: 0xffffff });
+    const cond = new THREE.Points(cg, cMat); cond.renderOrder = 4; cond.frustumCulled = false; body.add(cond);
+    D.gar.forEach(tk => garnish(tk, body, C, H));
+    /* fruta que vuela alrededor */
+    const fruits = new THREE.Group(); root.add(fruits); const fl = [];
+    for (let k = 0; k < 12; k++) { const m = PIECE[D.fruit[k % D.fruit.length]](); const a = k / 12 * Math.PI * 2 + Math.random() * .4, rr = 1.45 + Math.random() * 1.1;
+      fl.push({ m, ox: Math.cos(a) * rr * 1.2, oy: -1.1 + Math.random() * 2.5, oz: Math.sin(a) * rr * .55, rs: [(Math.random() - .5) * 1.6, (Math.random() - .5) * 1.6, (Math.random() - .5) * 1.6], ph: Math.random() * 7, sc: .9 + Math.random() * .5 });
+      m.scale.setScalar(.0001); fruits.add(m); }
+    return { D, grp, tilt, spin, body, gm, lm, bub, cond: { pos: cp, sp: cs, N: NC, geo: cg, y0: y0 + .04, yMax: yMaxC, C, mat: cMat }, fruits, fl, fw: 0, H, glow: col(D.glow), deep: col(D.deep), liqTop: c1 };
+  });
+
+  function resize() {
+    const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    bgU.uRes.value.set(w * DPR, h * DPR); bgRT.setSize(Math.max(2, Math.round(w * DPR * BG_SCALE)), Math.max(2, Math.round(h * DPR * BG_SCALE))); blitU.uRes.value.set(w * DPR, h * DPR);
+  }
+  function renderAll() {
+    renderer.setRenderTarget(bgRT); renderer.clear(); renderer.render(bgScene, bgCam); renderer.setRenderTarget(null);
+    renderer.clear(); renderer.render(blitScene, bgCam); renderer.clearDepth(); renderer.render(scene, camera);
+  }
+  let fN = 0, fT = 0;
+  function adapt(dt) { fN++; fT += dt; if (fT < 1.5) return; const fps = fN / fT; fN = 0; fT = 0; if (fps < 48 && DPR > .85) { DPR = Math.max(.85, DPR * .85); renderer.setPixelRatio(DPR); resize(); } }
+  resize();
+  return { renderer, scene, camera, bgU, root, drinks, glassList, rim, resize, renderAll, adapt };
+}
+
+/* =====================================================================
+   SILUETAS DEL ATARDECER (palmeras, barandilla y guirnalda de bombillas)
+   ===================================================================== */
+let bulbs = [];
+function buildHero() {
+  const svg = $('#heroSvg'), w = innerWidth, h = innerHeight; svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  let s = `<defs><radialGradient id="bulbGlow"><stop offset="0" stop-color="#FFD98A" stop-opacity=".75"/><stop offset="1" stop-color="#FFB85C" stop-opacity="0"/></radialGradient></defs>`;
+  const palm = (bx, tx, ty, sc) => {
+    let p = `<path class="silS" stroke-width="${14 * sc}" d="M${bx} ${h + 10} Q${(bx + tx) / 2 + 30 * sc} ${(h + ty) / 2} ${tx} ${ty}"/>`;
+    for (let k = 0; k < 9; k++) {
+      const a = -Math.PI + .15 + k * (Math.PI - .3) / 8 + (k % 2 ? .08 : -.05), L = (150 + (k % 3) * 40) * sc, droop = (60 + (k % 2) * 30) * sc;
+      const ex = tx + Math.cos(a) * L, ey = ty + Math.sin(a) * L * .55 + droop, cx = tx + Math.cos(a) * L * .55, cy = ty + Math.sin(a) * L * .75 - 10 * sc;
+      p += `<path class="silS" stroke-width="${4 * sc}" d="M${tx} ${ty} Q${cx} ${cy} ${ex} ${ey}"/>`;
+      for (let j = 1; j < 12; j++) { const t = j / 12, qx = (1 - t) * (1 - t) * tx + 2 * (1 - t) * t * cx + t * t * ex, qy = (1 - t) * (1 - t) * ty + 2 * (1 - t) * t * cy + t * t * ey, ll = (34 - j * 2.2) * sc;
+        p += `<path class="silS" stroke-width="${2.4 * sc}" d="M${qx} ${qy} l${Math.cos(a + 1.9) * ll} ${Math.abs(Math.sin(a + 1.9)) * ll + 8 * sc} M${qx} ${qy} l${Math.cos(a - 1.9) * ll} ${Math.abs(Math.sin(a - 1.9)) * ll + 8 * sc}"/>`; }
+    }
+    return p;
+  };
+  const sc = Math.max(.55, Math.min(1.1, w / 1400));
+  s += palm(w * .03, w * .1, h * .3, sc) + palm(w * .97, w * .9, h * .4, sc * .85);
+  const ry = h * .86; s += `<rect class="sil" x="0" y="${ry}" width="${w}" height="${h - ry}" opacity=".0"/>`;
+  s += `<path class="silS" stroke-width="7" d="M0 ${ry} H${w}"/><path class="silS" stroke-width="4" d="M0 ${h * .975} H${w}"/>`;
+  for (let x = 20; x < w; x += 46) s += `<path class="silS" stroke-width="5" d="M${x} ${ry} V${h}"/>`;
+  const n = Math.max(9, Math.round(w / 80)), x0 = -20, x1 = w + 20, yA = h * .05, sag = h * .15; let path = `M${x0} ${yA}`, bl = '';
+  for (let i = 0; i <= 40; i++) { const t = i / 40, x = lerp(x0, x1, t), y = yA + Math.sin(t * Math.PI) * sag; path += ` L${x} ${y}`; }
+  for (let i = 1; i < n; i++) { const t = i / n, x = lerp(x0, x1, t), y = yA + Math.sin(t * Math.PI) * sag; bl += `<g class="bulb" transform="translate(${x} ${y})"><circle class="hl" r="30" cy="10"/><path class="silS" stroke-width="1.5" d="M0 0 V5"/><circle class="b" r="6" cy="11"/></g>`; }
+  s += `<path class="silS" stroke-width="1.6" d="${path}"/>` + bl;
+  svg.innerHTML = s; bulbs = [...svg.querySelectorAll('.bulb')];
+}
+
+/* =====================================================================
+   BUCLE PRINCIPAL
+   ===================================================================== */
+let lenis = null;
+if (!RM && window.Lenis) lenis = new Lenis({ lerp: .085, smoothWheel: true });
+const st = { x: 0, y: -7, s: 1, a: 0, close: 0, rotY: 0, rotX: 0, drag: 0, snap: true };
+const mouse = { x: .5, y: .5, sx: .5, sy: .5 };
+let curIdx = -1, last = performance.now(), time = 0, closeup = false;
+const HAS3 = !!window.THREE, tmpV = HAS3 ? new THREE.Vector3() : null, cMix = HAS3 ? new THREE.Color() : null, cMix2 = HAS3 ? new THREE.Color() : null;
+const words = $$('.w'), inks = [0, 1, 2].map(i => document.querySelector(`#ink${i} feDisplacementMap`));
+const WCOL = ['#FF6A3D', '#C84FE0', '#2FA8FF'];
+const KF = [ // [S, x, y, escala, xMóvil, yMóvil, escalaMóvil]
+  [0, 0, -7, 1, 0, -7, 1], [1.5, 0, -7, 1, 0, -7, 1], [1.9, 0, -.25, 1, 0, .62, .82],
+  [3.0, 0, -.05, 1, 0, .1, 1], [3.6, 0, -.05, 1, 0, .1, 1], [4.05, 0, -8, 1, 0, -8, 1], [9, 0, -8, 1, 0, -8, 1]];
+function kf(S, P) { let k = 0; while (k < KF.length - 2 && S >= KF[k + 1][0]) k++; const a = KF[k], b = KF[k + 1], t = sstep(0, 1, (S - a[0]) / (b[0] - a[0])), o = P ? 4 : 1; return { x: lerp(a[o], b[o], t), y: lerp(a[o + 1], b[o + 1], t), s: lerp(a[o + 2], b[o + 2], t) }; }
+const hexOf = c => '#' + c.getHexString();
+
+function showDrink(k) {
+  const i = LIST[k], D = DRINKS[i];
+  $('#cNum').textContent = String(k + 1).padStart(2, '0'); $('#cTot').textContent = String(LIST.length).padStart(2, '0');
+  $('#cBar').style.width = ((k + 1) / LIST.length * 100) + '%';
+  const bn = $('#bigname'); bn.textContent = tr(D.n); bn.classList.remove('swap'); void bn.offsetWidth; bn.classList.add('swap');
+  $('#fAbv').textContent = T('abv_' + D.abv); $('#fPrice').textContent = money(D.p); $('#fName').textContent = tr(D.n); $('#fDesc').textContent = tr(D.d);
+  $('#fBars').innerHTML = ['sweet', 'acid', 'strong'].map((f, j) => `<div class="f-bar">${T('f_' + f)}<span><i style="--v:${D.fl[j]}"></i></span></div>`).join('');
+  $('#fIng').textContent = tr(D.ing); $('#fAl').textContent = D.al.length ? D.al.map(a => T('a_' + a)).join(', ') : T('noal'); $('#fPair').textContent = tr(D.pair);
+  const f = $('#ficha'); f.classList.remove('swap'); void f.offsetWidth; f.classList.add('swap');
+  document.documentElement.style.setProperty('--acc', D.glow); document.documentElement.style.setProperty('--acc2', D.liq[1]);
+  $('#prev').disabled = k === 0; $('#next').disabled = k === LIST.length - 1;
+  $('#announce').textContent = `${k + 1} / ${LIST.length}: ${tr(D.n)}, ${money(D.p)}`;
+}
+function renderLabels() { $('#labels').innerHTML = LIST.map((i, k) => `<button data-k="${k}">${tr(DRINKS[i].n)}</button>`).join(''); }
+$('#labels').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b) goTo(+b.dataset.k, true); });
+
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now; time += dt;
+  if (lenis) lenis.raf(now);
+  const S = getS(), aspect = innerWidth / innerHeight, P = aspect < .9, N = LIST.length;
+
+  /* nav sólida fuera del atardecer y botón fijo de reservar en móvil */
+  $('#nav').classList.toggle('solid', S > .6);
+  $('#fab').classList.toggle('on', S > .5 && !(S > 1.85 && S < 3.75) && !inRes && !closeup);
+
+  /* 0 · atardecer: bombillas */
+  const sun = sstep(.02, .5, S);
+  const lit = Math.floor(sstep(.18, .48, S) * (bulbs.length + .99));
+  bulbs.forEach((b, k) => b.classList.toggle('on', ((k * 7) % bulbs.length) < lit));
+
+  /* 1 · manifiesto: palabras que se deshacen como tinta */
+  if (S > .7 && S < 2.2) {
+    const qM = qOf(S, 1);
+    words.forEach((w, k) => {
+      const u = qM * 3 - k; let op = 0, sc = 160, y = 0;
+      if (u > 0 && u < 1) { if (u < .28) { const e = u / .28; op = e; sc = (1 - e) * 150; y = (1 - e) * 30; } else if (u < .7) { op = 1; sc = 0; } else { const x = (u - .7) / .3; op = 1 - x; sc = x * 240; y = -x * 40; } }
+      if (k === 2 && qM >= .99) { op = 0; }
+      w.style.opacity = op.toFixed(3); w.style.visibility = op < .01 ? 'hidden' : 'visible'; w.style.transform = `translate3d(0,${y}px,0) scale(${1 + (sc / 1500)})`;
+      const scR = Math.round(sc / 4) * 4; if (inks[k].__v !== scR) { inks[k].__v = scR; inks[k].setAttribute('scale', scR); w.style.filter = scR > 0 ? `url(#ink${k})` : 'none'; }
+      if (op > .5) document.documentElement.style.setProperty('--acc', WCOL[k]);
+    });
+  }
+
+  /* 2 · carrusel: índice según el scroll con imán en cada bebida */
+  const qC = qOf(S, 2), f = qC * (N - 1), base = Math.floor(f), frac = f - base;
+  let a = Math.min(N - 1, base + sstep(.22, .78, frac)) + st.drag;
+  a = clamp(a, -.35, N - .65);
+  const k = clamp(Math.round(a), 0, N - 1);
+  if (k !== curIdx && S >= 1.7) { curIdx = k; showDrink(k); }
+
+  /* 3 · todas en fila */
+  const m = sstep(2 + PF[2] + (1 - PF[2]) * .25, 3.0, S);
+  $('#labels').classList.toggle('on', m > .92 && S < 3.7);
+
+  if (GL) {
+    const g = GL, damp = st.snap ? 1 : 1 - Math.exp(-dt * 5); st.snap = false;
+    const t = kf(S, P); if (P) t.s *= clamp(aspect / .74, .55, 1);
+    st.x = lerp(st.x, t.x, damp); st.y = lerp(st.y, t.y, damp); st.s = lerp(st.s, t.s, damp);
+    st.a = lerp(st.a, a, 1 - Math.exp(-dt * 7));
+    st.close = lerp(st.close, closeup ? 1 : 0, 1 - Math.exp(-dt * 4));
+    mouse.sx = lerp(mouse.sx, mouse.x, 1 - Math.exp(-dt * 4)); mouse.sy = lerp(mouse.sy, mouse.y, 1 - Math.exp(-dt * 4));
+    g.root.position.set(st.x, st.y + st.close * (P ? -.2 : -.32), 0); g.root.scale.setScalar(st.s);
+    g.camera.position.x = lerp(g.camera.position.x, (mouse.sx - .5) * .4, damp); g.camera.position.y = lerp(g.camera.position.y, .25 - (mouse.sy - .5) * .25, damp); g.camera.lookAt(0, 0, 0);
+
+    /* fila: columnas que caben en pantalla */
+    const visW = 2 * 10 * Math.tan(17.5 * Math.PI / 180) * aspect, rows = P && N > 5 ? 2 : 1, cols = Math.ceil(N / rows);
+    const spacing = Math.min(1.25, visW * .9 / cols) / st.s, rowSc = Math.min(.62, spacing * .48);
+    const sweep = ((time * .22) % 1.4) - .2;
+    const stepA = P ? .62 : .4, R = P ? 4.4 : 7;
+    let glowA = null, glowB = null, wGlow = 0;
+    g.drinks.forEach((d, i) => {
+      const kk = LIST.indexOf(i);
+      if (kk < 0 || st.y < -6.5) { d.grp.visible = false; d.fruits.visible = false; return; }
+      const dd = kk - st.a, ad = Math.abs(dd), th = dd * stepA;
+      let ax = Math.sin(th) * R * (1 + st.close * 1.4), az = (Math.cos(th) - 1) * R * .9 - st.close * ad * 2, ay = -Math.min(ad, 3) * .04, asc = lerp(P ? 1.08 : 1.24, .66, Math.min(1, ad)) * (1 + (ad < .5 ? st.close * (P ? .4 : .22) : 0));
+      const c = kk % cols, r = Math.floor(kk / cols), rx = (c - (cols - 1) / 2) * spacing, ry = rows === 2 ? (r === 0 ? .55 : -1.25) : -.45;
+      const vis = m > .02 ? 1 : (ad < 2.7 ? 1 : 0);
+      d.grp.visible = vis > 0; d.grp.position.set(lerp(ax, rx, m), lerp(ay, ry, m), lerp(az, 0, m)); d.grp.scale.setScalar(lerp(asc, rowSc, m));
+      const center = 1 - Math.min(1, ad);
+      d.spin.rotation.y = time * (.25 + center * .2) - th * .6 * (1 - m) + (center > .5 ? st.rotY * st.close : 0) + i;
+      d.tilt.rotation.x = lerp(d.tilt.rotation.x, .1 + (center > .5 ? (mouse.sy - .5) * .15 + st.rotX * st.close : 0), damp);
+      d.tilt.rotation.z = lerp(d.tilt.rotation.z, center > .5 ? -(mouse.sx - .5) * .14 : 0, damp);
+      const nx = cols > 1 ? c / (cols - 1) : .5, bump = m * Math.exp(-Math.pow((nx - sweep) * 4, 2));
+      const bright = lerp(.45 + .55 * center, 1, m) + bump * .4;
+      d.lm.emissiveIntensity = .08 + bright * .14 + bump * .25; d.lm.color.setScalar(.55 + .45 * Math.min(1, bright));
+      d.gm.uniforms.uOp.value = .55 + .45 * Math.min(1, bright);
+      /* fruta: sale cuando la bebida está en el centro */
+      const fwT = center > .6 && m < .3 && S > 1.85 && S < 3.2 ? 1 : 0;
+      d.fw = lerp(d.fw, fwT, 1 - Math.exp(-dt * (fwT ? 2.6 : 5)));
+      d.fruits.visible = d.fw > .01;
+      if (d.fruits.visible) {
+        const e = backOut(clamp(d.fw)), sp = P ? .62 : 1;
+        d.fl.forEach(o => { o.m.position.set(o.ox * e * sp * (1 + st.close * .6) + Math.sin(time * .6 + o.ph) * .06, o.oy * e * (P ? .8 : 1) + Math.cos(time * .8 + o.ph) * .08, o.oz * e + st.close * .8);
+          o.m.rotation.x += o.rs[0] * dt; o.m.rotation.y += o.rs[1] * dt; o.m.rotation.z += o.rs[2] * dt; o.m.scale.setScalar(Math.max(.0001, o.sc * clamp(d.fw * 1.2))); });
+      }
+      /* burbujas que suben y gotas que resbalan */
+      if (d.grp.visible && d.bub) { const b = d.bub; for (let q = 0; q < b.N; q++) { let y = b.pos[q * 3 + 1] + b.sp[q] * dt; if (y > b.yT) { y = b.y0; const rr = rAtD(b.C, y) * .7 * Math.random(), aa = Math.random() * 7; b.pos[q * 3] = Math.cos(aa) * rr; b.pos[q * 3 + 2] = Math.sin(aa) * rr; } b.pos[q * 3 + 1] = y; } b.geo.attributes.position.needsUpdate = true; }
+      if (d.grp.visible && center > .5) { const cc = d.cond; for (let q = 0; q < 22; q++) { let y = cc.pos[q * 3 + 1] - cc.sp[q] * dt * (1 + st.close); if (y < cc.y0) y = cc.yMax; const rr = rAtD(cc.C, y) + .051, aa = Math.atan2(cc.pos[q * 3 + 2], cc.pos[q * 3]); cc.pos[q * 3] = Math.cos(aa) * rr; cc.pos[q * 3 + 2] = Math.sin(aa) * rr; cc.pos[q * 3 + 1] = y; } cc.geo.attributes.position.needsUpdate = true; cc.mat.opacity = .5 + st.close * .35; cc.mat.size = .03 + st.close * .012; }
+      if (m < .5 && ad < 1) { if (!glowA || ad < .5) { glowA = d; } if (ad >= .5 || !glowB) glowB = d; }
+      if (m >= .5 && Math.abs(nx - sweep) < .5 / Math.max(1, cols - 1)) glowA = glowB = d;
+    });
+    /* colores del ambiente según la bebida del centro */
+    const ia = LIST[clamp(Math.floor(st.a), 0, N - 1)], ib = LIST[clamp(Math.ceil(st.a), 0, N - 1)], fr = clamp(st.a - Math.floor(st.a));
+    if (S > 1.6) {
+      cMix.copy(g.drinks[ia].glow).lerp(g.drinks[ib].glow, fr); if (m > .5 && glowA) cMix.lerp(glowA.glow, (m - .5) * 2);
+      cMix2.copy(g.drinks[ia].deep).lerp(g.drinks[ib].deep, fr);
+      if (S > 4.0) { cMix.lerp(new THREE.Color('#FFB35C'), sstep(4, 4.6, S)); cMix2.lerp(new THREE.Color('#071A22'), sstep(4, 4.6, S)); }
+    } else { const kk = clamp(Math.floor(qOf(S, 1) * 3), 0, 2); cMix.set(S > .75 ? WCOL[kk] : '#FFB35C'); cMix2.set('#071A22'); }
+    g.bgU.uGlow.value.lerp(cMix, 1 - Math.exp(-dt * 4)); g.bgU.uDeep.value.lerp(cMix2, 1 - Math.exp(-dt * 4));
+    g.scene.fog.color.copy(g.bgU.uDeep.value); g.rim.color.copy(g.bgU.uGlow.value);
+    g.bgU.uHero.value = 1 - sstep(.62, 1.0, S); g.bgU.uSun.value = sun; g.bgU.uTime.value = time;
+    g.bgU.uHalo.value = S < 1.6 ? .55 : S > 4 ? lerp(1, .45, sstep(4, 4.6, S)) : 1;
+    tmpV.set(0, 0, 0); g.root.localToWorld(tmpV); tmpV.project(g.camera);
+    const gp = st.y < -5 ? [.5, .5] : [tmpV.x * .5 + .5, tmpV.y * .5 + .5]; g.bgU.uGlowPos.value.lerp(new THREE.Vector2(gp[0], gp[1]), 1 - Math.exp(-dt * 3));
+    /* nombres bajo cada vaso en la fila */
+    if (m > .9) { const lb = $('#labels').children; g.drinks.forEach((d, i) => { const kk = LIST.indexOf(i); if (kk < 0 || !lb[kk]) return; tmpV.set(0, -d.H * .5 - .15, 0); d.grp.localToWorld(tmpV); tmpV.project(g.camera); lb[kk].style.transform = `translate(-50%,0) translate(${(tmpV.x * .5 + .5) * innerWidth}px,${(-tmpV.y * .5 + .5) * innerHeight}px)`; }); }
+    g.renderAll();
+    if (!document.hidden) g.adapt(dt);
+  }
+  requestAnimationFrame(frame);
+}
+const rAtD = (C, y) => { if (y <= C[0][1]) return C[0][0]; for (let i = 0; i < C.length - 1; i++) if (y <= C[i + 1][1]) return lerp(C[i][0], C[i + 1][0], (y - C[i][1]) / (C[i + 1][1] - C[i][1])); return C[C.length - 1][0]; };
+
+/* =====================================================================
+   INTERACCIÓN DEL CARRUSEL
+   ===================================================================== */
+const cst = $('#cstick'); let pd = null;
+addEventListener('pointermove', e => { mouse.x = e.clientX / innerWidth; mouse.y = e.clientY / innerHeight; }, { passive: true });
+const onDown = e => { if (e.target.closest('button,a,.ficha')) return; pd = { x: e.clientX, y: e.clientY, t: performance.now(), moved: false, rx: st.rotY, ry: st.rotX, row: !!e.target.closest('#s3') }; };
+cst.addEventListener('pointerdown', onDown); $('#s3 .stick').addEventListener('pointerdown', onDown);
+addEventListener('pointermove', e => {
+  if (!pd) return; const dx = e.clientX - pd.x, dy = e.clientY - pd.y;
+  if (Math.abs(dx) > 6) pd.moved = true;
+  if (pd.row) return;
+  if (closeup) { st.rotY = pd.rx + dx * .01; st.rotX = clamp(pd.ry + dy * .004, -.5, .5); return; }
+  if (Math.abs(dx) > Math.abs(dy)) st.drag = -dx / (innerWidth < 860 ? 160 : 280);
+});
+addEventListener('pointerup', e => {
+  if (!pd) return; const dx = e.clientX - pd.x, moved = pd.moved, row = pd.row; pd = null;
+  if (closeup) return;
+  if (row && moved) return;
+  if (moved && Math.abs(dx) > 30) { const target = clamp(Math.round(curIdx - dx / (innerWidth < 860 ? 120 : 220)), 0, LIST.length - 1); const tgt = target === curIdx ? curIdx + (dx < 0 ? 1 : -1) : target; st.drag = 0; goTo(tgt); return; }
+  st.drag = 0;
+  if (!moved && GL) { /* tocar una bebida del arco */
+    const ray = new THREE.Raycaster(), p = new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(p, GL.camera);
+    const hit = ray.intersectObjects(GL.glassList.filter(o => GL.drinks[o.userData.drink].grp.visible), false)[0];
+    if (hit) { const kk = LIST.indexOf(hit.object.userData.drink); if (row) goTo(kk, true); else if (kk === curIdx) openClose(true); else goTo(kk); }
+  }
+});
+addEventListener('pointercancel', () => { pd = null; st.drag = 0; });
+$('#prev').addEventListener('click', () => goTo(curIdx - 1));
+$('#next').addEventListener('click', () => goTo(curIdx + 1));
+function openClose(on) {
+  closeup = on; document.body.classList.toggle('closeup', on); document.body.classList.toggle('locked', on);
+  if (lenis) on ? lenis.stop() : lenis.start();
+  if (!on) { st.rotY = 0; st.rotX = 0; }
+}
+$('#closeBtn').addEventListener('click', () => openClose(true));
+$('#closeX').addEventListener('click', () => openClose(false));
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (closeup) openClose(false); $('#modal').classList.remove('on'); }
+  const S = getS();
+  if (!closeup && S >= 2 && S < 2 + PF[2] && !e.target.closest('input,textarea')) { if (e.key === 'ArrowRight') { e.preventDefault(); goTo(curIdx + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(curIdx - 1); } }
+});
+$$('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); if (closeup) openClose(false); const t = $(a.dataset.go); scrollToY(t.getBoundingClientRect().top + scrollY + (a.dataset.go === '#s2' ? 2 : 0), 2); }));
+let inRes = false;
+new IntersectionObserver(es => es.forEach(e => inRes = e.isIntersecting), { threshold: .15 }).observe($('#reserva'));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+$$('.rv').forEach(el => io.observe(el));
+
+/* =====================================================================
+   AVISO DE EDAD Y ARRANQUE
+   ===================================================================== */
+function setMode(minor) {
+  MINOR = minor; document.body.classList.toggle('minor', minor); buildList(); sizeCarta(); applyLang(); measure(); curIdx = -1;
+}
+function closeGate() { $('#gate').classList.add('out'); document.body.classList.remove('locked'); if (lenis) lenis.start(); playIntro(); }
+$('#gYes').addEventListener('click', () => { LS.set('altamar-age', 'adult'); setMode(false); closeGate(); });
+$('#gNo').addEventListener('click', () => { $('#gate').classList.add('minor'); });
+$('#gNa').addEventListener('click', () => { LS.set('altamar-age', 'minor'); setMode(true); closeGate(); });
+$('#naBadge').addEventListener('click', () => { $('#gate').classList.remove('out', 'minor'); document.body.classList.add('locked'); if (lenis) lenis.stop(); });
+let introDone = false;
+function playIntro() {
+  if (introDone || RM) return; introDone = true;
+  gsap.from('.title .ch i', { yPercent: 115, duration: 1.5, stagger: .07, ease: 'expo.out', delay: .2 });
+  gsap.from('.hero-top, .hero-bot', { opacity: 0, y: 20, duration: 1.2, delay: .8, stagger: .15 });
+}
+
+const age = TEST ? 'adult' : LS.get('altamar-age');
+buildList(); MINOR = age === 'minor'; document.body.classList.toggle('minor', MINOR); buildList(); sizeCarta();
+applyLang(); buildHero(); measure();
+if (age) { $('#gate').classList.add('out'); } else { document.body.classList.add('locked'); if (lenis) lenis.stop(); }
+addEventListener('resize', () => { buildHero(); measure(); if (GL) GL.resize(); });
+const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+Promise.race([fontsReady, new Promise(r => setTimeout(r, 2500))]).then(() => { measure(); if (age) playIntro(); });
+addEventListener('load', () => {
+  measure();
+  const mm = location.hash.match(/escena=([\d.]+)/);
+  if (mm) { const v = +mm[1], i = Math.min(M.length - 1, Math.floor(v)); scrollTo(0, M[i].top + (v - i) * M[i].len); }
+});
+if (TEST) window.__alt = { GL, st, getS, goTo, openClose, LIST: () => LIST, setMode };
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
