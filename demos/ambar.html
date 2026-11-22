@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<!-- BORRADOR: quitar esta línea el día de la inauguración para que Google la muestre -->
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ÁMBAR — bar de cócteles de autor</title>
+<meta name="description" content="Ámbar, bar de cócteles de autor en Barcelona. Demo de ORYON.">
+<meta name="theme-color" content="#0B0806">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  ============================================================================
+  ÁMBAR · bar de cócteles ficticio · demo comercial de ORYON
+  Hecho con el prompt de Projects/plantillas/prompt-web-cinematica.md
+  Una película que avanza con el scroll. Protagonista: un vaso tallado en 3D
+  (three.js) que nunca desaparece. Escenas:
+    0 Entrada · 1 El vertido · 2 Manifiesto · 3 La carta · 4 La casa · 5 Reserva · 6 Fin
+  La posición del vaso sale de FOTOGRAMAS CLAVE (KF) atados al scroll (variable S).
+  El formulario de reserva es una simulación: no envía nada.
+  ============================================================================
+-->
+<style>
+:root{
+  --deep:#0B0806; --ink:#140D08; --amber:#E8891C; --amber-l:#FFB35C; --cream:#F3E6D0;
+  --garnet:#A3122A; --muted:#B9A88E; --line:rgba(243,230,208,.16);
+  --display:'Anton','Impact','Arial Narrow',sans-serif;
+  --serif:'Instrument Serif','Iowan Old Style',Georgia,serif;
+  --sans:'Inter Tight',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --vh:100vh;
+}
+@supports (height:100svh){:root{--vh:100svh}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--deep);-webkit-text-size-adjust:100%}
+body{background:var(--deep);color:var(--cream);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.no-gl{background:radial-gradient(60% 50% at 50% 40%,rgba(232,137,28,.35),transparent 70%),var(--deep) fixed}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+::selection{background:var(--amber);color:var(--deep)}
+em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--amber-l);letter-spacing:0;text-transform:none}
+
+/* ---------- lienzo 3D ---------- */
+#gl{position:fixed;inset:0;width:100vw;height:100lvh;height:100vh;display:block;z-index:0;pointer-events:none}
+main,header,footer,.hud{position:relative;z-index:2}
+
+/* ---------- velo de carga ---------- */
+#veil{position:fixed;inset:0;z-index:50;background:var(--deep);display:grid;place-items:center;transition:opacity 1s ease,visibility 1s}
+#veil.out{opacity:0;visibility:hidden}
+#veil .vw{width:min(240px,60vw);text-align:center}
+#veil .vt{font-family:var(--display);letter-spacing:.32em;font-size:14px;color:var(--muted);padding-left:.32em}
+#veil .vb{height:1px;background:var(--line);margin-top:14px;overflow:hidden}
+#veil .vb i{display:block;height:100%;width:0;background:var(--amber);transition:width .9s cubic-bezier(.7,0,.2,1)}
+
+/* ---------- navegación ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:22px clamp(16px,3.2vw,44px);pointer-events:none}
+.nav>*{pointer-events:auto}
+.logo{font-family:var(--display);font-size:20px;letter-spacing:.28em;text-decoration:none}
+.logo small{font-family:var(--sans);font-size:11px;letter-spacing:.18em;color:var(--muted);margin-left:12px;text-transform:uppercase;vertical-align:3px}
+.nav-r{display:flex;align-items:center;gap:18px}
+.lang{display:flex;gap:2px;border:1px solid var(--line);border-radius:99px;padding:3px}
+.lang button{background:none;border:0;font-size:11px;letter-spacing:.12em;padding:6px 9px;border-radius:99px;cursor:pointer;color:var(--muted)}
+.lang button.on{background:var(--cream);color:var(--deep)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--amber);color:var(--deep);border:0;border-radius:99px;padding:12px 20px;font-weight:600;font-size:14px;letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .3s}
+.btn:hover{transform:translateY(-2px);background:var(--amber-l)}
+.btn svg{width:16px;height:16px}
+
+/* ---------- HUD: escena actual y progreso ---------- */
+.hud{position:fixed;z-index:15;left:clamp(16px,3.2vw,44px);bottom:24px;display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+.hud .hn{font-family:var(--display);font-size:13px;color:var(--cream);letter-spacing:.1em}
+.hud .hl{display:inline-block;transition:opacity .35s,transform .35s}
+.hud.off{opacity:0}
+.hud{transition:opacity .5s}
+.hud .hl.sw{opacity:0;transform:translateY(8px)}
+.bar{position:fixed;z-index:15;right:clamp(16px,3.2vw,44px);top:50%;transform:translateY(-50%);width:1px;height:28vh;background:var(--line);pointer-events:none}
+.bar i{position:absolute;left:0;top:0;width:1px;height:0;background:var(--amber)}
+
+/* ---------- cursor ---------- */
+.cur{position:fixed;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--cream);mix-blend-mode:difference;z-index:60;pointer-events:none;transition:width .3s,height .3s,margin .3s;display:none}
+.cur.big{width:54px;height:54px;margin:-27px 0 0 -27px}
+@media (pointer:fine){.cur{display:block}}
+
+/* ---------- comunes ---------- */
+section{position:relative}
+.stick{position:sticky;top:0;height:var(--vh);overflow:hidden}
+.eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:12px}
+.eyebrow:before{content:"";width:28px;height:1px;background:currentColor}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.pad{padding:0 clamp(16px,3.2vw,44px)}
+
+/* ---------- 0 · Entrada ---------- */
+#s0{height:var(--vh);min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.intro-top{position:absolute;top:96px;left:clamp(16px,3.2vw,44px);right:clamp(16px,3.2vw,44px);display:flex;justify-content:space-between;gap:20px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.intro-lead{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);line-height:1.15;max-width:15ch;color:var(--cream);text-transform:none;letter-spacing:0}
+.title{font-family:var(--display);font-weight:400;font-size:min(30.5vw,58vh);line-height:.78;letter-spacing:-.01em;text-align:center;white-space:nowrap;padding-top:.14em;margin-bottom:-.02em}
+.title .ch{display:inline-block;overflow:hidden;vertical-align:bottom;padding-top:.16em;margin-top:-.16em}
+.title .ch i{display:inline-block;font-style:normal;will-change:transform}
+.hint{position:absolute;right:clamp(16px,3.2vw,44px);bottom:calc(min(30.5vw,58vh)*.8 + 30px);display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.hint i{width:1px;height:38px;background:var(--line);position:relative;overflow:hidden}
+.hint i:after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--amber);animation:drop 2.2s cubic-bezier(.6,0,.3,1) infinite}
+@keyframes drop{to{top:110%}}
+
+/* ---------- 1 · El vertido ---------- */
+#s1{height:400vh}
+.vlines{position:absolute;left:clamp(16px,4vw,64px);top:50%;transform:translateY(-50%);width:min(52vw,880px);height:60vh}
+.vline{position:absolute;left:0;top:50%;transform:translateY(calc(-50% + 50px));opacity:0;filter:blur(14px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1),filter .9s}
+.vline.on{opacity:1;transform:translateY(-50%);filter:blur(0)}
+.vline .vn{font-size:12px;letter-spacing:.26em;color:var(--amber);display:block;margin-bottom:18px}
+.vline p{font-family:var(--display);text-transform:uppercase;font-size:clamp(52px,7.6vw,148px);line-height:.9;letter-spacing:-.005em}
+.vline p em{display:block;font-size:1.08em;line-height:.95;margin-top:.04em}
+
+/* ---------- 2 · Manifiesto ---------- */
+#s2{height:300vh}
+.rows{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:2vh}
+.row{font-family:var(--display);font-size:min(21vw,34vh);line-height:.86;white-space:nowrap;will-change:transform;text-transform:uppercase}
+.row.r2{color:transparent;-webkit-text-stroke:2px var(--amber)}
+.row span{display:inline-block;padding-right:.25em}
+.row em{font-size:.5em;vertical-align:.5em;padding-right:.4em;color:var(--cream);-webkit-text-stroke:0}
+
+/* ---------- 3 · La carta ---------- */
+#s3{height:500vh}
+.carta-head{position:absolute;top:96px;left:clamp(16px,3.2vw,44px);right:clamp(16px,3.2vw,44px);display:flex;justify-content:space-between;align-items:flex-start}
+.count{font-family:var(--display);font-size:clamp(28px,3vw,44px);letter-spacing:.04em}
+.count b{font-weight:400;color:var(--amber)}
+.dots{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.dots i{width:22px;height:2px;background:var(--line);transition:background .5s}
+.dots i.on{background:var(--amber)}
+.drink{position:absolute;inset:0;pointer-events:none}
+.dname{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--display);font-size:min(26vw,44vh);line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(243,230,208,.55);white-space:nowrap;clip-path:inset(0 0 100% 0);transition:clip-path 1.1s cubic-bezier(.7,0,.2,1)}
+.drink.on .dname{clip-path:inset(0 0 0 0)}
+.dinfo{position:absolute;right:clamp(16px,4vw,64px);bottom:12vh;width:min(330px,36vw);opacity:0;transform:translateY(30px);transition:opacity .7s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.drink.on .dinfo{opacity:1;transform:none;transition-delay:.25s}
+.dinfo .dn{font-family:var(--display);font-size:44px;line-height:1;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px}
+.dinfo .dn span{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--amber)}
+.dinfo .ding{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dinfo .dnote{font-family:var(--serif);font-style:italic;font-size:26px;line-height:1.15;margin-top:10px}
+
+/* ---------- 4 · La casa ---------- */
+#s4{padding-top:24vh;padding-bottom:18vh}
+.casa-t{font-family:var(--display);text-transform:uppercase;font-size:clamp(52px,8vw,150px);line-height:.88;max-width:11ch;margin:22px 0 10vh}
+.casa-t em{display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.stat{padding:28px 24px 30px 0;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat+.stat{padding-left:24px}
+.stat .n{font-family:var(--display);font-size:clamp(84px,12vw,210px);line-height:.9;color:var(--amber)}
+.stat .l{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.info{display:flex;flex-wrap:wrap;gap:12px 48px;margin-top:8vh;font-family:var(--serif);font-size:clamp(22px,2.2vw,30px)}
+.info span{display:flex;align-items:center;gap:14px}
+.info span:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 18px var(--amber)}
+
+/* ---------- 5 · Reserva ---------- */
+#s5{min-height:var(--vh);padding-top:16vh;padding-bottom:14vh;display:grid;grid-template-columns:1fr minmax(320px,460px);gap:6vw;align-items:center}
+.res-t{font-family:var(--display);text-transform:uppercase;font-size:clamp(52px,7.4vw,136px);line-height:.88;margin-top:22px}
+.res-t em{display:block}
+.card{background:rgba(20,13,8,.55);border:1px solid var(--line);border-radius:22px;padding:30px;backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f label{display:flex;flex-direction:column;gap:7px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.f .full{grid-column:1/-1}
+.f input,.f select{background:rgba(243,230,208,.05);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:16px;letter-spacing:0;text-transform:none;outline:none;transition:border-color .3s,background .3s;color-scheme:dark;width:100%}
+.f input:focus,.f select:focus{border-color:var(--amber);background:rgba(232,137,28,.08)}
+.f select option{background:#1a120c}
+.ppl{display:flex;gap:6px;flex-wrap:wrap}
+.ppl button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;font-size:15px;letter-spacing:0;transition:all .3s}
+.ppl button.on{background:var(--amber);border-color:var(--amber);color:var(--deep);font-weight:600}
+.f .btn{grid-column:1/-1;justify-content:center;padding:16px;font-size:15px;margin-top:6px}
+.note{grid-column:1/-1;font-size:12px;color:var(--muted);text-align:center}
+.err{grid-column:1/-1;font-size:13px;color:#ff8a7a;min-height:0}
+.ok{display:none;text-align:center;padding:10px 0}
+.card.done .f{display:none}
+.card.done .ok{display:block;animation:okin 1s cubic-bezier(.2,.7,.2,1)}
+@keyframes okin{from{opacity:0;transform:translateY(20px) scale(.98)}}
+.ok h3{font-family:var(--display);font-weight:400;font-size:54px;line-height:1;text-transform:uppercase}
+.ok p{font-family:var(--serif);font-size:23px;line-height:1.25;margin:14px auto 22px;max-width:24ch}
+.code{display:inline-flex;flex-direction:column;gap:4px;border:1px dashed var(--amber);border-radius:12px;padding:12px 22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.code b{font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:.12em;color:var(--amber)}
+.again{display:block;margin:22px auto 0;background:none;border:0;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer;color:var(--muted)}
+
+/* ---------- 6 · Fin ---------- */
+#s6{min-height:var(--vh);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;padding-bottom:22px}
+.end-name{font-family:var(--display);font-size:min(30.5vw,58vh);line-height:.78;text-align:center;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:1.5px rgba(243,230,208,.4)}
+.end-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px 24px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;margin-top:22px}
+.end-row a{text-decoration:none;border-bottom:1px solid var(--line)}
+.end-row a:hover{color:var(--amber)}
+
+/* ---------- móvil ---------- */
+@media (max-width:820px){
+  .logo small,.bar{display:none}
+  .nav{padding:16px}
+  .btn{padding:10px 16px;font-size:13px}
+  .nav-r{gap:10px}
+  .intro-top{top:76px;flex-direction:column}
+  .intro-top>span:last-child{display:none}
+  .hint{display:none}
+  .vlines{left:16px;right:16px;width:auto;top:auto;bottom:15vh;transform:none;height:36vh}
+  .vline{top:auto;bottom:0;transform:translateY(40px)}
+  .vline.on{transform:none}
+  .vline p{font-size:clamp(40px,12.5vw,80px)}
+  .carta-head{top:76px}
+  .dname{top:40%;font-size:min(30vw,30vh);-webkit-text-stroke:1px rgba(243,230,208,.5)}
+  .dinfo{left:16px;right:16px;width:auto;bottom:11vh}
+  .dinfo .dn{font-size:36px}
+  .dinfo .dnote{font-size:22px}
+  #s4{padding-top:42vh}
+  .casa-t{margin-bottom:6vh}
+  .stats{grid-template-columns:1fr}
+  .stat,.stat+.stat{border-right:0;border-bottom:1px solid var(--line);padding:22px 0}
+  #s5{grid-template-columns:1fr;padding-top:40vh}
+  .card{padding:22px}
+  .hud{bottom:16px}
+  .row{font-size:31vw}
+  .row.r2{-webkit-text-stroke:1.5px var(--amber)}
+}
+@media (max-width:420px){.f{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){
+  .rv,.vline,.dname,.dinfo{transition:none!important}
+  .hint i:after{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="veil" aria-hidden="true"><div class="vw"><div class="vt">ÁMBAR</div><div class="vb"><i></i></div></div></div>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="cur" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="logo" href="#s0" data-go="#s0">ÁMBAR<small data-i18n="tag">Cócteles de autor · Barcelona</small></a>
+  <div class="nav-r">
+    <div class="lang" role="group" aria-label="Idioma">
+      <button data-l="es">ES</button><button data-l="ca">CA</button><button data-l="en">EN</button>
+    </div>
+    <a class="btn" href="#s5" data-go="#s5"><span data-i18n="book">Reservar</span></a>
+  </div>
+</header>
+
+<div class="hud" aria-hidden="true"><span class="hn">00</span><span class="hl">Entrada</span></div>
+<div class="bar" aria-hidden="true"><i></i></div>
+
+<main>
+  <!-- 0 · ENTRADA -->
+  <section id="s0" data-s>
+    <div class="intro-top">
+      <span class="intro-lead" data-i18n="lead">Cócteles que se cuentan despacio.</span>
+      <span>41.3851° N · 2.1734° E</span>
+    </div>
+    <div class="hint"><span data-i18n="scroll">Baja</span><i></i></div>
+    <h1 class="title" id="title" aria-label="Ámbar">ÁMBAR</h1>
+  </section>
+
+  <!-- 1 · EL VERTIDO -->
+  <section id="s1" data-s data-pin>
+    <div class="stick">
+      <div class="vlines">
+        <div class="vline"><span class="vn">01 —</span><p data-i18n="v1">Primero, <em>el silencio.</em></p></div>
+        <div class="vline"><span class="vn">02 —</span><p data-i18n="v2">Después, <em>el hielo.</em></p></div>
+        <div class="vline"><span class="vn">03 —</span><p data-i18n="v3">Y al final, <em>el ámbar.</em></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · MANIFIESTO -->
+  <section id="s2" data-s data-pin>
+    <div class="stick">
+      <div class="rows"><div class="row r1"></div><div class="row r2"></div></div>
+    </div>
+  </section>
+
+  <!-- 3 · LA CARTA -->
+  <section id="s3" data-s data-pin>
+    <div class="stick">
+      <div class="carta-head">
+        <p class="eyebrow" data-i18n="carta">La carta</p>
+        <div><div class="count"><b>01</b> / 04</div><div class="dots"><i class="on"></i><i></i><i></i><i></i></div></div>
+      </div>
+      <div class="drink on"><div class="dname">ÁMBAR</div>
+        <div class="dinfo"><div class="dn">Ámbar <span>13 €</span></div><p class="ding" data-i18n="d1i">Whisky japonés · miel ahumada · piel de naranja</p><p class="dnote" data-i18n="d1n">Cálido, redondo, con humo al final.</p></div></div>
+      <div class="drink"><div class="dname">GRANATE</div>
+        <div class="dinfo"><div class="dn">Granate <span>12 €</span></div><p class="ding" data-i18n="d2i">Ginebra · frambuesa · vermut rojo</p><p class="dnote" data-i18n="d2n">Intenso y un poco descarado.</p></div></div>
+      <div class="drink"><div class="dname">JADE</div>
+        <div class="dinfo"><div class="dn">Jade <span>12 €</span></div><p class="ding" data-i18n="d3i">Mezcal · pepino · lima</p><p class="dnote" data-i18n="d3n">Fresco, verde y con chispa.</p></div></div>
+      <div class="drink"><div class="dname">NOCHE</div>
+        <div class="dinfo"><div class="dn">Noche <span>14 €</span></div><p class="ding" data-i18n="d4i">Ron añejo · café · cacao</p><p class="dnote" data-i18n="d4n">Para cerrar la noche despacio.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 4 · LA CASA -->
+  <section id="s4" class="pad" data-s>
+    <p class="eyebrow rv" data-i18n="casa">La casa</p>
+    <h2 class="casa-t rv" data-i18n="casaT">Un bar pequeño <em>a propósito.</em></h2>
+    <div class="stats">
+      <div class="stat rv"><div class="n" data-to="12">0</div><div class="l" data-i18n="st1">asientos en barra</div></div>
+      <div class="stat rv"><div class="n" data-to="48">0</div><div class="l" data-i18n="st2">botellas de autor</div></div>
+      <div class="stat rv"><div class="n" data-to="1">0</div><div class="l" data-i18n="st3">regla: sin prisas</div></div>
+    </div>
+    <div class="info rv"><span data-i18n="hours">Martes a domingo · 19:00 – 02:30</span><span>Carrer de l'Ambre, 7 · Barcelona</span></div>
+  </section>
+
+  <!-- 5 · RESERVA -->
+  <section id="s5" class="pad" data-s>
+    <div>
+      <p class="eyebrow rv" data-i18n="res">Reserva</p>
+      <h2 class="res-t rv" data-i18n="resT">Guárdate <em>un sitio.</em></h2>
+    </div>
+    <div class="card rv" id="card">
+      <form class="f" id="form" novalidate>
+        <label><span data-i18n="fDay">Día</span><input type="date" id="fDate" required></label>
+        <label><span data-i18n="fTime">Hora</span><select id="fTime"></select></label>
+        <label class="full"><span data-i18n="fPpl">Personas</span><div class="ppl" id="ppl"></div></label>
+        <label class="full"><span data-i18n="fName">Nombre</span><input type="text" id="fName" autocomplete="off"></label>
+        <label class="full"><span data-i18n="fPhone">Teléfono</span><input type="tel" id="fPhone" inputmode="tel" autocomplete="off"></label>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn" type="submit"><span data-i18n="fBtn">Reservar mesa</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="note" data-i18n="demo">Demo de ORYON: no se envía ningún dato.</p>
+      </form>
+      <div class="ok" aria-live="polite">
+        <h3 data-i18n="okT">Mesa reservada.</h3>
+        <p id="okP"></p>
+        <div class="code"><span data-i18n="code">Código</span><b id="okC">AMB-0000</b></div>
+        <button class="again" id="again" data-i18n="again">Hacer otra reserva</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · FIN -->
+  <footer id="s6" class="pad" data-s>
+    <div class="end-name" aria-hidden="true">ÁMBAR</div>
+    <div class="end-row">
+      <span>Carrer de l'Ambre, 7 · Barcelona</span>
+      <span>Instagram · @ambar.bar</span>
+      <span data-i18n="made">Demo creada por <a href="../index.html">ORYON</a> · Ámbar es un bar ficticio</span>
+    </div>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(pointer: fine)').matches;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const sstep = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+
+/* =====================================================================
+   TEXTOS (es · ca · en)
+   ===================================================================== */
+const DICT = {
+  es: {
+    tag: 'Cócteles de autor · Barcelona', book: 'Reservar', lead: 'Cócteles que se cuentan despacio.', scroll: 'Baja',
+    v1: 'Primero, <em>el silencio.</em>', v2: 'Después, <em>el hielo.</em>', v3: 'Y al final, <em>el ámbar.</em>',
+    m1: 'No es un bar', m2: 'Es un ritual', carta: 'La carta',
+    d1i: 'Whisky japonés · miel ahumada · piel de naranja', d1n: 'Cálido, redondo, con humo al final.',
+    d2i: 'Ginebra · frambuesa · vermut rojo', d2n: 'Intenso y un poco descarado.',
+    d3i: 'Mezcal · pepino · lima', d3n: 'Fresco, verde y con chispa.',
+    d4i: 'Ron añejo · café · cacao', d4n: 'Para cerrar la noche despacio.',
+    casa: 'La casa', casaT: 'Un bar pequeño <em>a propósito.</em>',
+    st1: 'asientos en barra', st2: 'botellas de autor', st3: 'regla: sin prisas',
+    hours: 'Martes a domingo · 19:00 – 02:30',
+    res: 'Reserva', resT: 'Guárdate <em>un sitio.</em>',
+    fDay: 'Día', fTime: 'Hora', fPpl: 'Personas', fName: 'Nombre', fPhone: 'Teléfono', fBtn: 'Reservar mesa',
+    demo: 'Demo de ORYON: no se envía ningún dato.', okT: 'Mesa reservada.',
+    okP: 'Te esperamos el {d} a las {h}. Te recordaremos tu mesa 24 h antes.', code: 'Código', again: 'Hacer otra reserva',
+    err: 'Escribe tu nombre y un teléfono válido.',
+    made: 'Demo creada por <a href="../index.html">ORYON</a> · Ámbar es un bar ficticio',
+    scenes: ['Entrada', 'El vertido', 'Manifiesto', 'La carta', 'La casa', 'Reserva', 'Fin'], loc: 'es-ES'
+  },
+  ca: {
+    tag: "Còctels d'autor · Barcelona", book: 'Reservar', lead: "Còctels que s'expliquen a poc a poc.", scroll: 'Baixa',
+    v1: 'Primer, <em>el silenci.</em>', v2: 'Després, <em>el gel.</em>', v3: "I al final, <em>l'ambre.</em>",
+    m1: 'No és un bar', m2: 'És un ritual', carta: 'La carta',
+    d1i: 'Whisky japonès · mel fumada · pell de taronja', d1n: 'Càlid, rodó, amb fum al final.',
+    d2i: 'Ginebra · gerd · vermut negre', d2n: 'Intens i una mica descarat.',
+    d3i: 'Mezcal · cogombre · llima', d3n: 'Fresc, verd i amb espurna.',
+    d4i: 'Rom añejo · cafè · cacau', d4n: 'Per tancar la nit a poc a poc.',
+    casa: 'La casa', casaT: 'Un bar petit <em>expressament.</em>',
+    st1: 'seients a la barra', st2: "ampolles d'autor", st3: 'regla: sense presses',
+    hours: 'Dimarts a diumenge · 19:00 – 02:30',
+    res: 'Reserva', resT: "Guarda't <em>un lloc.</em>",
+    fDay: 'Dia', fTime: 'Hora', fPpl: 'Persones', fName: 'Nom', fPhone: 'Telèfon', fBtn: 'Reservar taula',
+    demo: "Demo d'ORYON: no s'envia cap dada.", okT: 'Taula reservada.',
+    okP: "T'esperem el {d} a les {h}. Et recordarem la taula 24 h abans.", code: 'Codi', again: 'Fer una altra reserva',
+    err: 'Escriu el teu nom i un telèfon vàlid.',
+    made: 'Demo creada per <a href="../index.html">ORYON</a> · Ámbar és un bar fictici',
+    scenes: ['Entrada', "L'abocament", 'Manifest', 'La carta', 'La casa', 'Reserva', 'Fi'], loc: 'ca-ES'
+  },
+  en: {
+    tag: 'Signature cocktails · Barcelona', book: 'Book', lead: 'Cocktails told slowly.', scroll: 'Scroll',
+    v1: 'First, <em>the silence.</em>', v2: 'Then, <em>the ice.</em>', v3: 'And at last, <em>the amber.</em>',
+    m1: 'Not a bar', m2: 'A ritual', carta: 'The menu',
+    d1i: 'Japanese whisky · smoked honey · orange peel', d1n: 'Warm, round, with a smoky finish.',
+    d2i: 'Gin · raspberry · red vermouth', d2n: 'Intense and a little cheeky.',
+    d3i: 'Mezcal · cucumber · lime', d3n: 'Fresh, green and lively.',
+    d4i: 'Aged rum · coffee · cacao', d4n: 'To close the night slowly.',
+    casa: 'The house', casaT: 'A small bar <em>on purpose.</em>',
+    st1: 'seats at the bar', st2: 'craft bottles', st3: 'rule: no rush',
+    hours: 'Tuesday to Sunday · 7 pm – 2:30 am',
+    res: 'Booking', resT: 'Save yourself <em>a seat.</em>',
+    fDay: 'Day', fTime: 'Time', fPpl: 'Guests', fName: 'Name', fPhone: 'Phone', fBtn: 'Book a table',
+    demo: 'ORYON demo: no data is sent.', okT: 'Table booked.',
+    okP: "See you on {d} at {h}. We'll remind you 24 h before.", code: 'Code', again: 'Make another booking',
+    err: 'Please enter your name and a valid phone number.',
+    made: 'Demo made by <a href="../index.html">ORYON</a> · Ámbar is a fictional bar',
+    scenes: ['Opening', 'The pour', 'Manifesto', 'The menu', 'The house', 'Booking', 'End'], loc: 'en-GB'
+  }
+};
+let lang = 'es';
+try { const s = localStorage.getItem('ambar-lang'); if (DICT[s]) lang = s; } catch (e) {}
+const T = k => DICT[lang][k];
+
+function buildRows() {
+  const r1 = $('.r1'), r2 = $('.r2');
+  r1.innerHTML = Array(5).fill(`<span>${T('m1')}</span><em>—</em>`).join('');
+  r2.innerHTML = Array(5).fill(`<span>${T('m2')}</span><em>·</em>`).join('');
+}
+function setLang(l) {
+  lang = l;
+  try { localStorage.setItem('ambar-lang', l); } catch (e) {}
+  document.documentElement.lang = l;
+  $$('[data-i18n]').forEach(el => { const v = DICT[l][el.dataset.i18n]; if (v != null) el.innerHTML = v; });
+  $$('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === l));
+  buildRows(); sceneIdx = -1;
+  if ($('#card').classList.contains('done')) fillOk();
+}
+$$('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l)));
+
+/* Título partido en letras */
+const title = $('#title');
+title.innerHTML = [...title.textContent].map(c => `<span class="ch" aria-hidden="true"><i>${c}</i></span>`).join('');
+
+/* =====================================================================
+   SCROLL: S = índice de escena + avance dentro de ella (0..1)
+   ===================================================================== */
+const secs = $$('[data-s]');
+let M = [];
+function measure() {
+  M = secs.map(el => ({ top: el.getBoundingClientRect().top + scrollY, len: Math.max(1, el.offsetHeight) }));
+}
+function getS() {
+  const y = scrollY; let i = 0;
+  for (let k = 0; k < M.length; k++) if (y >= M[k].top - 1) i = k;
+  return i + clamp((y - M[i].top) / M[i].len);
+}
+// Fracción en la que cada escena fija deja de estar fija (altura - pantalla) / altura
+const PIN = { 1: .75, 2: 2 / 3, 3: .8 };
+
+/* Fotogramas clave del vaso: [S, x, y, escala, xMóvil, yMóvil, escalaMóvil, tinta] */
+const KF = [
+  [0.00,  0.0,  .55, 1.00,  0.0,  .35, 1.0, .00],
+  [0.15,  0.0,  .55, 1.00,  0.0,  .35, 1.0, .00],
+  [1.00,  1.75, -.05, 1.18, 0.0,  .80, .92, .03],
+  [1.75,  1.75, -.05, 1.22, 0.0,  .80, .92, .06],
+  [2.00,  0.0,  .00,  .92,  0.0,  .00, .72, .25],
+  [2.33,  0.0,  .00,  .80,  0.0,  .00, .66, 1.0],
+  [2.67,  0.0,  .00,  .90,  0.0,  .20, .74, .30],
+  [3.00,  0.0, -.12, 1.22,  0.0,  .62, .88, .03],
+  [3.80,  0.0, -.12, 1.22,  0.0,  .62, .88, .03],
+  [4.00,  3.35, 1.25,  .58,  .62, 1.95, .44, .15],
+  [4.55,  3.35, 1.05,  .58,  .62, 1.95, .44, .10],
+  [5.00, -3.0, -1.15,  .82,  0.0, 1.95, .42, .05],
+  [5.60, -3.0, -1.15,  .82,  0.0, 1.95, .42, .05],
+  [6.00,  0.0,  .95,  .74,  0.0,  .95, .62, .35],
+  [7.00,  0.0,  .95,  .74,  0.0,  .95, .62, .35]
+];
+function kf(S, portrait) {
+  let k = 0;
+  while (k < KF.length - 2 && S >= KF[k + 1][0]) k++;
+  const a = KF[k], b = KF[k + 1];
+  const t = sstep(0, 1, (S - a[0]) / (b[0] - a[0]));
+  const o = portrait ? 4 : 1;
+  return { x: lerp(a[o], b[o], t), y: lerp(a[o + 1], b[o + 1], t), s: lerp(a[o + 2], b[o + 2], t), ink: lerp(a[7], b[7], t) };
+}
+
+/* Los cuatro cócteles */
+const DRINKS = [
+  { liquid: 0xE8891C, glow: 0xFF8A1E, deep: 0x120803, rind: '#E3731A', flesh: '#F8A93E' },
+  { liquid: 0xB0142E, glow: 0xFF2A44, deep: 0x13030A, rind: '#B8301C', flesh: '#9A0E2A' },
+  { liquid: 0x4FAE68, glow: 0x3FE08F, deep: 0x03110A, rind: '#3F7D23', flesh: '#BEDD5E' },
+  { liquid: 0x5A2D12, glow: 0xD07A2E, deep: 0x0B0604, rind: '#5E3214', flesh: '#A55A22' }
+];
+const drinkF = q => { const v = q * 4; let f = 0; for (let j = 1; j <= 3; j++) f += sstep(j - .2, j + .2, v); return f; };
+
+/* =====================================================================
+   3D
+   ===================================================================== */
+let GL = null;
+try { GL = init3D(); } catch (e) { console.warn('Sin 3D:', e); document.body.classList.add('no-gl'); }
+
+function init3D() {
+  const canvas = $('#gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: FINE, powerPreference: 'high-performance' });
+  if (!renderer.getContext()) throw new Error('webgl');
+  renderer.autoClear = false;
+  let DPR = Math.min(devicePixelRatio || 1, FINE ? 1.75 : 1.35);
+  renderer.setPixelRatio(DPR);
+  const BG_SCALE = .55; // el humo es difuso: se calcula a poco más de media resolución
+  const bgRT = new THREE.WebGLRenderTarget(4, 4, { depthBuffer: false });
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, 1, .1, 100);
+  camera.position.set(0, 0, 9);
+
+  /* ---- Fondo: humo de tinta, halo, trazos de grabado y grano ---- */
+  const bgScene = new THREE.Scene(), bgCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const bgU = {
+    uTime: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) }, uInk: { value: 0 }, uFlash: { value: 0 },
+    uDeep: { value: new THREE.Color(DRINKS[0].deep) }, uGlow: { value: new THREE.Color(DRINKS[0].glow) },
+    uGlowPos: { value: new THREE.Vector2(.5, .5) }, uMouse: { value: new THREE.Vector2(.5, .5) }, uHalo: { value: 1 }
+  };
+  bgScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
+    uniforms: bgU, depthWrite: false, depthTest: false,
+    vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+    fragmentShader: `
+      precision highp float; varying vec2 vUv;
+      uniform vec2 uRes,uGlowPos,uMouse; uniform float uTime,uInk,uFlash,uHalo; uniform vec3 uDeep,uGlow;
+      float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+      float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+        return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+      void main(){
+        float asp=uRes.x/uRes.y; vec2 p=(vUv-.5)*vec2(asp,1.);
+        vec2 g=(uGlowPos-.5)*vec2(asp,1.), m=(uMouse-.5)*vec2(asp,1.);
+        float t=uTime*.045;
+        vec2 q=vec2(fbm(p*1.4+t),fbm(p*1.4-t+3.1));
+        float sm=fbm(p*1.7+q*1.6+vec2(t*.6,-t*1.4));
+        float d=length(p-g);
+        float halo=(exp(-d*d*2.6)*.75+exp(-d*7.)*.35)*uHalo;
+        vec3 col=uDeep;
+        col+=uGlow*(halo*.55+smoothstep(.45,1.,sm)*.22*(.35+halo));
+        /* trazos de tinta verticales, tipo grabado */
+        float w=fbm(vec2(p.x*2.5,p.y*.5-t*3.));
+        float ln=abs(sin((p.x+w*.4)*72.));
+        float lines=1.-smoothstep(.05,.5,ln);
+        float msk=smoothstep(.15,.65,fbm(p*1.1+vec2(0.,t*4.))*1.2-1.+uInk*1.25);
+        col+=mix(uGlow*.8,vec3(.95,.9,.82),.35)*lines*msk*.55;
+        col=mix(col,col*.55,msk*(1.-lines)*.5);
+        col+=uGlow*.07*exp(-length(p-m)*3.2);
+        col+=uGlow*uFlash*.35*exp(-d*d*1.5);
+        col*=1.-smoothstep(.45,1.3,length(p*vec2(.85,1.1)))*.75;
+        gl_FragColor=vec4(col,1.);
+      }`
+  })));
+
+  /* ---- Luces ---- */
+  scene.add(new THREE.AmbientLight(0xffffff, .35));
+  const key = new THREE.DirectionalLight(0xfff1dc, 1.3); key.position.set(3, 5, 6); scene.add(key);
+  const rimL = new THREE.PointLight(DRINKS[0].glow, 3, 18); rimL.position.set(-4, 2, -3); scene.add(rimL);
+  const rimR = new THREE.PointLight(0xffffff, 1.2, 18); rimR.position.set(4, -1, 2); scene.add(rimR);
+
+  /* ---- Jerarquía: posición > inclinación (cursor) > giro > piezas ---- */
+  const root = new THREE.Group(), tilt = new THREE.Group(), spin = new THREE.Group(), body = new THREE.Group();
+  scene.add(root); root.add(tilt); tilt.add(spin); spin.add(body);
+  body.position.y = -1.1; // centro del vaso en el origen
+
+  /* Cristal: shader propio con borde de Fresnel, facetas y brillos */
+  const glassMat = (tint, base, op) => new THREE.ShaderMaterial({
+    uniforms: { uTint: { value: new THREE.Color(tint) }, uGlow: bgU.uGlow, uBase: { value: base }, uOp: { value: op } },
+    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    vertexShader: `varying vec3 vN,vV;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=-mv.xyz;gl_Position=projectionMatrix*mv;}`,
+    fragmentShader: `
+      uniform vec3 uTint,uGlow; uniform float uBase,uOp; varying vec3 vN,vV;
+      void main(){
+        vec3 n=normalize(vN),v=normalize(vV);
+        float fr=pow(1.-abs(dot(n,v)),2.);
+        float h1=smoothstep(.13,.0,abs(n.x-.6)), h2=smoothstep(.1,.0,abs(n.x+.78))*.6;
+        float sp=pow(max(dot(reflect(-v,n),normalize(vec3(-.4,.75,.55))),0.),28.);
+        vec3 c=mix(uTint,vec3(1.),clamp(fr*.6+h1+sp,0.,1.))+uGlow*fr*.45;
+        float a=uBase+fr*.5+(h1+h2)*.42+sp*.9;
+        gl_FragColor=vec4(c,clamp(a,0.,1.)*uOp);
+      }`
+  });
+  const SIDES = 16;
+  const facet = g => { const ng = g.toNonIndexed(); ng.computeVertexNormals(); return ng; };
+  const V = (x, y) => new THREE.Vector2(x, y);
+  const glass = new THREE.Mesh(facet(new THREE.LatheGeometry([
+    V(0, 0), V(.92, 0), V(.98, .04), V(1.0, .16), V(1.07, 2.2), V(1.055, 2.235), V(1.02, 2.235),
+    V(.995, 2.2), V(.93, .44), V(.88, .37), V(0, .36)
+  ], SIDES)), glassMat(0xd9e6ee, .05, 1));
+  glass.renderOrder = 3; body.add(glass);
+
+  /* Líquido: torno que se rehace según el nivel */
+  const YB = .372, YT = 2.18;
+  const ri = y => (.905 + (y - .38) / (2.2 - .38) * .085) * .955;
+  const liqMat = new THREE.MeshPhysicalMaterial({ color: DRINKS[0].liquid, roughness: .12, metalness: 0, clearcoat: 1, clearcoatRoughness: .1, emissive: DRINKS[0].liquid, emissiveIntensity: .22, vertexColors: true, transparent: true, opacity: .93 });
+  const liquid = new THREE.Mesh(new THREE.BufferGeometry(), liqMat); body.add(liquid);
+  let lastFill = -1;
+  function setFill(f) {
+    if (Math.abs(f - lastFill) < .0015) return;
+    lastFill = f; liquid.visible = f > .004;
+    if (!liquid.visible) return;
+    const h = YB + .02 + f * (YT - YB - .02), r0 = ri(YB);
+    const pts = [V(0, YB), V(r0 - .05, YB), V(r0, YB + .05), V(ri(h), h), V(ri(h) - .03, h + .012), V(0, h + .012)];
+    liquid.geometry.dispose();
+    const g = new THREE.LatheGeometry(pts, 56), pa = g.attributes.position, col = new Float32Array(pa.count * 3);
+    for (let i = 0; i < pa.count; i++) { const y = pa.getY(i), t = clamp((y - YB) / (h - YB)), v = y >= h ? 1.25 : .38 + .72 * Math.pow(t, .8); col[i * 3] = col[i * 3 + 1] = col[i * 3 + 2] = v; }
+    g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    liquid.geometry = g;
+  }
+  const liqTop = f => YB + .02 + f * (YT - YB - .02);
+
+  /* Hielo */
+  const ice = new THREE.Mesh(facet(new THREE.BoxGeometry(.82, .82, .82, 1, 1, 1)), glassMat(0xcfe6ff, .14, 1));
+  ice.renderOrder = 2; ice.visible = false; body.add(ice);
+  const iceCore = new THREE.Mesh(new THREE.BoxGeometry(.5, .5, .5), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .08, depthWrite: false }));
+  ice.add(iceCore);
+
+  /* Rodaja de fruta en el borde (textura dibujada) */
+  function sliceTex(rind, flesh) {
+    const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+    x.fillStyle = rind; x.beginPath(); x.arc(128, 128, 126, 0, 7); x.fill();
+    x.fillStyle = '#f5ecd8'; x.beginPath(); x.arc(128, 128, 112, 0, 7); x.fill();
+    for (let i = 0; i < 10; i++) {
+      const a0 = i / 10 * Math.PI * 2 + .05, a1 = (i + 1) / 10 * Math.PI * 2 - .05;
+      x.fillStyle = flesh; x.beginPath(); x.moveTo(128 + Math.cos((a0 + a1) / 2) * 14, 128 + Math.sin((a0 + a1) / 2) * 14);
+      x.arc(128, 128, 100, a0, a1); x.closePath(); x.fill();
+      x.strokeStyle = 'rgba(255,255,255,.25)'; x.lineWidth = 2;
+      for (let k = 0; k < 6; k++) { const a = lerp(a0, a1, (k + .5) / 6); x.beginPath(); x.moveTo(128 + Math.cos(a) * 30, 128 + Math.sin(a) * 30); x.lineTo(128 + Math.cos(a) * 92, 128 + Math.sin(a) * 92); x.stroke(); }
+    }
+    x.fillStyle = '#f5ecd8'; x.beginPath(); x.arc(128, 128, 12, 0, 7); x.fill();
+    const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+  }
+  const sliceTexs = DRINKS.map(d => sliceTex(d.rind, d.flesh));
+  const sliceMat = new THREE.MeshStandardMaterial({ map: sliceTexs[0], roughness: .55, emissive: 0xffffff, emissiveMap: sliceTexs[0], emissiveIntensity: .28 });
+  const slice = new THREE.Mesh(new THREE.CylinderGeometry(.46, .46, .06, 48), [new THREE.MeshStandardMaterial({ color: DRINKS[0].rind, roughness: .6 }), sliceMat, sliceMat]);
+  slice.rotation.x = Math.PI / 2; slice.rotation.y = .25;
+  const slicePivot = new THREE.Group(); slicePivot.position.set(1.0, 2.36, 0); slicePivot.rotation.z = -.22;
+  slicePivot.add(slice); body.add(slicePivot);
+  let sliceIdx = 0;
+
+  /* Halo de luz bajo el vaso */
+  const poolC = document.createElement('canvas'); poolC.width = poolC.height = 128;
+  { const x = poolC.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); }
+  const pool = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 4.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(poolC), color: DRINKS[0].glow, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, depthWrite: false }));
+  pool.rotation.x = -Math.PI / 2; pool.position.y = -1.12; tilt.add(pool);
+
+  /* Chorro */
+  const streamGeo = new THREE.CylinderGeometry(.055, .045, 1, 14, 1, true); streamGeo.translate(0, .5, 0);
+  const streamMat = new THREE.MeshPhysicalMaterial({ color: DRINKS[0].liquid, emissive: DRINKS[0].liquid, emissiveIntensity: .7, roughness: .1, clearcoat: 1, transparent: true });
+  const stream = new THREE.Mesh(streamGeo, streamMat); stream.visible = false; tilt.add(stream);
+
+  /* Gotas (salpicaduras) */
+  const NP = 140, pPos = new Float32Array(NP * 3), pVel = new Float32Array(NP * 3), pLife = new Float32Array(NP);
+  for (let i = 0; i < NP; i++) pPos[i * 3 + 1] = -99;
+  const pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  const pMat = new THREE.PointsMaterial({ color: DRINKS[0].liquid, size: .075, transparent: true, opacity: .95, depthWrite: false });
+  const drops = new THREE.Points(pGeo, pMat); drops.frustumCulled = false; tilt.add(drops);
+  let pNext = 0;
+  function splash(n, y, power, r) {
+    for (let k = 0; k < n; k++) {
+      const i = pNext++ % NP, a = Math.random() * Math.PI * 2, rr = Math.random() * (r || .25);
+      pPos[i * 3] = Math.cos(a) * rr; pPos[i * 3 + 1] = y; pPos[i * 3 + 2] = Math.sin(a) * rr;
+      const sp = (.6 + Math.random()) * power;
+      pVel[i * 3] = Math.cos(a) * sp * .55; pVel[i * 3 + 1] = sp * (1.4 + Math.random()); pVel[i * 3 + 2] = Math.sin(a) * sp * .55;
+      pLife[i] = 1;
+    }
+  }
+  function stepDrops(dt) {
+    for (let i = 0; i < NP; i++) {
+      if (pLife[i] <= 0) continue;
+      pLife[i] -= dt * 1.1; pVel[i * 3 + 1] -= 9.8 * dt;
+      pPos[i * 3] += pVel[i * 3] * dt; pPos[i * 3 + 1] += pVel[i * 3 + 1] * dt; pPos[i * 3 + 2] += pVel[i * 3 + 2] * dt;
+      if (pLife[i] <= 0) pPos[i * 3 + 1] = -99;
+    }
+    pGeo.attributes.position.needsUpdate = true;
+  }
+
+  function resize() {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    bgU.uRes.value.set(w * DPR, h * DPR);
+    bgRT.setSize(Math.max(2, Math.round(w * DPR * BG_SCALE)), Math.max(2, Math.round(h * DPR * BG_SCALE)));
+    blitU.uRes.value.set(w * DPR, h * DPR);
+  }
+  /* Copia del fondo a pantalla completa, con el grano de película a resolución real */
+  const blitScene = new THREE.Scene(), blitU = { tMap: { value: bgRT.texture }, uRes: { value: new THREE.Vector2(1, 1) }, uTime: bgU.uTime };
+  blitScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: blitU, depthWrite: false, depthTest: false,
+    vertexShader: 'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+    fragmentShader: 'uniform sampler2D tMap;uniform vec2 uRes;uniform float uTime;varying vec2 vUv;float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}void main(){vec3 c=texture2D(tMap,vUv).rgb;c+=(h(vUv*uRes+fract(uTime*7.)*91.)-.5)*.05;gl_FragColor=vec4(c,1.);}' })));
+  function renderBg() { renderer.setRenderTarget(bgRT); renderer.clear(); renderer.render(bgScene, bgCam); renderer.setRenderTarget(null); renderer.render(blitScene, bgCam); }
+  /* Calidad automática: si el equipo va justo, baja la resolución poco a poco */
+  let fN = 0, fT = 0;
+  function adapt(dt) {
+    fN++; fT += dt; if (fT < 1.5) return;
+    const fps = fN / fT; fN = 0; fT = 0;
+    if (fps < 50 && DPR > .85) { DPR = Math.max(.85, DPR * .85); renderer.setPixelRatio(DPR); resize(); }
+  }
+  resize();
+
+  return { renderBg, adapt, renderer, scene, camera, bgScene, bgCam, bgU, root, tilt, spin, body, glass, liquid, liqMat, setFill, liqTop, ice, slice, slicePivot, sliceMat, sliceTexs, pool, stream, streamMat, pMat, splash, stepDrops, resize, rimL, get sliceIdx() { return sliceIdx; }, set sliceIdx(v) { sliceIdx = v; } };
+}
+
+/* =====================================================================
+   BUCLE PRINCIPAL
+   ===================================================================== */
+const cur = { x: 0, y: .55, s: 1, ink: 0, tx: 0, tz: 0, spin: 0 };
+const mouse = { x: .5, y: .5, sx: .5, sy: .5 };
+const fx = { clink: 0, flash: 0 };
+const cA = new THREE.Color(), cB = new THREE.Color(), cTmp = new THREE.Color(), vTmp = new THREE.Vector3();
+const AMBER = { liquid: new THREE.Color(DRINKS[0].liquid), glow: new THREE.Color(DRINKS[0].glow), deep: new THREE.Color(DRINKS[0].deep) };
+const C = DRINKS.map(d => ({ liquid: new THREE.Color(d.liquid), glow: new THREE.Color(d.glow), deep: new THREE.Color(d.deep) }));
+function mixDrink(f, key, out) {
+  const i = Math.min(3, Math.floor(f)), j = Math.min(3, i + 1);
+  return out.copy(C[i][key]).lerp(C[j][key], f - i);
+}
+
+let lenis = null;
+if (!RM && window.Lenis) lenis = new Lenis({ lerp: .085, smoothWheel: true });
+
+let snap = true, last = performance.now(), sceneIdx = -1, drinkIdx = -1, vIdx = -2, prevIce = 0, time = 0;
+const hud = $('.hud'), hudN = $('.hud .hn'), hudL = $('.hud .hl'), barI = $('.bar i');
+const vlines = $$('.vline'), drinks = $$('.drink'), dots = $$('.dots i'), countB = $('.count b');
+const r1 = $('.r1'), r2 = $('.r2');
+
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now; time += dt;
+  if (lenis) lenis.raf(now);
+  const S = getS();
+  const aspect = innerWidth / innerHeight, portrait = aspect < .9;
+
+  /* --- avance dentro de cada escena --- */
+  const qV = clamp((S - 1) / PIN[1]), qM = clamp((S - 2) / PIN[2]), qC = clamp((S - 3) / PIN[3]);
+  const dF = drinkF(qC);
+  const backToAmber = sstep(4.0, 4.4, S);
+
+  /* --- HTML: frases del vertido --- */
+  const vi = S < 1 || S >= 2 ? -1 : qV < .05 ? -1 : qV < .34 ? 0 : qV < .62 ? 1 : 2;
+  if (vi !== vIdx) { vIdx = vi; vlines.forEach((l, k) => l.classList.toggle('on', k === vi)); }
+
+  /* --- HTML: manifiesto --- */
+  if (S > 1.6 && S < 3.1) {
+    const m = clamp((S - 1.75) / 1.25);
+    r1.style.transform = `translate3d(${-m * 55}%,0,0)`;
+    r2.style.transform = `translate3d(${-55 + m * 55}%,0,0)`;
+  }
+
+  /* --- HTML: carta --- */
+  const di = Math.round(dF);
+  if (di !== drinkIdx) {
+    drinkIdx = di;
+    drinks.forEach((d, k) => d.classList.toggle('on', k === di));
+    dots.forEach((d, k) => d.classList.toggle('on', k === di));
+    countB.textContent = '0' + (di + 1);
+  }
+
+  /* --- HUD --- */
+  const si = Math.min(6, Math.floor(S + .08));
+  if (si !== sceneIdx) {
+    sceneIdx = si; hudL.classList.add('sw');
+    setTimeout(() => { hudN.textContent = '0' + si; hudL.textContent = T('scenes')[si]; hudL.classList.remove('sw'); }, 220);
+  }
+  hud.classList.toggle("off", S > 5.75 || (portrait && S < .9));
+  const maxY = document.documentElement.scrollHeight - innerHeight;
+  barI.style.height = (clamp(scrollY / maxY) * 100) + '%';
+
+  /* --- 3D --- */
+  if (GL) {
+    const k = kf(S, portrait); if (portrait) k.s *= clamp(aspect / .74, .5, 1);
+    const damp = snap ? 1 : 1 - Math.exp(-dt * 5); snap = false;
+    cur.x = lerp(cur.x, k.x, damp); cur.y = lerp(cur.y, k.y, damp); cur.s = lerp(cur.s, k.s, damp); cur.ink = lerp(cur.ink, k.ink, damp);
+    mouse.sx = lerp(mouse.sx, mouse.x, 1 - Math.exp(-dt * 4)); mouse.sy = lerp(mouse.sy, mouse.y, 1 - Math.exp(-dt * 4));
+
+    GL.root.position.set(cur.x, cur.y, 0);
+    GL.root.scale.setScalar(cur.s * (1 + fx.clink * .06));
+    GL.tilt.rotation.x = lerp(GL.tilt.rotation.x, .16 + (mouse.sy - .5) * .18, damp);
+    GL.tilt.rotation.z = lerp(GL.tilt.rotation.z, -(mouse.sx - .5) * .16 + fx.clink * .32, damp);
+    const targetSpin = qM * Math.PI * 3 + dF * Math.PI * 2;
+    cur.spin = lerp(cur.spin, targetSpin, 1 - Math.exp(-dt * 4));
+    GL.spin.rotation.y = time * .28 + cur.spin;
+    GL.camera.position.x = lerp(GL.camera.position.x, (mouse.sx - .5) * .5, damp);
+    GL.camera.position.y = lerp(GL.camera.position.y, -(mouse.sy - .5) * .3, damp);
+    GL.camera.lookAt(0, 0, 0);
+
+    /* nivel, chorro, hielo, fruta */
+    const fill = S < 1 ? 0 : S < 2 ? sstep(.07, .8, qV) * .8 : .8;
+    GL.setFill(fill);
+    const top = GL.liqTop(fill) - 1.1;
+    const pourOn = S >= 1 && S < 2 ? sstep(.04, .08, qV) * (1 - sstep(.78, .84, qV)) : 0;
+    GL.stream.visible = pourOn > .01;
+    if (GL.stream.visible) {
+      GL.stream.position.y = top;
+      GL.stream.scale.set(pourOn * (1 + Math.sin(time * 23) * .08), 9, pourOn * (1 + Math.cos(time * 19) * .08));
+      if (Math.random() < .7) GL.splash(1 + (Math.random() * 2 | 0), top, .55, .12);
+    }
+    const iceT = S < 1 ? 0 : S < 2 ? sstep(.36, .5, qV) : 1;
+    GL.ice.visible = iceT > 0;
+    if (GL.ice.visible) {
+      const rest = Math.max(.37 + .45, GL.liqTop(fill) - .32);
+      GL.ice.position.set(.06, lerp(8, rest, iceT * iceT) + Math.sin(time * 1.3) * .02 * iceT, -.04);
+      GL.ice.rotation.set(.35 + (1 - iceT) * 3, .6 + (1 - iceT) * 2, .2);
+    }
+    if (prevIce < .97 && iceT >= .97) { GL.splash(34, top, 1.1, .4); fx.flash = 1; }
+    prevIce = iceT;
+    const gT = S < 1 ? 0 : sstep(.84, 1, qV) || (S >= 2 ? 1 : 0);
+    GL.slicePivot.scale.setScalar(Math.max(.0001, S >= 2 ? 1 : gT));
+
+    /* colores según el cóctel */
+    const ld = mixDrink(dF, 'liquid', cA).lerp(AMBER.liquid, backToAmber);
+    GL.liqMat.color.copy(ld); GL.liqMat.emissive.copy(ld);
+    GL.streamMat.color.copy(ld); GL.streamMat.emissive.copy(ld); GL.pMat.color.copy(ld);
+    const gl = mixDrink(dF, 'glow', cB).lerp(AMBER.glow, backToAmber);
+    GL.bgU.uGlow.value.copy(gl); GL.rimL.color.copy(gl); GL.pool.material.color.copy(gl);
+    GL.bgU.uDeep.value.copy(mixDrink(dF, 'deep', cTmp).lerp(AMBER.deep, backToAmber));
+    const wantSlice = backToAmber > .5 ? 0 : di;
+    if (wantSlice !== GL.sliceIdx) { GL.sliceIdx = wantSlice; GL.sliceMat.map = GL.sliceMat.emissiveMap = GL.sliceTexs[wantSlice]; GL.sliceMat.needsUpdate = true; GL.slice.material[0].color.set(DRINKS[wantSlice].rind); }
+
+    GL.stepDrops(dt);
+    fx.flash = Math.max(0, fx.flash - dt * 1.6);
+
+    /* fondo */
+    vTmp.set(0, -.1, 0); GL.root.localToWorld(vTmp); vTmp.project(GL.camera);
+    GL.bgU.uGlowPos.value.set(vTmp.x * .5 + .5, vTmp.y * .5 + .5);
+    GL.bgU.uTime.value = time; GL.bgU.uInk.value = cur.ink; GL.bgU.uFlash.value = fx.flash;
+    GL.bgU.uMouse.value.set(mouse.sx, 1 - mouse.sy);
+
+    GL.renderer.clear();
+    GL.renderBg();
+    GL.renderer.clearDepth();
+    GL.renderer.render(GL.scene, GL.camera);
+    if (!document.hidden) GL.adapt(dt);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* =====================================================================
+   INTERACCIÓN
+   ===================================================================== */
+const curEl = $('.cur'); let cx = 0, cy = 0, tx = 0, ty = 0;
+addEventListener('pointermove', e => {
+  mouse.x = e.clientX / innerWidth; mouse.y = e.clientY / innerHeight; tx = e.clientX; ty = e.clientY;
+}, { passive: true });
+if (FINE) {
+  (function cl() { cx += (tx - cx) * .22; cy += (ty - cy) * .22; curEl.style.transform = `translate3d(${cx}px,${cy}px,0)`; requestAnimationFrame(cl); })();
+  document.addEventListener('pointerover', e => curEl.classList.toggle('big', !!e.target.closest('a,button,input,select')));
+}
+
+$$('[data-go]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault(); const t = $(a.dataset.go);
+  if (lenis) lenis.scrollTo(t, { duration: 2.4 }); else t.scrollIntoView({ behavior: RM ? 'auto' : 'smooth' });
+}));
+
+/* Apariciones y contadores */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in'); io.unobserve(e.target);
+  const n = e.target.querySelector('[data-to]');
+  if (n) { const o = { v: 0 }, to = +n.dataset.to; gsap.to(o, { v: to, duration: RM ? 0 : 1.8, ease: 'power3.out', onUpdate: () => n.textContent = Math.round(o.v) }); }
+}), { threshold: .2 });
+$$('.rv').forEach(el => io.observe(el));
+
+/* =====================================================================
+   RESERVA (simulada: no envía nada)
+   ===================================================================== */
+const fDate = $('#fDate'), fTime = $('#fTime'), ppl = $('#ppl');
+const iso = d => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
+fDate.min = iso(new Date()); fDate.value = iso(tmr);
+['19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '00:00'].forEach((h, i) => fTime.add(new Option(h, h, false, i === 4)));
+let guests = 2;
+for (let i = 1; i <= 8; i++) {
+  const b = document.createElement('button'); b.type = 'button'; b.textContent = i; b.classList.toggle('on', i === guests);
+  b.addEventListener('click', () => { guests = i; [...ppl.children].forEach((c, k) => c.classList.toggle('on', k + 1 === i)); });
+  ppl.appendChild(b);
+}
+let booking = null;
+function fillOk() {
+  const d = new Date(booking.date + 'T12:00:00').toLocaleDateString(T('loc'), { weekday: 'long', day: 'numeric', month: 'long' });
+  $('#okP').textContent = T('okP').replace('{d}', d).replace('{h}', booking.time);
+  $('#okC').textContent = booking.code;
+}
+$('#form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#fName').value.trim(), phone = $('#fPhone').value.replace(/\D/g, '');
+  if (!name || phone.length < 9 || !fDate.value) { $('#err').textContent = T('err'); return; }
+  $('#err').textContent = '';
+  booking = { date: fDate.value, time: fTime.value, code: 'AMB-' + Math.random().toString(36).slice(2, 6).toUpperCase() };
+  fillOk(); $('#card').classList.add('done');
+  // el vaso brinda
+  gsap.timeline().to(fx, { clink: 1, duration: .22, ease: 'power2.out' }).to(fx, { clink: 0, duration: .9, ease: 'elastic.out(1,.35)' });
+  fx.flash = 1;
+  if (GL) GL.splash(40, GL.liqTop(.8) - 1.1, 1.2, .5);
+});
+$('#again').addEventListener('click', () => { $('#card').classList.remove('done'); $('#fName').value = ''; $('#fPhone').value = ''; });
+
+/* =====================================================================
+   ARRANQUE
+   ===================================================================== */
+setLang(lang);
+function onResize() { measure(); if (GL) GL.resize(); }
+addEventListener('resize', onResize);
+measure();
+requestAnimationFrame(frame);
+
+if (/escena=/.test(location.hash)) { $('#veil').style.display = 'none'; window.__ambar = { GL, cur, mouse, fx, getS }; }
+const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+$('#veil .vb i').style.width = '70%';
+Promise.race([fontsReady, new Promise(r => setTimeout(r, 2500))]).then(() => {
+  measure();
+  $('#veil .vb i').style.width = '100%';
+  setTimeout(() => {
+    $('#veil').classList.add('out');
+    if (!RM) gsap.from('.title .ch i', { yPercent: 115, rotate: 6, duration: 1.6, stagger: .08, ease: 'expo.out', delay: .15 });
+    if (!RM) gsap.from('.intro-top, .hint', { opacity: 0, y: 20, duration: 1.2, delay: .7, stagger: .15 });
+  }, 650);
+});
+addEventListener('load', () => {
+  measure();
+  /* Atajo de prueba: ambar.html#escena=3.4 abre la página en ese punto de la película */
+  const m = location.hash.match(/escena=([\d.]+)/);
+  if (m) { const v = +m[1], i = Math.min(M.length - 1, Math.floor(v)); scrollTo(0, M[i].top + (v - i) * M[i].len); }
+});
+})();
+</script>
+</body>
+</html>
